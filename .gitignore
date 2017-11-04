@@ -1,1 +1,14 @@
-obj/
+# build
+[Bb]in/
+[Oo]bj/
+*.nupkg
+
+# user 
+*.user
+*.userprefs
+.vs
+.vscode
+
+project.lock.json
+
+invoicedapi.tests/Integration/
