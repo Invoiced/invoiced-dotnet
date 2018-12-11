@@ -10,12 +10,12 @@ namespace InvoicedTest
     public class HttpUtilTest
     {
         [Fact]
-        public void basicAuth()
+        public void BasicAuth()
         {
             var username = "";
             var password = "asdf2342342342";
 
-            var auth = HttpUtil.basicAuth(username,password);
+            var auth = HttpUtil.BasicAuth(username,password);
             var expectedAuth = "OmFzZGYyMzQyMzQyMzQy";
            
             Assert.True(auth == expectedAuth);
@@ -23,7 +23,7 @@ namespace InvoicedTest
         }
 
         [Fact]
-        public void getHeaders()
+        public void GetHeaders()
         {
             var resp = new HttpResponseMessage();
             var header1 = "TestValue1";
@@ -33,7 +33,7 @@ namespace InvoicedTest
 
             resp.Headers.Add(header1,value1);
 
-            var fetchedHeaderValues = HttpUtil.getHeaders(resp,header1);
+            var fetchedHeaderValues = HttpUtil.GetHeaders(resp,header1);
 
             Assert.True( fetchedHeaderValues.Length == 2);
 
@@ -41,7 +41,7 @@ namespace InvoicedTest
 
 
         [Fact]
-        public void getHeaderFirstValue() {
+        public void GetHeaderFirstValue() {
 
             var resp = new HttpResponseMessage();
             var header1 = "TestValue1";
@@ -51,7 +51,7 @@ namespace InvoicedTest
 
             resp.Headers.Add(header1,value1);
 
-            var fetchedHeaderValue = HttpUtil.getHeaderFirstValue(resp,header1);
+            var fetchedHeaderValue = HttpUtil.GetHeaderFirstValue(resp,header1);
 
             Assert.True(fetchedHeaderValue == item1);
         

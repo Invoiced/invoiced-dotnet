@@ -15,98 +15,95 @@ public class Estimate : Entity<Estimate>
 	internal Estimate(Connection conn) : base(conn) {
 	}
 
-	override public long getEntityID() {
-		return this.id;
+	override public long EntityID() {
+		return this.Id;
 	}
 
-	override public string getEntityName() {
+	override public string EntityName() {
 		return "estimates";
 	}
 
-	override public bool hasCRUD() {
+	override public bool HasCRUD() {
 		return true;
 
 	}
 
-	override public bool hasList() {
+	override public bool HasList() {
 		return false;
 	}
 
 	[JsonProperty("id")]
-	public int id { get; set; }
+	public int Id { get; set; }
 
 	[JsonProperty("object")]
-	public string object2 { get; set; }
+	public string Object2 { get; set; }
 
 	[JsonProperty("customer")]
-	public int customer { get; set; }
+	public int Customer { get; set; }
 
 	[JsonProperty("invoice")]
-	public object invoice { get; set; }
+	public object Invoice { get; set; }
 
 	[JsonProperty("name")]
-	public object name { get; set; }
+	public object Name { get; set; }
 
 	[JsonProperty("currency")]
-	public string currency { get; set; }
+	public string Currency { get; set; }
 
 	[JsonProperty("draft")]
-	public bool draft { get; set; }
+	public bool Draft { get; set; }
 
 	[JsonProperty("closed")]
-	public bool closed { get; set; }
+	public bool Closed { get; set; }
 
 	[JsonProperty("status")]
-	public string status { get; set; }
+	public string Status { get; set; }
 
 	[JsonProperty("number")]
-	public string number { get; set; }
+	public string Number { get; set; }
 
 	[JsonProperty("date")]
-	public int date { get; set; }
+	public int Date { get; set; }
 
 	[JsonProperty("payment_terms")]
-	public string payment_terms { get; set; }
+	public string PaymentTerms { get; set; }
 
 	[JsonProperty("items")]
-	public IList<LineItem> items { get; set; }
+	public IList<LineItem> Items { get; set; }
 
 	[JsonProperty("notes")]
-	public object notes { get; set; }
+	public object Notes { get; set; }
 
 	[JsonProperty("subtotal")]
-	public int subtotal { get; set; }
+	public int Subtotal { get; set; }
 
 	[JsonProperty("discounts")]
-	public IList<object> discounts { get; set; }
+	public IList<object> Discounts { get; set; }
 
 	[JsonProperty("taxes")]
-	public IList<Tax> taxes { get; set; }
+	public IList<Tax> Taxes { get; set; }
 
 	[JsonProperty("total")]
-	public double total { get; set; }
+	public double Total { get; set; }
 
 	[JsonProperty("deposit")]
-	public int deposit { get; set; }
+	public int Deposit { get; set; }
 
 	[JsonProperty("deposit_paid")]
-	public bool deposit_paid { get; set; }
+	public bool DepositPaid { get; set; }
 
 	[JsonProperty("url")]
-	public string url { get; set; }
+	public string Url { get; set; }
 
 	[JsonProperty("pdf_url")]
-	public string pdf_url { get; set; }
+	public string PdfUrl { get; set; }
 
 	[JsonProperty("created_at")]
-	public int created_at { get; set; }
+	public int CreatedAt { get; set; }
 
 	[JsonProperty("metadata")]
-	public  Metadata metadata { get; set; }
-
-
+	public  Metadata Metadata { get; set; }
 
 }
-
 
 }

@@ -7,34 +7,34 @@ namespace Invoiced
 {
     public class EntityList<T> : List<T>  where T : Entity<T>{
 
-        public Dictionary<string,string> linkURLS { get; set; }
-        public int totalCount {get; set;}
+        public Dictionary<string,string> LinkURLS { get; set; }
+        public int TotalCount {get; set;}
 
 
-       public string getNextURL() {
-           return getURL("next");
-
-        }
-
-       public string getSelfURL() {
-           return getURL("self");
+       public string GetNextURL() {
+           return GetURL("next");
 
         }
 
-        public string getLastURL() {
-            return getURL("last");
+       public string GetSelfURL() {
+           return GetURL("self");
+
+        }
+
+        public string GetLastURL() {
+            return GetURL("last");
          
        }
 
-       private string getURL(string key) {
+       private string GetURL(string key) {
 
         string value = "";
 
-        if (linkURLS == null) {
+        if (LinkURLS == null) {
             return value;
         }
 
-        linkURLS.TryGetValue("self",out value);
+        LinkURLS.TryGetValue("self",out value);
         return value;
 
 

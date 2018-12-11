@@ -82,8 +82,8 @@ namespace Invoiced
         string uri = addQueryParmsToURI(url,queryParams);
         var response = executeRequest(HttpMethod.Post,uri, null);
         var responseText = processResponse(response);
-        var linkString = HttpUtil.getHeaderFirstValue(response,"Link");
-        int totalCount = Int32.Parse(HttpUtil.getHeaderFirstValue(response,"X-Total-Count"));
+        var linkString = HttpUtil.GetHeaderFirstValue(response,"Link");
+        int totalCount = Int32.Parse(HttpUtil.GetHeaderFirstValue(response,"X-Total-Count"));
         var links = CommonUtil.parseLinks(linkString);
 
         var listReponse =  new ListResponse(responseText,links,totalCount);
@@ -119,7 +119,7 @@ namespace Invoiced
         if (!string.IsNullOrEmpty(jsonBody)) {
         request.Content = new StringContent(jsonBody,Encoding.UTF8,jsonAccept);
         }
-        request.Headers.Add("Authorization", "Basic " + HttpUtil.basicAuth(apikey,""));
+        request.Headers.Add("Authorization", "Basic " + HttpUtil.BasicAuth(apikey,""));
     
         var response = Client.httpClient.SendAsync(request).ConfigureAwait(false).GetAwaiter().GetResult();
    

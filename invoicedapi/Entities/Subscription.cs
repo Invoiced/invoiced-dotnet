@@ -15,76 +15,76 @@ public class Subscription :Entity<Subscription>
 
 	}
 
-	override public long getEntityID() {
-		return this.id;
+	override public long EntityID() {
+		return this.Id;
 	}
 
-	override public string getEntityName() {
+	override public string EntityName() {
 		return "estimates";
 	}
 
-	override public bool hasCRUD() {
+	override public bool HasCRUD() {
 		return true;
 
 	}
 
-	override public bool hasList() {
+	override public bool HasList() {
 		return false;
 	}
 
 	[JsonProperty("id")]
-	public int id { get; set; }
+	public int Id { get; set; }
 
 	[JsonProperty("object")]
-	public string object2 { get; set; }
+	public string Object2 { get; set; }
 
 	[JsonProperty("customer")]
-	public int customer { get; set; }
+	public int Customer { get; set; }
 
 	[JsonProperty("plan")]
-	public string plan { get; set; }
+	public string Plan { get; set; }
 
 	[JsonProperty("cycles")]
-	public object cycles { get; set; }
+	public object Cycles { get; set; }
 
 	[JsonProperty("quantity")]
-	public int quantity { get; set; }
+	public int Quantity { get; set; }
 
 	[JsonProperty("start_date")]
-	public int start_date { get; set; }
+	public int StartDate { get; set; }
 
 	[JsonProperty("period_start")]
-	public int period_start { get; set; }
+	public int PeriodStart { get; set; }
 
 	[JsonProperty("period_end")]
-	public int period_end { get; set; }
+	public int PeriodEnd { get; set; }
 
 	[JsonProperty("cancel_at_period_end")]
-	public bool cancel_at_period_end { get; set; }
+	public bool CancelAtPeriodEnd { get; set; }
 
 	[JsonProperty("canceled_at")]
-	public object canceled_at { get; set; }
+	public object CanceledAt { get; set; }
 
 	[JsonProperty("status")]
-	public string status { get; set; }
+	public string Status { get; set; }
 
 	[JsonProperty("addons")]
-	public IList<Addon> addons { get; set; }
+	public IList<Addon> Addons { get; set; }
 
 	[JsonProperty("discounts")]
-	public IList<object> discounts { get; set; }
+	public IList<object> Discounts { get; set; }
 
 	[JsonProperty("taxes")]
-	public IList<object> taxes { get; set; }
+	public IList<object> Taxes { get; set; }
 
 	[JsonProperty("url")]
-	public string url { get; set; }
+	public string Url { get; set; }
 
 	[JsonProperty("created_at")]
-	public int created_at { get; set; }
+	public int CreatedAt { get; set; }
 
 	[JsonProperty("metadata")]
-	public Metadata metadata { get; set; }
+	public Metadata Metadata { get; set; }
 }
 
 
@@ -92,22 +92,22 @@ public class Addon
 {
 
 	[JsonProperty("id")]
-	public int id { get; set; }
+	public int Id { get; set; }
 
 	[JsonProperty("object")]
-	public string object2 { get; set; }
+	public string Object2 { get; set; }
 
 	[JsonProperty("plan")]
-	public string plan { get; set; }
+	public string Plan { get; set; }
 
 	[JsonProperty("quantity")]
-	public int quantity { get; set; }
+	public int Quantity { get; set; }
 
 	[JsonProperty("description")]
-	public string description { get; set; }
+	public string Description { get; set; }
 
 	[JsonProperty("created_at")]
-	public int created_at { get; set; }
+	public int CreatedAt { get; set; }
 }
 
 }

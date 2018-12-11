@@ -8,13 +8,13 @@ namespace Invoiced
 public class Error 
 {
 	[JsonProperty("type")]
-	public string type { get;}
+	public string Type { get;}
 
 	[JsonProperty("message")]
-	public string message { get; }
+	public string Message { get; }
 
 	[JsonProperty("param")]
-	public string param { get; }
+	public string Param { get; }
 
 }
 

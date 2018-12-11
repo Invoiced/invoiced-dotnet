@@ -14,116 +14,116 @@ public class Invoice : Entity<Invoice>
 
 	}
 
-	override public long getEntityID() {
-		return this.id;
+	override public long EntityID() {
+		return this.Id;
 	}
 
-	override public string getEntityName() {
+	override public string EntityName() {
 		return "invoices";
 	}
 
-	override public bool hasCRUD() {
+	override public bool HasCRUD() {
 		return true;
 
 	}
 
-	override public bool hasList() {
+	override public bool HasList() {
 		return true;
 	}
 
 
 	[JsonProperty("id")]
-	public int id { get; set; }
+	public int Id { get; }
 
 	[JsonProperty("object")]
-	public string object2 { get; set; }
+	public string Object2 { get; set; }
 
 	[JsonProperty("customer")]
-	public int customer { get; set; }
+	public int Customer { get; set; }
 
 	[JsonProperty("name")]
-	public object name { get; set; }
+	public object Name { get; set; }
 
 	[JsonProperty("currency")]
-	public string currency { get; set; }
+	public string Currency { get; set; }
 
 	[JsonProperty("draft")]
-	public bool draft { get; set; }
+	public bool Draft { get; set; }
 
 	[JsonProperty("closed")]
-	public bool closed { get; set; }
+	public bool Closed { get; set; }
 
 	[JsonProperty("paid")]
-	public bool paid { get; set; }
+	public bool Paid { get; set; }
 
 	[JsonProperty("status")]
-	public string status { get; set; }
+	public string Status { get; set; }
 
 	[JsonProperty("chase")]
-	public bool chase { get; set; }
+	public bool Chase { get; set; }
 
 	[JsonProperty("next_chase_on")]
-	public object next_chase_on { get; set; }
+	public object NextChaseOn { get; set; }
 
 	[JsonProperty("autopay")]
-	public bool autopay { get; set; }
+	public bool Autopay { get; set; }
 
 	[JsonProperty("attempt_count")]
-	public int attempt_count { get; set; }
+	public int AttemptCount { get; set; }
 
 	[JsonProperty("next_payment_attempt")]
-	public object next_payment_attempt { get; set; }
+	public object NextPaymentAttempt { get; set; }
 
 	[JsonProperty("subscription")]
-	public object subscription { get; set; }
+	public object Subscription { get; set; }
 
 	[JsonProperty("number")]
-	public string number { get; set; }
+	public string Number { get; set; }
 
 	[JsonProperty("date")]
-	public int date { get; set; }
+	public int Date { get; set; }
 
 	[JsonProperty("due_date")]
-	public int? due_date { get; set; }
+	public int? DueDate { get; set; }
 
 	[JsonProperty("payment_terms")]
-	public string payment_terms { get; set; }
+	public string PaymentTerms { get; set; }
 
 	[JsonProperty("items")]
-	public IList<LineItem> items { get; set; }
+	public IList<LineItem> Items { get; set; }
 
 	[JsonProperty("notes")]
-	public object notes { get; set; }
+	public object Notes { get; set; }
 
 	[JsonProperty("subtotal")]
-	public int subtotal { get; set; }
+	public int Subtotal { get; set; }
 
 	[JsonProperty("discounts")]
-	public IList<object> discounts { get; set; }
+	public IList<object> Discounts { get; set; }
 
 	[JsonProperty("taxes")]
-	public IList<Tax> taxes { get; set; }
+	public IList<Tax> Taxes { get; set; }
 
 	[JsonProperty("total")]
-	public double total { get; set; }
+	public double Total { get; set; }
 
 	[JsonProperty("balance")]
-	public double balance { get; set; }
+	public double Balance { get; set; }
 
 	[JsonProperty("url")]
-	public string url { get; set; }
+	public string Url { get; set; }
 
 	[JsonProperty("payment_url")]
-	public string payment_url { get; set; }
+	public string PaymentUrl { get; set; }
 
 	[JsonProperty("pdf_url")]
-	public string pdf_url { get; set; }
+	public string PdfUrl { get; set; }
 
 	[JsonProperty("created_at")]
-	public int created_at { get; set; }
+	public int CreatedAt { get; set; }
 
 	[JsonProperty("metadata")]
-	public  Metadata metadata { get; set; }
+	public  Metadata Metadata { get; set; }
 
 }
 
@@ -137,61 +137,61 @@ public class LineItem
 {
 
 	[JsonProperty("id")]
-	public int id { get; set; }
+	public int Id { get; set; }
 
 	[JsonProperty("object")]
-	public string object2 { get; set; }
+	public string Object2 { get; set; }
 
 	[JsonProperty("catalog_item")]
-	public string catalog_item { get; set; }
+	public string CatalogItem { get; set; }
 
 	[JsonProperty("type")]
-	public string type { get; set; }
+	public string Type { get; set; }
 
 	[JsonProperty("name")]
-	public string name { get; set; }
+	public string Name { get; set; }
 
 	[JsonProperty("description")]
-	public object description { get; set; }
+	public object Description { get; set; }
 
 	[JsonProperty("quantity")]
-	public int quantity { get; set; }
+	public int Quantity { get; set; }
 
 	[JsonProperty("unit_cost")]
-	public int unit_cost { get; set; }
+	public int UnitCost { get; set; }
 
 	[JsonProperty("amount")]
-	public int amount { get; set; }
+	public int Amount { get; set; }
 
 	[JsonProperty("discountable")]
-	public bool discountable { get; set; }
+	public bool Discountable { get; set; }
 
 	[JsonProperty("discounts")]
-	public IList<object> discounts { get; set; }
+	public IList<object> Discounts { get; set; }
 
 	[JsonProperty("taxable")]
-	public bool taxable { get; set; }
+	public bool Taxable { get; set; }
 
 	[JsonProperty("taxes")]
-	public IList<object> taxes { get; set; }
+	public IList<object> Taxes { get; set; }
 
 	[JsonProperty("metadata")]
-	public Metadata metadata { get; set; }
+	public Metadata Metadata { get; set; }
 }
 
 public class Tax
 {
 	[JsonProperty("id")]
-	public int id { get; set; }
+	public int Id { get; set; }
 
 	[JsonProperty("object")]
-	public string object2 { get; set; }
+	public string Object2 { get; set; }
 
 	[JsonProperty("amount")]
-	public double amount { get; set; }
+	public double Amount { get; set; }
 
 	[JsonProperty("tax_rate")]
-	public object tax_rate { get; set; }
+	public object TaxRate { get; set; }
 }
 
 }

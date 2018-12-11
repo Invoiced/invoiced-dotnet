@@ -15,98 +15,107 @@ public class Customer : Entity<Customer>
 
 	}
 
-	override public long getEntityID() {
-		return this.id;
+	override public long EntityID() {
+		return this.Id;
 	}
 
-	override public string getEntityName() {
+	override public string EntityName() {
 		return "customers";
 	}
 
-	override public bool hasCRUD() {
+	override public bool HasCRUD() {
 		return true;
 
 	}
 
-	override public bool hasList() {
+	override public bool HasList() {
 		return false;
 	}
 
+	public bool ShouldSerializeId()
+    {
+        return false;
+    }
+
+	public bool ShouldSerializeCreateAt()
+    {
+        return false;
+    }
 
 	[JsonProperty("id")]
-	public int id { get; set; }
+	public int Id { get; set; }
 
 	[JsonProperty("object")]
-	public string object2 { get; set; }
+	public string Object2 { get; set; }
 
 	[JsonProperty("name")]
-	public string name { get; set; }
+	public string Name { get; set; }
 
 	[JsonProperty("number")]
-	public string number { get; set; }
+	public string Number { get; set; }
 
 	[JsonProperty("email")]
-	public string email { get; set; }
+	public string Email { get; set; }
 
 	[JsonProperty("autopay")]
-	public bool autopay { get; set; }
+	public bool Autopay { get; set; }
 
 	[JsonProperty("payment_terms")]
-	public object payment_terms { get; set; }
+	public object PaymentTerms { get; set; }
 
 	[JsonProperty("payment_source")]
-	public PaymentSource payment_source { get; set; }
+	public PaymentSource PaymentSource { get; set; }
 
 	[JsonProperty("taxes")]
-	public IList<object> taxes { get; set; }
+	public IList<object> Taxes { get; set; }
 
 	[JsonProperty("type")]
-	public string type { get; set; }
+	public string Type { get; set; }
 
 	[JsonProperty("attention_to")]
-	public object attention_to { get; set; }
+	public object AttentionTo { get; set; }
 
 	[JsonProperty("address1")]
-	public object address1 { get; set; }
+	public object Address1 { get; set; }
 
 	[JsonProperty("address2")]
-	public object address2 { get; set; }
+	public object Address2 { get; set; }
 
 	[JsonProperty("city")]
-	public object city { get; set; }
+	public object City { get; set; }
 
 	[JsonProperty("state")]
-	public object state { get; set; }
+	public object State { get; set; }
 
 	[JsonProperty("postal_code")]
-	public object postal_code { get; set; }
+	public object PostalCode { get; set; }
 
 	[JsonProperty("country")]
-	public string country { get; set; }
+	public string Country { get; set; }
 
 	[JsonProperty("tax_id")]
-	public object tax_id { get; set; }
+	public object TaxId { get; set; }
 
 	[JsonProperty("phone")]
-	public object phone { get; set; }
+	public object Phone { get; set; }
 
 	[JsonProperty("notes")]
-	public object notes { get; set; }
+	public object Notes { get; set; }
 
 	[JsonProperty("sign_up_page")]
-	public object sign_up_page { get; set; }
+	public object SignUpPage { get; set; }
 
 	[JsonProperty("sign_up_url")]
-	public object sign_up_url { get; set; }
+	public object SignupUrl { get; set; }
 
 	[JsonProperty("statement_pdf_url")]
-	public string statement_pdf_url { get; set; }
+	public string StatementPdfUrl { get; set; }
 
 	[JsonProperty("created_at")]
-	public int created_at { get; set; }
+	public int CreatedAt { get; set; }
 
 	[JsonProperty("metadata")]
-	public Metadata metadata { get; set; }
+	public Metadata Metadata { get; set; }
 
 
 }

@@ -9,24 +9,24 @@ public class PaymentSource
 
 
 	[JsonProperty("id")]
-	public int id { get; set; }
+	public int Id { get; set; }
 
 	[JsonProperty("object")]
-	public string object2 { get; set; }
+	public string Object2 { get; set; }
 
 	[JsonProperty("brand")]
-	public string brand { get; set; }
+	public string Brand { get; set; }
 
 	[JsonProperty("last4")]
-	public string last4 { get; set; }
+	public string Last4 { get; set; }
 
 	[JsonProperty("exp_month")]
-	public int exp_month { get; set; }
+	public int ExpMonth { get; set; }
 
 	[JsonProperty("exp_year")]
-	public int exp_year { get; set; }
+	public int ExpYear { get; set; }
 
 	[JsonProperty("funding")]
-	public string funding { get; set; }
+	public string Funding { get; set; }
 }
 }

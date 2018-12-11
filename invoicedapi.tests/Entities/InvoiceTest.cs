@@ -10,11 +10,10 @@ namespace InvoicedTest
     public class InvoiceTest
     {
         [Fact]
-        public void serialize()
+        public void Serialize()
         {
             var invoice = new Invoice(null);
-            invoice.id = 3;
-            // Console.WriteLine(invoice.ToString());
+             Console.WriteLine(invoice.ToString());
                  
         }
 

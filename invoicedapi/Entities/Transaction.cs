@@ -17,80 +17,80 @@ public class Transaction : Entity<Transaction>
 
 	}
 
-	override public long getEntityID() {
-		return this.id;
+	override public long EntityID() {
+		return this.Id;
 	}
 
-	override public string getEntityName() {
+	override public string EntityName() {
 		return "estimates";
 	}
 
-	override public bool hasCRUD() {
+	override public bool HasCRUD() {
 		return true;
 
 	}
 
-	override public bool hasList() {
+	override public bool HasList() {
 		return false;
 	}
 
 
 	[JsonProperty("id")]
-	public int id { get; set; }
+	public int Id { get; set; }
 
 	[JsonProperty("object")]
 	public string object2 { get; set; }
 
 	[JsonProperty("customer")]
-	public int customer { get; set; }
+	public int Customer { get; set; }
 
 	[JsonProperty("invoice")]
-	public int invoice { get; set; }
+	public int Invoice { get; set; }
 
 	[JsonProperty("credit_note")]
-	public object credit_note { get; set; }
+	public object CreditNote { get; set; }
 
 	[JsonProperty("date")]
-	public int date { get; set; }
+	public int Date { get; set; }
 
 	[JsonProperty("type")]
-	public string type { get; set; }
+	public string Type { get; set; }
 
 	[JsonProperty("method")]
-	public string method { get; set; }
+	public string Method { get; set; }
 
 	[JsonProperty("status")]
-	public string status { get; set; }
+	public string Status { get; set; }
 
 	[JsonProperty("gateway")]
-	public object gateway { get; set; }
+	public object Gateway { get; set; }
 
 	[JsonProperty("gateway_id")]
-	public object gateway_id { get; set; }
+	public object GatewayId { get; set; }
 
 	[JsonProperty("payment_source")]
-	public object payment_source { get; set; }
+	public object PaymentSource { get; set; }
 
 	[JsonProperty("currency")]
-	public string currency { get; set; }
+	public string Currency { get; set; }
 
 	[JsonProperty("amount")]
-	public int amount { get; set; }
+	public int Amount { get; set; }
 
 	[JsonProperty("notes")]
-	public object notes { get; set; }
+	public object Notes { get; set; }
 
 	[JsonProperty("parent_transaction")]
-	public object parent_transaction { get; set; }
+	public object ParentTransaction { get; set; }
 
 	[JsonProperty("pdf_url")]
-	public string pdf_url { get; set; }
+	public string PdfUrl { get; set; }
 
 	[JsonProperty("created_at")]
-	public int created_at { get; set; }
+	public int CreatedAt { get; set; }
 
 	[JsonProperty("metadata")]
-	public Metadata metadata { get; set; }
+	public Metadata Metadata { get; set; }
 }
 
 }

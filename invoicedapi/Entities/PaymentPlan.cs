@@ -11,53 +11,53 @@ public class Installment
 {
 
 	[JsonProperty("id")]
-	public int id { get; set; }
+	public int Id { get; set; }
 
 	[JsonProperty("date")]
-	public int date { get; set; }
+	public int Date { get; set; }
 
 	[JsonProperty("amount")]
-	public int amount { get; set; }
+	public int Amount { get; set; }
 
 	[JsonProperty("balance")]
-	public int balance { get; set; }
+	public int Balance { get; set; }
 }
 
 public class Approval
 {
 
 	[JsonProperty("id")]
-	public int id { get; set; }
+	public int Id { get; set; }
 
 	[JsonProperty("ip")]
-	public string ip { get; set; }
+	public string Ip { get; set; }
 
 	[JsonProperty("timestamp")]
-	public int timestamp { get; set; }
+	public int Timestamp { get; set; }
 
 	[JsonProperty("user_agent")]
-	public string user_agent { get; set; }
+	public string UserAgent { get; set; }
 }
 
 public class PaymentPlan
 {
 	[JsonProperty("id")]
-	public int id { get; set; }
+	public int Id { get; set; }
 
 	[JsonProperty("object")]
-	public string object2 { get; set; }
+	public string Object2 { get; set; }
 
 	[JsonProperty("status")]
-	public string status { get; set; }
+	public string Status { get; set; }
 
 	[JsonProperty("installments")]
-	public IList<Installment> installments { get; set; }
+	public IList<Installment> Installments { get; set; }
 
 	[JsonProperty("approval")]
-	public Approval approval { get; set; }
+	public Approval Approval { get; set; }
 
 	[JsonProperty("created_at")]
-	public int created_at { get; set; }
+	public int CreatedAt { get; set; }
 
 }
 }

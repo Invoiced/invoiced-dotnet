@@ -12,8 +12,8 @@ namespace Invoiced
 			private bool entityCreated;
 			
         	public override string ToString(){
-				var s = base.ToString() + "<" + this.GetHashCode().ToString() +">";
-		    	var jsonS =  s + " JSON: " + this.toJsonString();
+				var s = base.ToString() + "<" + this.EntityID().ToString() +">";
+		    	var jsonS =  s + " " + this.ToJsonString();
 
 				return jsonS;
             }
@@ -31,17 +31,17 @@ namespace Invoiced
 				this.connection = conn;
 			}
 
-			public void create(){
+			public void Create(){
 
 				if (this.entityCreated) {
 					return;
 				}
 
-				if (!this.hasCRUD()) {
+				if (!this.HasCRUD()) {
 					return;
 				}
 
-				string url = this.connection.baseUrl() + "/" + this.getEntityName();
+				string url = this.connection.baseUrl() + "/" + this.EntityName();
 				string entityJsonBody = this.ToString();
 				string responseText = this.connection.post(url,null,entityJsonBody);
 				
@@ -55,13 +55,13 @@ namespace Invoiced
 
 			}
 
-			protected void saveAll() {
+			protected void SaveAll() {
 
-				if (!this.hasCRUD()) {
+				if (!this.HasCRUD()) {
 					return;
 				}
 
-				string url = this.connection.baseUrl() + "/" + this.getEntityName() + "/" + this.getEntityID().ToString();
+				string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityID().ToString();
 				string entityJsonBody = this.ToString();
 				string responseText = this.connection.patch(url,entityJsonBody);
 				
@@ -74,13 +74,13 @@ namespace Invoiced
 
 			}
 
-			public void save(string partialDataObject) {
+			public void Save(string partialDataObject) {
 
-				if (!this.hasCRUD()) {
+				if (!this.HasCRUD()) {
 					return;
 				}
 
-				string url = this.connection.baseUrl() + "/" + this.getEntityName() + "/" + this.getEntityID().ToString();
+				string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityID().ToString();
 				string responseText = this.connection.patch(url,partialDataObject);
 				
 				try {
@@ -91,9 +91,9 @@ namespace Invoiced
 
 			}
 
-			public T retrieve(long id) {
+			public T Retrieve(long id) {
 
-				string url = this.connection.baseUrl() + "/" + this.getEntityName() + "/" + id.ToString();
+				string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + id.ToString();
 				string responseText = this.connection.get(url,null);
 
 				Console.WriteLine("Response TExt " + responseText);
@@ -109,26 +109,26 @@ namespace Invoiced
 				
 			}
 
-			public void delete() {
+			public void Delete() {
 
-				if (!hasCRUD()) {
+				if (!HasCRUD()) {
 					return;
 				}
 
-				string url = this.connection.baseUrl() + "/" + this.getEntityName() + "/" + this.getEntityID().ToString();
+				string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityID().ToString();
 
 				this.connection.delete(url);
 
 			}
 
 
-			protected EntityList<T> list(string nextURL,Dictionary<string,Object> queryParams) {
+			protected EntityList<T> List(string nextURL,Dictionary<string,Object> queryParams) {
 
-				if (!this.hasList()) {
+				if (!this.HasList()) {
 					return null;
 				}
 
-				string url = this.connection.baseUrl() + "/" + this.getEntityName();
+				string url = this.connection.baseUrl() + "/" + this.EntityName();
 				
 				if (!string.IsNullOrEmpty(nextURL)) {
 					url = nextURL;
@@ -139,9 +139,9 @@ namespace Invoiced
 				EntityList<T> entities;
 				
 				try {
-					 entities = JsonConvert.DeserializeObject<EntityList<T>>(response.result);
-					 entities.linkURLS = response.links;
-					 entities.totalCount = response.totalCount;
+					 entities = JsonConvert.DeserializeObject<EntityList<T>>(response.Result);
+					 entities.LinkURLS = response.Links;
+					 entities.TotalCount = response.TotalCount;
 				} catch(Exception e) {
 					throw new EntityException("",e);
 				}
@@ -154,25 +154,25 @@ namespace Invoiced
 
 			}
 
-	        protected EntityList<T> listAll(string nextURL,Dictionary<string,Object> queryParams) {
+	        protected EntityList<T> ListAll(string nextURL,Dictionary<string,Object> queryParams) {
 
 				EntityList<T> entities = null;
 
-				if (!this.hasList()) {
+				if (!this.HasList()) {
 					return null;
 				}
 
-				var tmpEntities = this.list(nextURL,queryParams);
+				var tmpEntities = this.List(nextURL,queryParams);
 
 				do {
 					if (entities == null) {
 						entities = tmpEntities;
 					} else {
 						entities.AddRange(tmpEntities);
-						entities.linkURLS = tmpEntities.linkURLS;
-						entities.totalCount = tmpEntities.totalCount;
+						entities.LinkURLS = tmpEntities.LinkURLS;
+						entities.TotalCount = tmpEntities.TotalCount;
 					}
-				} while(!(string.IsNullOrEmpty(entities.getNextURL()) && (entities.getSelfURL() != entities.getLastURL())));
+				} while(!(string.IsNullOrEmpty(entities.GetNextURL()) && (entities.GetSelfURL() != entities.GetLastURL())));
 
 				return entities;
 
@@ -196,15 +196,15 @@ namespace Invoiced
 			// }
 
 
-			public string toJsonString() {
+			public string ToJsonString() {
 				return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore } );
 			}
 
 
-			public abstract long getEntityID();
-			public abstract string getEntityName();
-			public abstract bool hasCRUD();
-			public abstract bool hasList();
+			public abstract long EntityID();
+			public abstract string EntityName();
+			public abstract bool HasCRUD();
+			public abstract bool HasList();
 	
 
 

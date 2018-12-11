@@ -7,14 +7,14 @@ namespace Invoiced
 
     public class ListResponse {   
 
-       public string result {get;}
-       public Dictionary<string,string> links{get;}
-       public int totalCount {get;}
+       public string Result {get;}
+       public Dictionary<string,string> Links{get;}
+       public int TotalCount {get;}
 
        public ListResponse(string result, Dictionary<string,string> links, int totalCount) {
-           this.result = result;
-           this.links = links;
-           this.totalCount = totalCount;
+           this.Result = result;
+           this.Links = links;
+           this.TotalCount = totalCount;
        }
 
     }

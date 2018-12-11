@@ -10,7 +10,7 @@ public static class CommonUtil
 {
     public static Dictionary<string,string> parseLinks(string links) {
 
-        Dictionary<string,string> linkMap = new Dictionary<string, string>();
+        Dictionary<string,string> LinkMap = new Dictionary<string, string>();
 
         string[] parsedLinks = links.Split(',');
 
@@ -21,11 +21,11 @@ public static class CommonUtil
             int begin = next.IndexOf('"');
             int end = next.LastIndexOf('"');
             next = next.Substring(begin, end - begin);
-            linkMap.Add(next,link);
+            LinkMap.Add(next,link);
 
         }
 
-        return linkMap;
+        return LinkMap;
 
 
     }
