@@ -11,6 +11,10 @@ public class Customer : Entity<Customer>
 	internal Customer(Connection conn) : base(conn) {
 	}
 
+	public Customer() : base(){
+
+	}
+
 	override public long getEntityID() {
 		return this.id;
 	}

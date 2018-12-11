@@ -4,15 +4,19 @@ namespace Invoiced
     using System.Net;
     using System.Net.Http;
 
-   internal static class Client {       
+   public static class Client {       
     
          static Client() {
-             HttpClient = new HttpClient();
+             httpClient = new HttpClient();
 
          }
 
 
-         internal static HttpClient HttpClient {get; set;}
+         internal static HttpClient httpClient {get; set;}
+
+         public static void setHttpClientTest(HttpClient httpClientTest) {
+             httpClient= httpClientTest;
+         }
     }
 
 }

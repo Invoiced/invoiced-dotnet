@@ -23,6 +23,10 @@ namespace Invoiced
 
 			}
 
+			public Entity() {
+
+			}
+
 			internal void SetConnection(Connection conn) {
 				this.connection = conn;
 			}
@@ -91,9 +95,12 @@ namespace Invoiced
 
 				string url = this.connection.baseUrl() + "/" + this.getEntityName() + "/" + id.ToString();
 				string responseText = this.connection.get(url,null);
+
+				Console.WriteLine("Response TExt " + responseText);
 				T serializedObject;
 				try {
 					 serializedObject = JsonConvert.DeserializeObject<T>(responseText);
+					 serializedObject.connection = this.connection;
 				} catch(Exception e) {
 					throw new EntityException("",e);
 				}

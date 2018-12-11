@@ -10,6 +10,10 @@ public class Invoice : Entity<Invoice>
 	public Invoice(Connection conn) : base(conn) {
 	}
 
+	public Invoice() : base(){
+
+	}
+
 	override public long getEntityID() {
 		return this.id;
 	}

@@ -13,6 +13,10 @@ public class Transaction : Entity<Transaction>
 	internal Transaction(Connection conn) : base(conn) {
 	}
 
+	public Transaction() : base(){
+
+	}
+
 	override public long getEntityID() {
 		return this.id;
 	}

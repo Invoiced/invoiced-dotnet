@@ -8,6 +8,10 @@ namespace Invoiced
 public class Estimate : Entity<Estimate>
 {
 
+	public Estimate() : base(){
+
+	}
+
 	internal Estimate(Connection conn) : base(conn) {
 	}
 

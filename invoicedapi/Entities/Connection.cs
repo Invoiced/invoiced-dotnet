@@ -70,6 +70,7 @@ namespace Invoiced
         
         string uri = addQueryParmsToURI(url,queryParams);
         var response = executeRequest(HttpMethod.Get,uri, null);
+        Console.WriteLine(response);
         var responseText = processResponse(response);
 
 
@@ -120,7 +121,7 @@ namespace Invoiced
         }
         request.Headers.Add("Authorization", "Basic " + HttpUtil.basicAuth(apikey,""));
     
-        var response = Client.HttpClient.SendAsync(request).ConfigureAwait(false).GetAwaiter().GetResult();
+        var response = Client.httpClient.SendAsync(request).ConfigureAwait(false).GetAwaiter().GetResult();
    
         return response;
 

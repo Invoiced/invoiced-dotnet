@@ -11,6 +11,10 @@ public class Subscription :Entity<Subscription>
 	internal Subscription(Connection conn) : base(conn) {
 	}
 
+	public Subscription() : base(){
+
+	}
+
 	override public long getEntityID() {
 		return this.id;
 	}
