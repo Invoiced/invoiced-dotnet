@@ -46,7 +46,7 @@ namespace Invoiced
         return subscription;
     }
 
-    internal string post(string url, Dictionary<string,Object> queryParams, string jsonBody) {
+    internal string Post(string url, Dictionary<string,Object> queryParams, string jsonBody) {
 
         string uri = addQueryParmsToURI(url,queryParams);
         var response = executeRequest(HttpMethod.Post,uri, jsonBody);
@@ -57,7 +57,7 @@ namespace Invoiced
 
     }
 
-    internal string patch(string url, string jsonBody) {
+    internal string Patch(string url, string jsonBody) {
 
         var httpPatch = new HttpMethod("PATCH");
         var response = executeRequest(httpPatch,url, jsonBody);
@@ -66,7 +66,7 @@ namespace Invoiced
         return responseText;
     }
 
-    internal string get(string url, Dictionary<string,Object> queryParams) {
+    internal string Get(string url, Dictionary<string,Object> queryParams) {
         
         string uri = addQueryParmsToURI(url,queryParams);
         var response = executeRequest(HttpMethod.Get,uri, null);
@@ -77,7 +77,7 @@ namespace Invoiced
         return responseText;
     }
 
-   internal ListResponse getList(string url, Dictionary<string,Object> queryParams) {
+   internal ListResponse GetList(string url, Dictionary<string,Object> queryParams) {
 
         string uri = addQueryParmsToURI(url,queryParams);
         var response = executeRequest(HttpMethod.Post,uri, null);
@@ -92,7 +92,7 @@ namespace Invoiced
        return listReponse;
     }
 
-    internal void delete(string url) {
+    internal void Delete(string url) {
 
         var response = executeRequest(HttpMethod.Delete,url, null);
         var responseText = processResponse(response);

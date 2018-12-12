@@ -43,7 +43,7 @@ namespace Invoiced
 
 				string url = this.connection.baseUrl() + "/" + this.EntityName();
 				string entityJsonBody = this.ToString();
-				string responseText = this.connection.post(url,null,entityJsonBody);
+				string responseText = this.connection.Post(url,null,entityJsonBody);
 				
 				try {
 					JsonConvert.PopulateObject(responseText,this);
@@ -63,7 +63,7 @@ namespace Invoiced
 
 				string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityID().ToString();
 				string entityJsonBody = this.ToString();
-				string responseText = this.connection.patch(url,entityJsonBody);
+				string responseText = this.connection.Patch(url,entityJsonBody);
 				
 				try {
 					JsonConvert.PopulateObject(responseText,this);
@@ -81,7 +81,7 @@ namespace Invoiced
 				}
 
 				string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityID().ToString();
-				string responseText = this.connection.patch(url,partialDataObject);
+				string responseText = this.connection.Patch(url,partialDataObject);
 				
 				try {
 					JsonConvert.PopulateObject(responseText,this);
@@ -94,7 +94,7 @@ namespace Invoiced
 			public T Retrieve(long id) {
 
 				string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + id.ToString();
-				string responseText = this.connection.get(url,null);
+				string responseText = this.connection.Get(url,null);
 
 				Console.WriteLine("Response TExt " + responseText);
 				T serializedObject;
@@ -117,7 +117,7 @@ namespace Invoiced
 
 				string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityID().ToString();
 
-				this.connection.delete(url);
+				this.connection.Delete(url);
 
 			}
 
@@ -134,7 +134,7 @@ namespace Invoiced
 					url = nextURL;
 				}
 
-				ListResponse response = this.connection.getList(url,queryParams);
+				ListResponse response = this.connection.GetList(url,queryParams);
 
 				EntityList<T> entities;
 				
@@ -177,23 +177,7 @@ namespace Invoiced
 				return entities;
 
 			}
-			// protected static void setPublicFields(Object from, Object to) {
-			// 	FieldInfo[] fromFieldInfos = from.GetType().GetFields();
-
-			// 	foreach (var fromFieldInfo in fromFieldInfos) {
-			// 		var fromObjectValue = fromFieldInfo.GetValue(from);
-			// 		var toFieldInfo = to.GetType().GetField(fromFieldInfo.Name);
-
-			// 		if (fromFieldInfo.IsPublic && toFieldInfo != null && toFieldInfo.IsPublic) {
-
-			// 			Type t = Nullable.GetUnderlyingType(toFieldInfo.FieldType) ?? toFieldInfo.FieldType;
-			// 			Object safeObject = (fromObjectValue == null) ? null : Convert.ChangeType(fromObjectValue,t);
-			// 			toFieldInfo.SetValue(to,safeObject);
-
-			// 		}
-			// 	}
-
-			// }
+		
 
 
 			public string ToJsonString() {
