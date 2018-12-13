@@ -20,10 +20,19 @@ namespace Invoiced
     private string apikey;
     private Environment env;
 
+    private HttpClient client;
+
    public Connection(string apikey,Environment env) {
         this.apikey = apikey;
         this.env = env;
+        this.client = Client.httpClient;
 
+    }
+
+    public void TestClient(HttpClient testClient) {
+        if (this.env == Environment.test) {
+            this.client = testClient;
+        }
     }
 
     public Customer NewCustomer() {
@@ -70,9 +79,8 @@ namespace Invoiced
         
         string uri = addQueryParmsToURI(url,queryParams);
         var response = executeRequest(HttpMethod.Get,uri, null);
-        Console.WriteLine(response);
-        var responseText = processResponse(response);
 
+        var responseText = processResponse(response);
 
         return responseText;
     }
@@ -107,6 +115,8 @@ namespace Invoiced
             return ConnectionURL.invoicedSandbox;
         } else if (this.env == Environment.production) {
             return ConnectionURL.invoicedProduction;
+        } else if (this.env == Environment.test) {
+            return ConnectionURL.invoicedTest; 
         } else {
             throw new ConnException("Environment not recognized");
         }
@@ -121,8 +131,8 @@ namespace Invoiced
         }
         request.Headers.Add("Authorization", "Basic " + HttpUtil.BasicAuth(apikey,""));
     
-        var response = Client.httpClient.SendAsync(request).ConfigureAwait(false).GetAwaiter().GetResult();
-   
+        var response = client.SendAsync(request).ConfigureAwait(false).GetAwaiter().GetResult();
+      
         return response;
 
     }
@@ -134,7 +144,7 @@ namespace Invoiced
         if (!response.IsSuccessStatusCode) {
             throw handleApiError((int)response.StatusCode,responseText);
         }
-        Console.WriteLine(responseText);
+
         return responseText;
     }
 

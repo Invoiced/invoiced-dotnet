@@ -11,12 +11,9 @@ namespace Invoiced
 
          }
 
-
          internal static HttpClient httpClient {get; set;}
 
-         public static void SetHttpClientTest(HttpClient httpClientTest) {
-             httpClient= httpClientTest;
-         }
+
     }
 
 }

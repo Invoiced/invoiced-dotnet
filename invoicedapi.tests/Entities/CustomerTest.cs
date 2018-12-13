@@ -62,19 +62,19 @@ namespace InvoicedTesta
         public void Create()
         {
             var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("https://localhost:8080/customers/4")
+            mockHttp.When("https://testmode/customers/4")
         .Respond("application/json", "{'id' : 4, 'name' : 'Test McGee'}");
 
             var client = mockHttp.ToHttpClient();
 
-            Invoiced.Client.SetHttpClientTest(client);
-
-            var conn = new Connection("voodoo",Invoiced.Environment.local);
+            var conn = new Connection("voodoo",Invoiced.Environment.test);
+           
+            conn.TestClient(client);
 
             var customerConn = conn.NewCustomer();
 
             var customer = customerConn.Retrieve(4);
-            Console.WriteLine(customer);
+
             Assert.True(customer.Id == 4);
 
         }

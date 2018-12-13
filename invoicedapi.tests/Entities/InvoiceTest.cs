@@ -12,9 +12,7 @@ namespace InvoicedTest
         [Fact]
         public void Serialize()
         {
-            var invoice = new Invoice(null);
-             Console.WriteLine(invoice.ToString());
-                 
+           
         }
 
         

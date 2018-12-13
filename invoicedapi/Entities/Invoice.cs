@@ -14,6 +14,11 @@ public class Invoice : Entity<Invoice>
 
 	}
 
+	public bool ShouldSerializeId()
+    {
+        return false;
+    }
+
 	override public long EntityID() {
 		return this.Id;
 	}
@@ -33,7 +38,7 @@ public class Invoice : Entity<Invoice>
 
 
 	[JsonProperty("id")]
-	public int Id { get; }
+	public int Id { get;set; }
 
 	[JsonProperty("object")]
 	public string Object2 { get; set; }

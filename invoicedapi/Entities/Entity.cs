@@ -95,8 +95,6 @@ namespace Invoiced
 
 				string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + id.ToString();
 				string responseText = this.connection.Get(url,null);
-
-				Console.WriteLine("Response TExt " + responseText);
 				T serializedObject;
 				try {
 					 serializedObject = JsonConvert.DeserializeObject<T>(responseText);
