@@ -7,9 +7,6 @@ using RichardSzalay.MockHttp;
 using Newtonsoft.Json;
 
 
-
-
-
 namespace InvoicedTest
 {
 

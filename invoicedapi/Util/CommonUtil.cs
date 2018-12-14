@@ -20,7 +20,7 @@ public static class CommonUtil
             string next = reParse[1].Trim();
             int begin = next.IndexOf('"');
             int end = next.LastIndexOf('"');
-            next = next.Substring(begin, end - begin);
+            next = next.Substring(begin + 1, end - begin - 1);
             LinkMap.Add(next,link);
 
         }

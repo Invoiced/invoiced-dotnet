@@ -8,14 +8,17 @@ namespace Invoiced
 public class Transaction : Entity<Transaction>
 
 {
-
-
 	internal Transaction(Connection conn) : base(conn) {
 	}
 
 	public Transaction() : base(){
 
 	}
+
+	public bool ShouldSerializeId()
+    {
+        return false;
+    }
 
 	override public long EntityID() {
 		return this.Id;
@@ -31,7 +34,7 @@ public class Transaction : Entity<Transaction>
 	}
 
 	override public bool HasList() {
-		return false;
+		return true;
 	}
 
 

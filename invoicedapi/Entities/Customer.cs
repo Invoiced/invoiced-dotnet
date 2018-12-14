@@ -29,7 +29,7 @@ public class Customer : Entity<Customer>
 	}
 
 	override public bool HasList() {
-		return false;
+		return true;
 	}
 
 	public bool ShouldSerializeId()

@@ -63,8 +63,6 @@ namespace Invoiced
 
 				string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityID().ToString();
 				string entityJsonBody = this.ToJsonString();
-				Console.WriteLine("JSON BELOW");
-				Console.WriteLine(entityJsonBody);
 				string responseText = this.connection.Patch(url,entityJsonBody);
 				
 				try {
@@ -122,7 +120,7 @@ namespace Invoiced
 			}
 
 
-			protected EntityList<T> List(string nextURL,Dictionary<string,Object> queryParams) {
+			public EntityList<T> List(string nextURL,Dictionary<string,Object> queryParams) {
 
 				if (!this.HasList()) {
 					return null;
@@ -154,7 +152,7 @@ namespace Invoiced
 
 			}
 
-	        protected EntityList<T> ListAll(string nextURL,Dictionary<string,Object> queryParams) {
+	        public EntityList<T> ListAll(string nextURL,Dictionary<string,Object> queryParams) {
 
 				EntityList<T> entities = null;
 
@@ -172,7 +170,11 @@ namespace Invoiced
 						entities.LinkURLS = tmpEntities.LinkURLS;
 						entities.TotalCount = tmpEntities.TotalCount;
 					}
-				} while(!(string.IsNullOrEmpty(entities.GetNextURL()) && (entities.GetSelfURL() != entities.GetLastURL())));
+
+					Console.WriteLine("next => " + entities.GetNextURL());
+					Console.WriteLine("self => " + entities.GetSelfURL());
+					Console.WriteLine("last => " + entities.GetLastURL());
+				} while((!string.IsNullOrEmpty(entities.GetNextURL()) && (entities.GetSelfURL() != entities.GetLastURL())));
 
 				return entities;
 

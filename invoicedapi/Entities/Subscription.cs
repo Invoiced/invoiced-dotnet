@@ -15,6 +15,11 @@ public class Subscription :Entity<Subscription>
 
 	}
 
+	public bool ShouldSerializeId()
+    {
+        return false;
+    }
+
 	override public long EntityID() {
 		return this.Id;
 	}
@@ -29,7 +34,7 @@ public class Subscription :Entity<Subscription>
 	}
 
 	override public bool HasList() {
-		return false;
+		return true;
 	}
 
 	[JsonProperty("id")]

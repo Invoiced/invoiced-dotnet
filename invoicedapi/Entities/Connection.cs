@@ -88,14 +88,15 @@ namespace Invoiced
    internal ListResponse GetList(string url, Dictionary<string,Object> queryParams) {
 
         string uri = addQueryParmsToURI(url,queryParams);
-        var response = executeRequest(HttpMethod.Post,uri, null);
+        Console.WriteLine(uri);
+        var response = executeRequest(HttpMethod.Get,uri, null);
         var responseText = processResponse(response);
         var linkString = HttpUtil.GetHeaderFirstValue(response,"Link");
         int totalCount = Int32.Parse(HttpUtil.GetHeaderFirstValue(response,"X-Total-Count"));
         var links = CommonUtil.parseLinks(linkString);
 
         var listReponse =  new ListResponse(responseText,links,totalCount);
-
+        Console.WriteLine(listReponse.Links.ToString());
 
        return listReponse;
     }
@@ -130,16 +131,12 @@ namespace Invoiced
         request.Content = new StringContent(jsonBody,Encoding.UTF8,jsonAccept);
         }
         request.Headers.Add("Authorization", "Basic " + HttpUtil.BasicAuth(apikey,""));
-
-        Console.WriteLine("request => " + request.Content);
-        Console.WriteLine("END OF LINE");
     
         var response = client.SendAsync(request).ConfigureAwait(false).GetAwaiter().GetResult();
       
         return response;
 
     }
-
 
     private string processResponse(HttpResponseMessage response) {
         var responseText = response.Content.ReadAsStringAsync().ConfigureAwait(false).GetAwaiter().GetResult();
@@ -163,8 +160,8 @@ namespace Invoiced
 
         builder.Query = query.ToString();
 		}
-        
-        return builder.ToString();
+       
+        return Uri.EscapeUriString(builder.ToString());
     }
 
     	protected InvoicedException handleApiError(int responseCode, String responseBody) {
