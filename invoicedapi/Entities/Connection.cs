@@ -130,6 +130,9 @@ namespace Invoiced
         request.Content = new StringContent(jsonBody,Encoding.UTF8,jsonAccept);
         }
         request.Headers.Add("Authorization", "Basic " + HttpUtil.BasicAuth(apikey,""));
+
+        Console.WriteLine("request => " + request.Content);
+        Console.WriteLine("END OF LINE");
     
         var response = client.SendAsync(request).ConfigureAwait(false).GetAwaiter().GetResult();
       

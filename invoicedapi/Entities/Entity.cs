@@ -27,7 +27,7 @@ namespace Invoiced
 
 			}
 
-			internal void SetConnection(Connection conn) {
+			public void ChangeConnection(Connection conn) {
 				this.connection = conn;
 			}
 
@@ -55,14 +55,16 @@ namespace Invoiced
 
 			}
 
-			protected void SaveAll() {
+			public void SaveAll() {
 
 				if (!this.HasCRUD()) {
 					return;
 				}
 
 				string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityID().ToString();
-				string entityJsonBody = this.ToString();
+				string entityJsonBody = this.ToJsonString();
+				Console.WriteLine("JSON BELOW");
+				Console.WriteLine(entityJsonBody);
 				string responseText = this.connection.Patch(url,entityJsonBody);
 				
 				try {
@@ -145,7 +147,7 @@ namespace Invoiced
 				}
 
 				foreach (var entity in entities) {
-					entity.SetConnection(connection);
+					entity.ChangeConnection(connection);
 				}
 
 				return entities;
