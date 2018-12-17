@@ -46,7 +46,7 @@ public class Customer : Entity<Customer>
 	public int Id { get; set; }
 
 	[JsonProperty("object")]
-	public string Object2 { get; set; }
+	public Object Object2 { get; set; }
 
 	[JsonProperty("name")]
 	public string Name { get; set; }
@@ -61,7 +61,7 @@ public class Customer : Entity<Customer>
 	public bool Autopay { get; set; }
 
 	[JsonProperty("payment_terms")]
-	public object PaymentTerms { get; set; }
+	public string PaymentTerms { get; set; }
 
 	[JsonProperty("payment_source")]
 	public PaymentSource PaymentSource { get; set; }
@@ -73,40 +73,40 @@ public class Customer : Entity<Customer>
 	public string Type { get; set; }
 
 	[JsonProperty("attention_to")]
-	public object AttentionTo { get; set; }
+	public string AttentionTo { get; set; }
 
 	[JsonProperty("address1")]
-	public object Address1 { get; set; }
+	public string Address1 { get; set; }
 
 	[JsonProperty("address2")]
-	public object Address2 { get; set; }
+	public string Address2 { get; set; }
 
 	[JsonProperty("city")]
-	public object City { get; set; }
+	public string City { get; set; }
 
 	[JsonProperty("state")]
-	public object State { get; set; }
+	public string State { get; set; }
 
 	[JsonProperty("postal_code")]
-	public object PostalCode { get; set; }
+	public string PostalCode { get; set; }
 
 	[JsonProperty("country")]
 	public string Country { get; set; }
 
 	[JsonProperty("tax_id")]
-	public object TaxId { get; set; }
+	public string TaxId { get; set; }
 
 	[JsonProperty("phone")]
-	public object Phone { get; set; }
+	public string Phone { get; set; }
 
 	[JsonProperty("notes")]
-	public object Notes { get; set; }
+	public string Notes { get; set; }
 
 	[JsonProperty("sign_up_page")]
-	public object SignUpPage { get; set; }
+	public string SignUpPage { get; set; }
 
 	[JsonProperty("sign_up_url")]
-	public object SignupUrl { get; set; }
+	public string SignupUrl { get; set; }
 
 	[JsonProperty("statement_pdf_url")]
 	public string StatementPdfUrl { get; set; }

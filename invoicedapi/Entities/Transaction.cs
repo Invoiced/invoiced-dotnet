@@ -66,13 +66,13 @@ public class Transaction : Entity<Transaction>
 	public string Status { get; set; }
 
 	[JsonProperty("gateway")]
-	public object Gateway { get; set; }
+	public string Gateway { get; set; }
 
 	[JsonProperty("gateway_id")]
-	public object GatewayId { get; set; }
+	public string GatewayId { get; set; }
 
 	[JsonProperty("payment_source")]
-	public object PaymentSource { get; set; }
+	public PaymentSource PaymentSource { get; set; }
 
 	[JsonProperty("currency")]
 	public string Currency { get; set; }
@@ -81,10 +81,10 @@ public class Transaction : Entity<Transaction>
 	public int Amount { get; set; }
 
 	[JsonProperty("notes")]
-	public object Notes { get; set; }
+	public string Notes { get; set; }
 
 	[JsonProperty("parent_transaction")]
-	public object ParentTransaction { get; set; }
+	public long ParentTransaction { get; set; }
 
 	[JsonProperty("pdf_url")]
 	public string PdfUrl { get; set; }

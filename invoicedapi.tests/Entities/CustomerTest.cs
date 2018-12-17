@@ -91,8 +91,6 @@ namespace InvoicedTest
 
             var customer = customerConn.Retrieve(4);
 
-            Console.WriteLine(customer);
-
             Assert.True(customer.Id == 4);
     
         }
@@ -130,17 +128,15 @@ namespace InvoicedTest
             }";
 
 
-//              -d payment_terms="NET 14" \
-//   -d attention_to="Sarah Fisher" \
-//   -d address1="342 Amber St" \
-//   -d city="Hill Valley" \
-//   -d state="CA" \
-//   -d postal_code="94523" \
-//   -d tax_id="893-934835" \
-//   -d phone="(820) 297-2983" \
-
             var JsonRequest = @"{
                 'payment_terms': 'NET 14',
+                'attention_to': 'Sarah Fisher',
+                'address1': '342 Amber St',
+                'city' : 'Hill Valley',
+                'state' : 'CA',
+                'postal_code' : '94523',
+                'tax_id' : '893-934835',
+                'phone' : '(820) 297-2983'
                 }";
 
             var mockHttp = new MockHttpMessageHandler();
@@ -151,29 +147,22 @@ namespace InvoicedTest
 
             var customer = createDefaultCustomer(client);
 
-
             customer.PaymentTerms = "NET 14";
-            // customer.AttentionTo = "Sarah Fisher";
-            // customer.Address1 = "342 Amber St";
-            // customer.City = "Hill Valley";
-            // customer.State = "CA";
-            // customer.PostalCode = "94523";
-            // customer.TaxId = "893-934835";
-            // customer.Phone = "(820) 297-2983";
-
-           
-       
+            customer.AttentionTo = "Sarah Fisher";
+            customer.Address1 = "342 Amber St";
+            customer.City = "Hill Valley";
+            customer.State = "CA";
+            customer.PostalCode = "94523";
+            customer.TaxId = "893-934835";
+            customer.Phone = "(820) 297-2983";
+ 
             customer.SaveAll();
           
+            Assert.True(customer.Id == 15444);
+            Assert.True(customer.Number == "CUST-0001");
+            Assert.True(customer.AttentionTo == "Sarah Fisher");
 
-            Console.WriteLine(customer);
-
-
-        }
-
-
-
-        
+        }      
 
     }
 }

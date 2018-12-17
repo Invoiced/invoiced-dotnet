@@ -42,10 +42,10 @@ public class Estimate : Entity<Estimate>
 	public int Customer { get; set; }
 
 	[JsonProperty("invoice")]
-	public object Invoice { get; set; }
+	public long Invoice { get; set; }
 
 	[JsonProperty("name")]
-	public object Name { get; set; }
+	public string Name { get; set; }
 
 	[JsonProperty("currency")]
 	public string Currency { get; set; }
