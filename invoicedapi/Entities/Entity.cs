@@ -42,7 +42,7 @@ namespace Invoiced
 				}
 
 				string url = this.connection.baseUrl() + "/" + this.EntityName();
-				string entityJsonBody = this.ToString();
+				string entityJsonBody = this.ToJsonString();
 				string responseText = this.connection.Post(url,null,entityJsonBody);
 				
 				try {
