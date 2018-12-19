@@ -114,7 +114,7 @@ namespace Invoiced
 				}
 
 				string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityID().ToString();
-
+				
 				this.connection.Delete(url);
 
 			}
@@ -171,9 +171,6 @@ namespace Invoiced
 						entities.TotalCount = tmpEntities.TotalCount;
 					}
 
-					Console.WriteLine("next => " + entities.GetNextURL());
-					Console.WriteLine("self => " + entities.GetSelfURL());
-					Console.WriteLine("last => " + entities.GetLastURL());
 				} while((!string.IsNullOrEmpty(entities.GetNextURL()) && (entities.GetSelfURL() != entities.GetLastURL())));
 
 				return entities;

@@ -88,7 +88,7 @@ namespace Invoiced
    internal ListResponse GetList(string url, Dictionary<string,Object> queryParams) {
 
         string uri = addQueryParmsToURI(url,queryParams);
-        Console.WriteLine(uri);
+
         var response = executeRequest(HttpMethod.Get,uri, null);
         var responseText = processResponse(response);
         var linkString = HttpUtil.GetHeaderFirstValue(response,"Link");
@@ -96,7 +96,7 @@ namespace Invoiced
         var links = CommonUtil.parseLinks(linkString);
 
         var listReponse =  new ListResponse(responseText,links,totalCount);
-        Console.WriteLine(listReponse.Links.ToString());
+     
 
        return listReponse;
     }
@@ -104,7 +104,7 @@ namespace Invoiced
     internal void Delete(string url) {
 
         var response = executeRequest(HttpMethod.Delete,url, null);
-        var responseText = processResponse(response);
+        processResponse(response);
 
     }
 
@@ -139,6 +139,10 @@ namespace Invoiced
     }
 
     private string processResponse(HttpResponseMessage response) {
+
+        if (response.StatusCode == HttpStatusCode.NoContent) {
+            return "";
+        }
         var responseText = response.Content.ReadAsStringAsync().ConfigureAwait(false).GetAwaiter().GetResult();
         
         if (!response.IsSuccessStatusCode) {

@@ -2,6 +2,7 @@ using System;
 using Xunit;
 using Invoiced;
 using System.Net.Http;
+using System.Net;
 using System.Collections.Generic;
 using RichardSzalay.MockHttp;
 using Newtonsoft.Json;
@@ -75,7 +76,7 @@ namespace InvoicedTest
 
 
         [Fact]
-        public void Create()
+        public void Retrieve()
         {
             var mockHttp = new MockHttpMessageHandler();
             mockHttp.When("https://testmode/customers/4").Respond("application/json", "{'id' : 4, 'name' : 'Test McGee'}");
@@ -162,7 +163,22 @@ namespace InvoicedTest
             Assert.True(customer.Number == "CUST-0001");
             Assert.True(customer.AttentionTo == "Sarah Fisher");
 
-        }      
+        } 
+
+        [Fact]
+        public void delete() {
+
+            var mockHttp = new MockHttpMessageHandler();
+  
+            var request = mockHttp.When(HttpMethod.Delete,"https://testmode/customers/15444").Respond(HttpStatusCode.NoContent);
+
+            var client = mockHttp.ToHttpClient();
+
+            var customer = createDefaultCustomer(client);
+
+            customer.Delete();
+
+        }     
 
     }
 }
