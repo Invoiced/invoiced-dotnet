@@ -4,12 +4,14 @@ using Newtonsoft.Json;
 
 namespace Invoiced
 {
-public class PaymentSource 
+public class PaymentSource : Item
 {
+	public PaymentSource() : base(){
 
+	}
 
 	[JsonProperty("id")]
-	public int Id { get; set; }
+	public long Id { get; set; }
 
 	[JsonProperty("object")]
 	public string Object2 { get; set; }
@@ -28,5 +30,9 @@ public class PaymentSource
 
 	[JsonProperty("funding")]
 	public string Funding { get; set; }
+
+	override public long EntityID() {
+		return this.Id;
+	}
 }
 }

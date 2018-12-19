@@ -7,42 +7,14 @@ namespace Invoiced
 {
 
 
-public class Installment
+public class PaymentPlan : Item
 {
+	public PaymentPlan() : base(){
+
+	}
 
 	[JsonProperty("id")]
-	public int Id { get; set; }
-
-	[JsonProperty("date")]
-	public int Date { get; set; }
-
-	[JsonProperty("amount")]
-	public int Amount { get; set; }
-
-	[JsonProperty("balance")]
-	public int Balance { get; set; }
-}
-
-public class Approval
-{
-
-	[JsonProperty("id")]
-	public int Id { get; set; }
-
-	[JsonProperty("ip")]
-	public string Ip { get; set; }
-
-	[JsonProperty("timestamp")]
-	public int Timestamp { get; set; }
-
-	[JsonProperty("user_agent")]
-	public string UserAgent { get; set; }
-}
-
-public class PaymentPlan
-{
-	[JsonProperty("id")]
-	public int Id { get; set; }
+	public long Id { get; set; }
 
 	[JsonProperty("object")]
 	public string Object2 { get; set; }
@@ -57,7 +29,11 @@ public class PaymentPlan
 	public Approval Approval { get; set; }
 
 	[JsonProperty("created_at")]
-	public int CreatedAt { get; set; }
+	public long CreatedAt { get; set; }
+
+	override public long EntityID() {
+		return this.Id;
+	}
 
 }
 }

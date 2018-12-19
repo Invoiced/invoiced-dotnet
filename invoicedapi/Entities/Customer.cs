@@ -43,7 +43,7 @@ public class Customer : Entity<Customer>
     }
 
 	[JsonProperty("id")]
-	public int Id { get; set; }
+	public long Id { get; set; }
 
 	[JsonProperty("object")]
 	public Object Object2 { get; set; }
@@ -112,7 +112,7 @@ public class Customer : Entity<Customer>
 	public string StatementPdfUrl { get; set; }
 
 	[JsonProperty("created_at")]
-	public int CreatedAt { get; set; }
+	public long CreatedAt { get; set; }
 
 	[JsonProperty("metadata")]
 	public Metadata Metadata { get; set; }

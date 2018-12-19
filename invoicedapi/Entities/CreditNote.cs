@@ -28,7 +28,7 @@ public class CreditNote : Entity<CreditNote> {
 	}
 
 	[JsonProperty("id")]
-	public int Id { get; set; }
+	public long Id { get; set; }
 
 	[JsonProperty("object")]
 	public string Object2 { get; set; }

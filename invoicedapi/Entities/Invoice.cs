@@ -38,13 +38,13 @@ public class Invoice : Entity<Invoice>
 
 
 	[JsonProperty("id")]
-	public int Id { get;set; }
+	public long Id { get;set; }
 
 	[JsonProperty("object")]
-	public string Object2 { get; set; }
+	public string Object { get; set; }
 
 	[JsonProperty("customer")]
-	public int Customer { get; set; }
+	public long Customer { get; set; }
 
 	[JsonProperty("name")]
 	public object Name { get; set; }
@@ -86,10 +86,10 @@ public class Invoice : Entity<Invoice>
 	public string Number { get; set; }
 
 	[JsonProperty("date")]
-	public int Date { get; set; }
+	public long Date { get; set; }
 
 	[JsonProperty("due_date")]
-	public int? DueDate { get; set; }
+	public long? DueDate { get; set; }
 
 	[JsonProperty("payment_terms")]
 	public string PaymentTerms { get; set; }
@@ -101,7 +101,7 @@ public class Invoice : Entity<Invoice>
 	public object Notes { get; set; }
 
 	[JsonProperty("subtotal")]
-	public int Subtotal { get; set; }
+	public double Subtotal { get; set; }
 
 	[JsonProperty("discounts")]
 	public IList<object> Discounts { get; set; }
@@ -125,7 +125,7 @@ public class Invoice : Entity<Invoice>
 	public string PdfUrl { get; set; }
 
 	[JsonProperty("created_at")]
-	public int CreatedAt { get; set; }
+	public long CreatedAt { get; set; }
 
 	[JsonProperty("metadata")]
 	public  Metadata Metadata { get; set; }
@@ -133,70 +133,6 @@ public class Invoice : Entity<Invoice>
 }
 
 
-public class Metadata
-{
 
-}
-
-public class LineItem
-{
-
-	[JsonProperty("id")]
-	public int Id { get; set; }
-
-	[JsonProperty("object")]
-	public string Object2 { get; set; }
-
-	[JsonProperty("catalog_item")]
-	public string CatalogItem { get; set; }
-
-	[JsonProperty("type")]
-	public string Type { get; set; }
-
-	[JsonProperty("name")]
-	public string Name { get; set; }
-
-	[JsonProperty("description")]
-	public object Description { get; set; }
-
-	[JsonProperty("quantity")]
-	public int Quantity { get; set; }
-
-	[JsonProperty("unit_cost")]
-	public int UnitCost { get; set; }
-
-	[JsonProperty("amount")]
-	public int Amount { get; set; }
-
-	[JsonProperty("discountable")]
-	public bool Discountable { get; set; }
-
-	[JsonProperty("discounts")]
-	public IList<object> Discounts { get; set; }
-
-	[JsonProperty("taxable")]
-	public bool Taxable { get; set; }
-
-	[JsonProperty("taxes")]
-	public IList<object> Taxes { get; set; }
-
-	[JsonProperty("metadata")]
-	public Metadata Metadata { get; set; }
-}
-
-public class Tax
-{
-	[JsonProperty("id")]
-	public int Id { get; set; }
-
-	[JsonProperty("object")]
-	public string Object2 { get; set; }
-
-	[JsonProperty("amount")]
-	public double Amount { get; set; }
-
-	[JsonProperty("tax_rate")]
-	public object TaxRate { get; set; }
-}
 
 }
