@@ -152,6 +152,11 @@ namespace Invoiced
 
 			}
 
+			public EntityList<T> ListAll(Dictionary<string,Object> queryParams) {
+					var entities = ListAll("",queryParams);
+					return entities;
+			}
+
 	        public EntityList<T> ListAll(string nextURL,Dictionary<string,Object> queryParams) {
 
 				EntityList<T> entities = null;
