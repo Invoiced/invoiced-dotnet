@@ -1,6 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+   <Description>Invoiced is a sync .NET client, and a portable class library for the Invoiced API.  (Official Library)</Description>
+    <AssemblyTitle>Invoiced</AssemblyTitle>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <Version>0.0.1</Version>
+    <Authors>Invoiced</Authors>
+    <TargetFrameworks>;netstandard2.0</TargetFrameworks>
+    <AssemblyName>Invoiced</AssemblyName>
+    <PackageId>Invoiced</PackageId>
+    <PackageTags>invoice;accounts receivable;automation;payment processing; chasing</PackageTags>
+    <PackageProjectUrl>https://github.com/invoiced/invoiced-csharp</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/Invoiced/invoiced-csharp/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/stripe/stripe-dotnet</RepositoryUrl>
+    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
+    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.2' ">$(PackageTargetFallback);netcoreapp1.0</PackageTargetFallback>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.2' ">1.6.1</NetStandardImplicitPackageVersion>
+    <SignAssembly>True</SignAssembly>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
