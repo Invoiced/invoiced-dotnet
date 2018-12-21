@@ -1,7 +1,7 @@
 language: csharp
 solution: invoiced-csharp.sln
-dotnet:
-    - latest
-    - 2.1.302
+mono: none
+dotnet: 2.1.101
 script:
+ - dotnet restore
  - dotnet test ./invoicedapi.tests/

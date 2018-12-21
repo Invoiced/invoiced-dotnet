@@ -12,3 +12,4 @@
 project.lock.json
 
 invoicedapi.tests/Integration/
+.travis.yml
