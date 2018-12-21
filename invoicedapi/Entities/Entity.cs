@@ -44,7 +44,7 @@ namespace Invoiced
 				string url = this.connection.baseUrl() + "/" + this.EntityName();
 				string entityJsonBody = this.ToJsonString();
 				string responseText = this.connection.Post(url,null,entityJsonBody);
-				
+			
 				try {
 					JsonConvert.PopulateObject(responseText,this);
 				} catch(Exception e) {

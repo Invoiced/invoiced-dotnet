@@ -39,22 +39,22 @@ public class Transaction : Entity<Transaction>
 
 
 	[JsonProperty("id")]
-	public int Id { get; set; }
+	public long Id { get; set; }
 
 	[JsonProperty("object")]
 	public string object2 { get; set; }
 
 	[JsonProperty("customer")]
-	public int Customer { get; set; }
+	public long Customer { get; set; }
 
 	[JsonProperty("invoice")]
-	public int Invoice { get; set; }
+	public long Invoice { get; set; }
 
 	[JsonProperty("credit_note")]
 	public object CreditNote { get; set; }
 
 	[JsonProperty("date")]
-	public int Date { get; set; }
+	public long Date { get; set; }
 
 	[JsonProperty("type")]
 	public string Type { get; set; }

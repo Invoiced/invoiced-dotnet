@@ -38,7 +38,7 @@ public class Subscription :Entity<Subscription>
 	}
 
 	[JsonProperty("id")]
-	public int Id { get; set; }
+	public long Id { get; set; }
 
 	[JsonProperty("object")]
 	public string Object2 { get; set; }
@@ -86,7 +86,7 @@ public class Subscription :Entity<Subscription>
 	public string Url { get; set; }
 
 	[JsonProperty("created_at")]
-	public int CreatedAt { get; set; }
+	public long CreatedAt { get; set; }
 
 	[JsonProperty("metadata")]
 	public Metadata Metadata { get; set; }
@@ -97,7 +97,7 @@ public class Addon
 {
 
 	[JsonProperty("id")]
-	public int Id { get; set; }
+	public long Id { get; set; }
 
 	[JsonProperty("object")]
 	public string Object2 { get; set; }
@@ -112,7 +112,7 @@ public class Addon
 	public string Description { get; set; }
 
 	[JsonProperty("created_at")]
-	public int CreatedAt { get; set; }
+	public long CreatedAt { get; set; }
 }
 
 }

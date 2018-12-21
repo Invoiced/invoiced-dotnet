@@ -56,7 +56,6 @@ namespace Invoiced
     }
 
     internal string Post(string url, Dictionary<string,Object> queryParams, string jsonBody) {
-
         string uri = addQueryParmsToURI(url,queryParams);
         var response = executeRequest(HttpMethod.Post,uri, jsonBody);
         var responseText = processResponse(response);
@@ -88,7 +87,6 @@ namespace Invoiced
    internal ListResponse GetList(string url, Dictionary<string,Object> queryParams) {
 
         string uri = addQueryParmsToURI(url,queryParams);
-
         var response = executeRequest(HttpMethod.Get,uri, null);
         var responseText = processResponse(response);
         var linkString = HttpUtil.GetHeaderFirstValue(response,"Link");
