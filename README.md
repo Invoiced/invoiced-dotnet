@@ -1,6 +1,8 @@
 # invoiced-csharp
 Official Invoiced C# Library
 
+[![Build Status](https://travis-ci.org/Invoiced/invoiced-csharp.svg?branch=master)](https://travis-ci.org/Invoiced/invoiced-csharp)
+
 ## Usage
 
 First, you must instantiate a new client
