@@ -97,7 +97,7 @@ namespace Invoiced
 				string responseText = this.connection.Get(url,null);
 				T serializedObject;
 				try {
-					 serializedObject = JsonConvert.DeserializeObject<T>(responseText);
+					 serializedObject = JsonConvert.DeserializeObject<T>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
 					 serializedObject.connection = this.connection;
 				} catch(Exception e) {
 					throw new EntityException("",e);
@@ -137,7 +137,7 @@ namespace Invoiced
 				EntityList<T> entities;
 				
 				try {
-					 entities = JsonConvert.DeserializeObject<EntityList<T>>(response.Result);
+					 entities = JsonConvert.DeserializeObject<EntityList<T>>(response.Result,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
 					 entities.LinkURLS = response.Links;
 					 entities.TotalCount = response.TotalCount;
 				} catch(Exception e) {
