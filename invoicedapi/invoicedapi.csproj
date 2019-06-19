@@ -3,8 +3,8 @@
   <PropertyGroup>
    <Description>Invoiced is a sync .NET client, and a portable class library for the Invoiced API.  (Official Library)</Description>
     <AssemblyTitle>Invoiced</AssemblyTitle>
-    <VersionPrefix>0.2.1</VersionPrefix>
-    <Version>0.2.1</Version>
+    <VersionPrefix>0.3.1</VersionPrefix>
+    <Version>0.3.1</Version>
     <Authors>Invoiced</Authors>
     <TargetFrameworks>;netstandard2.0</TargetFrameworks>
     <AssemblyName>Invoiced</AssemblyName>
