@@ -25,7 +25,7 @@ public class Transaction : Entity<Transaction>
 	}
 
 	override public string EntityName() {
-		return "estimates";
+		return "transactions";
 	}
 
 	override public bool HasCRUD() {
