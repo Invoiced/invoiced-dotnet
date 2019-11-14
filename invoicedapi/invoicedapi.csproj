@@ -20,6 +20,7 @@
     <SignAssembly>True</SignAssembly>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <noWarn>1591</noWarn>
   </PropertyGroup>
 
   <ItemGroup>
