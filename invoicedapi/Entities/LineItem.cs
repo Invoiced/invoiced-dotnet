@@ -8,7 +8,10 @@ namespace Invoiced
 
     public class LineItem : Item
     {
-        public LineItem() : base(){}
+
+        public LineItem() : base() {
+            
+        }
 
         [JsonProperty("id")]
         public long Id { get; set; }
@@ -55,12 +58,7 @@ namespace Invoiced
         override public long EntityID() {
             return this.Id;
         }
+    
     }
-
-
-
-
-
-
 
 }

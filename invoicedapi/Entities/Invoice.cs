@@ -14,8 +14,7 @@ public class Invoice : Entity<Invoice>
 
 	}
 
-	public bool ShouldSerializeId()
-    {
+	public bool ShouldSerializeId() {
         return false;
     }
 
@@ -29,7 +28,6 @@ public class Invoice : Entity<Invoice>
 
 	override public bool HasCRUD() {
 		return true;
-
 	}
 
 	override public bool HasList() {
@@ -140,8 +138,5 @@ public class Invoice : Entity<Invoice>
 	public  IList<string> DisabledPaymentMethods { get; set; }
 
 }
-
-
-
 
 }

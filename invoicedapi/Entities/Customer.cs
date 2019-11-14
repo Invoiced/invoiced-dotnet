@@ -25,20 +25,17 @@ public class Customer : Entity<Customer>
 
 	override public bool HasCRUD() {
 		return true;
-
 	}
 
 	override public bool HasList() {
 		return true;
 	}
 
-	public bool ShouldSerializeId()
-    {
+	public bool ShouldSerializeId() {
         return false;
     }
 
-	public bool ShouldSerializeCreateAt()
-    {
+	public bool ShouldSerializeCreateAt() {
         return false;
     }
 
@@ -117,6 +114,6 @@ public class Customer : Entity<Customer>
 	[JsonProperty("metadata")]
 	public Metadata Metadata { get; set; }
 
-
 }
+
 }
