@@ -11,7 +11,7 @@ namespace Invoiced
 		private Connection connection;
 		private bool entityCreated;
 		
-		public override string ToString(){
+		public override string ToString() {
 			var s = base.ToString() + "<" + this.EntityID().ToString() +">";
 			var jsonS =  s + " " + this.ToJsonString();
 
@@ -31,7 +31,7 @@ namespace Invoiced
 			this.connection = conn;
 		}
 
-		public void Create(){
+		public void Create() {
 
 			if (this.entityCreated) {
 				return;
@@ -186,9 +186,11 @@ namespace Invoiced
 		}
 
 		public abstract long EntityID();
+		public abstract long EntityIDString();
 		public abstract string EntityName();
 		public abstract bool HasCRUD();
 		public abstract bool HasList();
+		public abstract bool HasStringID();
 
 	}
 

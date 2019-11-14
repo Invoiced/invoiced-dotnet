@@ -31,6 +31,10 @@ namespace Invoiced
 			return false;
 		}
 
+		override public bool HasStringID() {
+			return false;
+		}
+
 		[JsonProperty("id")]
 		public long Id { get; set; }
 

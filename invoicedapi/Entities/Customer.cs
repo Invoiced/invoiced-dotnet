@@ -31,6 +31,10 @@ public class Customer : Entity<Customer>
 		return true;
 	}
 
+	override public bool HasStringID() {
+		return false;
+	}
+
 	public bool ShouldSerializeId() {
         return false;
     }

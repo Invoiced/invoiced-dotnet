@@ -24,6 +24,7 @@ namespace Invoiced
 		}
 
 		public abstract long EntityID();
+		public abstract bool HasStringID(); 
 
 	}
 
