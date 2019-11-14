@@ -28,10 +28,6 @@ namespace Invoiced
 		override public long EntityID() {
 			return this.Id;
 		}
-
-		override public bool HasStringID() {
-			return false;
-		}
 		
 	}
 

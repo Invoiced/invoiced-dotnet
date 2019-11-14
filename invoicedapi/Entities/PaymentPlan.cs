@@ -35,10 +35,6 @@ namespace Invoiced
 			return this.Id;
 		}
 
-		override public bool HasStringID() {
-			return false;
-		}
-
 	}
 	
 }
