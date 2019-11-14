@@ -29,7 +29,7 @@ namespace Invoiced
 		}
 
 		override public string EntityName() {
-			return "estimates";
+			return "subscriptions";
 		}
 
 		override public bool HasCRUD() {
@@ -65,6 +65,9 @@ namespace Invoiced
 		[JsonProperty("start_date")]
 		public int StartDate { get; set; }
 
+		[JsonProperty("bill_in")]
+		public string BillIn { get; set; }
+
 		[JsonProperty("period_start")]
 		public int PeriodStart { get; set; }
 
@@ -77,8 +80,23 @@ namespace Invoiced
 		[JsonProperty("canceled_at")]
 		public object CanceledAt { get; set; }
 
+		[JsonProperty("paused")]
+		public bool Paused { get; set; }
+
 		[JsonProperty("status")]
 		public string Status { get; set; }
+
+		[JsonProperty("contract_period_start")]
+		public long ContractPeriodStart { get; set; }
+
+		[JsonProperty("contract_period_end")]
+		public long ContractPeriodEnd { get; set; }
+
+		[JsonProperty("contract_renewal_cycles")]
+		public int ContractRenewalCycles { get; set; }
+
+		[JsonProperty("contract_renewal_mode")]
+		public string ContractRenewalMode { get; set; }
 
 		[JsonProperty("addons")]
 		public IList<Addon> Addons { get; set; }
@@ -88,6 +106,12 @@ namespace Invoiced
 
 		[JsonProperty("taxes")]
 		public IList<object> Taxes { get; set; }
+		
+		[JsonProperty("recurring_total")]
+		public long RecurringTotal { get; set; }
+
+		[JsonProperty("mrr")]
+		public long MRR { get; set; }
 
 		[JsonProperty("url")]
 		public string Url { get; set; }

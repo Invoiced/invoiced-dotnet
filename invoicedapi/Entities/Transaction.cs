@@ -89,6 +89,9 @@ namespace Invoiced
 		[JsonProperty("notes")]
 		public string Notes { get; set; }
 
+		[JsonProperty("failure_reason")]
+		public string FailureReason { get; set; }
+
 		[JsonProperty("parent_transaction")]
 		public long ParentTransaction { get; set; }
 
