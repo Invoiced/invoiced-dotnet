@@ -158,6 +158,12 @@ public class Customer : Entity<Customer>
 	[JsonProperty("metadata")]
 	public Metadata Metadata { get; set; }
 
+	[JsonProperty("stripe_token")]
+	public string StripeToken { get; set; }
+
+	[JsonProperty("disabled_payment_methods")]
+	public IList<string> DisabledPaymentMethods { get; set; }
+
 }
 
 }

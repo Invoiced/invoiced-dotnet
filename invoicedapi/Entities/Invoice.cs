@@ -145,6 +145,9 @@ namespace Invoiced
 		[JsonProperty("attachments")]
 		public IList<long> Attachments { get; set; }
 
+		[JsonProperty("calculate_taxes")]
+		public bool CalculateTaxes { get; set; }
+
 		[JsonProperty("disabled_payment_methods")]
 		public IList<string> DisabledPaymentMethods { get; set; }
 
