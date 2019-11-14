@@ -14,6 +14,9 @@ namespace Invoiced
 		[JsonProperty("id")]
 		public long Id { get; set; }
 
+		[JsonProperty("object")]
+		public string Object2 { get; set; }
+
 		[JsonProperty("amount")]
 		public double Amount { get; set; }
 
