@@ -13,177 +13,170 @@ using System.Web;
 
 namespace Invoiced
 {
+    
     public class Connection
     {
 
-    private static string jsonAccept = "application/json";
-    private string apikey;
-    private Environment env;
+        private static string jsonAccept = "application/json";
+        private string apikey;
+        private Environment env;
 
-    private HttpClient client;
+        private HttpClient client;
 
-   public Connection(string apikey,Environment env) {
-        this.apikey = apikey;
-        this.env = env;
-        this.client = Client.httpClient;
-
-    }
-
-    public void TestClient(HttpClient testClient) {
-        if (this.env == Environment.test) {
-            this.client = testClient;
+        public Connection(string apikey,Environment env) {
+            this.apikey = apikey;
+            this.env = env;
+            this.client = Client.httpClient;
         }
-    }
 
-    public Customer NewCustomer() {
-        Customer customer = new Customer(this);
-        return customer;
-    }
+        public void TestClient(HttpClient testClient) {
+            if (this.env == Environment.test) {
+                this.client = testClient;
+            }
+        }
 
-    public Invoice NewInvoice() {
-        Invoice invoice = new Invoice(this);
-        return invoice;
-    }
+        public Customer NewCustomer() {
+            Customer customer = new Customer(this);
+            return customer;
+        }
 
-    public Transaction NewTransaction() {
-        Transaction transaction = new Transaction(this);
-        return transaction;
-    }
+        public Invoice NewInvoice() {
+            Invoice invoice = new Invoice(this);
+            return invoice;
+        }
 
-    public Subscription  NewSubscription() {
-        Subscription subscription = new Subscription(this);
-        return subscription;
-    }
+        public Transaction NewTransaction() {
+            Transaction transaction = new Transaction(this);
+            return transaction;
+        }
 
-    internal string Post(string url, Dictionary<string,Object> queryParams, string jsonBody) {
-        string uri = addQueryParmsToURI(url,queryParams);
-        var response = executeRequest(HttpMethod.Post,uri, jsonBody);
-        var responseText = processResponse(response);
+        public Subscription  NewSubscription() {
+            Subscription subscription = new Subscription(this);
+            return subscription;
+        }
 
+        internal string Post(string url, Dictionary<string,Object> queryParams, string jsonBody) {
 
-        return responseText;
+            string uri = addQueryParmsToURI(url,queryParams);
+            var response = executeRequest(HttpMethod.Post,uri, jsonBody);
+            var responseText = processResponse(response);
+            
+            return responseText;
+        }
 
-    }
+        internal string Patch(string url, string jsonBody) {
 
-    internal string Patch(string url, string jsonBody) {
+            var httpPatch = new HttpMethod("PATCH");
+            var response = executeRequest(httpPatch,url, jsonBody);
+            var responseText = processResponse(response);
 
-        var httpPatch = new HttpMethod("PATCH");
-        var response = executeRequest(httpPatch,url, jsonBody);
-        var responseText = processResponse(response);
+            return responseText;
+        }
 
-        return responseText;
-    }
+        internal string Get(string url, Dictionary<string,Object> queryParams) {
+            
+            string uri = addQueryParmsToURI(url,queryParams);
+            var response = executeRequest(HttpMethod.Get,uri, null);
 
-    internal string Get(string url, Dictionary<string,Object> queryParams) {
+            var responseText = processResponse(response);
+
+            return responseText;
+        }
+
+        internal ListResponse GetList(string url, Dictionary<string,Object> queryParams) {
+
+            string uri = addQueryParmsToURI(url,queryParams);
+            var response = executeRequest(HttpMethod.Get,uri, null);
+            var responseText = processResponse(response);
+            var linkString = HttpUtil.GetHeaderFirstValue(response,"Link");
+            int totalCount = Int32.Parse(HttpUtil.GetHeaderFirstValue(response,"X-Total-Count"));
+            var links = CommonUtil.parseLinks(linkString);
+
+            var listReponse =  new ListResponse(responseText,links,totalCount);
+
+            return listReponse;
+        }
+
+        internal void Delete(string url) {
+
+            var response = executeRequest(HttpMethod.Delete,url, null);
+            processResponse(response);
+
+        }
+
+        internal String baseUrl() {
+
+            if (this.env == Environment.local) {
+                return ConnectionURL.invoicedLocal;
+            } else if (this.env == Environment.sandbox) {
+                return ConnectionURL.invoicedSandbox;
+            } else if (this.env == Environment.production) {
+                return ConnectionURL.invoicedProduction;
+            } else if (this.env == Environment.test) {
+                return ConnectionURL.invoicedTest; 
+            } else {
+                throw new ConnException("Environment not recognized");
+            }
+        }
+
+        private HttpResponseMessage executeRequest(HttpMethod method, string url, string jsonBody) {
+
+            var request = new HttpRequestMessage(method,url);
+
+            if (!string.IsNullOrEmpty(jsonBody)) {
+            request.Content = new StringContent(jsonBody,Encoding.UTF8,jsonAccept);
+            }
+            request.Headers.Add("Authorization", "Basic " + HttpUtil.BasicAuth(apikey,""));
         
-        string uri = addQueryParmsToURI(url,queryParams);
-        var response = executeRequest(HttpMethod.Get,uri, null);
-
-        var responseText = processResponse(response);
-
-        return responseText;
-    }
-
-   internal ListResponse GetList(string url, Dictionary<string,Object> queryParams) {
-
-        string uri = addQueryParmsToURI(url,queryParams);
-        var response = executeRequest(HttpMethod.Get,uri, null);
-        var responseText = processResponse(response);
-        var linkString = HttpUtil.GetHeaderFirstValue(response,"Link");
-        int totalCount = Int32.Parse(HttpUtil.GetHeaderFirstValue(response,"X-Total-Count"));
-        var links = CommonUtil.parseLinks(linkString);
-
-        var listReponse =  new ListResponse(responseText,links,totalCount);
-     
-
-       return listReponse;
-    }
-
-    internal void Delete(string url) {
-
-        var response = executeRequest(HttpMethod.Delete,url, null);
-        processResponse(response);
-
-    }
-
-    internal String baseUrl() {
-
-		if (this.env == Environment.local) {
-			return ConnectionURL.invoicedLocal;
-		} else if (this.env == Environment.sandbox) {
-            return ConnectionURL.invoicedSandbox;
-        } else if (this.env == Environment.production) {
-            return ConnectionURL.invoicedProduction;
-        } else if (this.env == Environment.test) {
-            return ConnectionURL.invoicedTest; 
-        } else {
-            throw new ConnException("Environment not recognized");
-        }
-    }
-
-    private HttpResponseMessage executeRequest(HttpMethod method, string url, string jsonBody) {
-        var request = new HttpRequestMessage(method,url);
-
-
-        if (!string.IsNullOrEmpty(jsonBody)) {
-        request.Content = new StringContent(jsonBody,Encoding.UTF8,jsonAccept);
-        }
-        request.Headers.Add("Authorization", "Basic " + HttpUtil.BasicAuth(apikey,""));
-    
-        var response = client.SendAsync(request).ConfigureAwait(false).GetAwaiter().GetResult();
-      
-        return response;
-
-    }
-
-    private string processResponse(HttpResponseMessage response) {
-
-        if (response.StatusCode == HttpStatusCode.NoContent) {
-            return "";
-        }
-        var responseText = response.Content.ReadAsStringAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+            var response = client.SendAsync(request).ConfigureAwait(false).GetAwaiter().GetResult();
         
-        if (!response.IsSuccessStatusCode) {
-            throw handleApiError((int)response.StatusCode,responseText);
+            return response;
         }
 
-        return responseText;
+        private string processResponse(HttpResponseMessage response) {
+
+            if (response.StatusCode == HttpStatusCode.NoContent) {
+                return "";
+            }
+            var responseText = response.Content.ReadAsStringAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+            
+            if (!response.IsSuccessStatusCode) {
+                throw handleApiError((int)response.StatusCode,responseText);
+            }
+
+            return responseText;
+        }
+
+        private string addQueryParmsToURI(string uri, Dictionary<string,Object> queryParams ) {
+
+            var builder = new UriBuilder(uri);
+            var query = HttpUtility.ParseQueryString(builder.Query);
+
+            if (queryParams != null) {
+            foreach (var param in queryParams) {
+                query.Add(param.Key.ToString(),param.Value.ToString());
+            }
+
+            builder.Query = query.ToString();
+            }
+        
+            return Uri.EscapeUriString(builder.ToString());
+        }
+
+        protected InvoicedException handleApiError(int responseCode, String responseBody) {
+            if (responseCode == 401) {
+                return new AuthException(responseBody);
+            } else if (responseCode == 400) {
+                return new InvalidRequestException(responseBody);
+            } else if (responseCode == 429) {
+                return new RateLimitException(responseBody);
+            }  else if (responseCode >= 500) {
+                return new InternalServerException(responseBody);
+            } else {
+                return new ApiException(responseBody);
+            }
+        }
+
     }
-
-    private string addQueryParmsToURI(string uri, Dictionary<string,Object> queryParams ) {
-
-         var builder = new UriBuilder(uri);
-        var query = HttpUtility.ParseQueryString(builder.Query);
-
-		if (queryParams != null) {
-        foreach (var param in queryParams) {
-            query.Add(param.Key.ToString(),param.Value.ToString());
-        }
-
-        builder.Query = query.ToString();
-		}
-       
-        return Uri.EscapeUriString(builder.ToString());
-    }
-
-    	protected InvoicedException handleApiError(int responseCode, String responseBody) {
-		if (responseCode == 401) {
-			return new AuthException(responseBody);
-		} else if (responseCode == 400) {
-			return new InvalidRequestException(responseBody);
-		} else if (responseCode == 429) {
-			return new RateLimitException(responseBody);
-		}  else if (responseCode >= 500) {
-			return new InternalServerException(responseBody);
-		} else {
-            return new ApiException(responseBody);
-        }
-	}
 
 }
-
- 
-}
-
-   
-    

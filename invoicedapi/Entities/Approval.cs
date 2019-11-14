@@ -8,6 +8,7 @@ namespace Invoiced
 
 	public class Approval : Item
 	{
+		
 		public Approval() : base(){
 
 		}

@@ -11,7 +11,7 @@ public class Customer : Entity<Customer>
 	internal Customer(Connection conn) : base(conn) {
 	}
 
-	public Customer() : base(){
+	public Customer() : base() {
 
 	}
 

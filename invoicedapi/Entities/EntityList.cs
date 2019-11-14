@@ -5,10 +5,11 @@ using System.Reflection;
 
 namespace Invoiced
 {
-    public class EntityList<T> : List<T>  where T : Entity<T>{
+    public class EntityList<T> : List<T>  where T : Entity<T>
+    {
 
         public Dictionary<string,string> LinkURLS { get; set; }
-        public int TotalCount {get; set;}
+        public int TotalCount {get; set; }
 
         public string GetNextURL() {
            return GetURL("next");
