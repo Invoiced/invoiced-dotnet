@@ -121,6 +121,9 @@ namespace Invoiced
 		[JsonProperty("balance")]
 		public double Balance { get; set; }
 
+		[JsonProperty("payment_plan")]
+		public long PaymentPlan { get; set; }
+
 		[JsonProperty("url")]
 		public string Url { get; set; }
 
@@ -134,16 +137,16 @@ namespace Invoiced
 		public long CreatedAt { get; set; }
 
 		[JsonProperty("metadata")]
-		public  Metadata Metadata { get; set; }
+		public Metadata Metadata { get; set; }
 
 		[JsonProperty("ship_to")]
-		public  Metadata ShipTo { get; set; }
+		public Metadata ShipTo { get; set; }
 
 		[JsonProperty("attachments")]
 		public IList<long> Attachments { get; set; }
 
 		[JsonProperty("disabled_payment_methods")]
-		public  IList<string> DisabledPaymentMethods { get; set; }
+		public IList<string> DisabledPaymentMethods { get; set; }
 
 	}
 
