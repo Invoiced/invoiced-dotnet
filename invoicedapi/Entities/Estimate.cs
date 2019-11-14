@@ -63,6 +63,9 @@ namespace Invoiced
 		[JsonProperty("closed")]
 		public bool Closed { get; set; }
 
+		[JsonProperty("approved")]
+		public bool Approved { get; set; }
+
 		[JsonProperty("status")]
 		public string Status { get; set; }
 
@@ -72,6 +75,9 @@ namespace Invoiced
 		[JsonProperty("date")]
 		public int Date { get; set; }
 
+		[JsonProperty("expiration_date")]
+		public long ExpirationDate { get; set; }
+
 		[JsonProperty("payment_terms")]
 		public string PaymentTerms { get; set; }
 
@@ -79,7 +85,7 @@ namespace Invoiced
 		public IList<LineItem> Items { get; set; }
 
 		[JsonProperty("notes")]
-		public object Notes { get; set; }
+		public string Notes { get; set; }
 
 		[JsonProperty("subtotal")]
 		public int Subtotal { get; set; }
@@ -109,7 +115,7 @@ namespace Invoiced
 		public int CreatedAt { get; set; }
 
 		[JsonProperty("metadata")]
-		public  Metadata Metadata { get; set; }
+		public Metadata Metadata { get; set; }
 
 	}
 
