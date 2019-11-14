@@ -20,8 +20,8 @@ public class Customer : Entity<Customer>
 	}
 
 	override public string EntityIDString() {
-			throw new EntityException(this.EntityName() + " ID type is long, not string");
-		}
+		throw new EntityException(this.EntityName() + " ID type is long, not string");
+	}
 
 	override public string EntityName() {
 		return "customers";
@@ -74,6 +74,9 @@ public class Customer : Entity<Customer>
 	[JsonProperty("payment_source")]
 	public PaymentSource PaymentSource { get; set; }
 
+	[JsonProperty("taxable")]
+	public bool Taxable { get; set; }
+
 	[JsonProperty("taxes")]
 	public IList<object> Taxes { get; set; }
 
@@ -101,11 +104,41 @@ public class Customer : Entity<Customer>
 	[JsonProperty("country")]
 	public string Country { get; set; }
 
+	[JsonProperty("language")]
+	public string Language { get; set; }
+
+	[JsonProperty("chase")]
+	public bool Chase { get; set; }
+
+	[JsonProperty("chasing_cadence")]
+	public long ChasingCadence { get; set; }
+
+	[JsonProperty("next_chase_step")]
+	public long NextChaseStep { get; set; }
+
 	[JsonProperty("tax_id")]
 	public string TaxId { get; set; }
 
+	[JsonProperty("avalara_entity_use_code")]
+	public string AvalaraEntityUseCode { get; set; }
+
+	[JsonProperty("avalara_exemption_number")]
+	public string AvalaraExemptionNumber { get; set; }
+
 	[JsonProperty("phone")]
 	public string Phone { get; set; }
+
+	[JsonProperty("credit_hold")]
+	public bool CreditHold { get; set; }
+
+	[JsonProperty("credit_limit")]
+	public long CreditLimit { get; set; }
+
+	[JsonProperty("owner")]
+	public long Owner { get; set; }
+
+	[JsonProperty("parent_customer")]
+	public long ParentCustomer { get; set; }
 
 	[JsonProperty("notes")]
 	public string Notes { get; set; }
