@@ -104,6 +104,12 @@ namespace Invoiced
 		[JsonProperty("metadata")]
 		public  Metadata Metadata { get; set; }
 
+		[JsonProperty("attachments")]
+		public IList<long> Attachments { get; set; }
+
+		[JsonProperty("calculate_taxes")]
+		public bool CalculateTaxes { get; set; }
+
 	}
 
 
