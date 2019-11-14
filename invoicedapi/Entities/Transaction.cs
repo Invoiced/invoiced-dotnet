@@ -24,6 +24,10 @@ namespace Invoiced
 			return this.Id;
 		}
 
+		override public string EntityIDString() {
+			throw new EntityException(this.EntityName() + " ID type is long, not string");
+		}
+
 		override public string EntityName() {
 			return "transactions";
 		}

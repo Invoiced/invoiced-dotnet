@@ -186,7 +186,7 @@ namespace Invoiced
 		}
 
 		public abstract long EntityID();
-		public abstract long EntityIDString();
+		public abstract string EntityIDString();
 		public abstract string EntityName();
 		public abstract bool HasCRUD();
 		public abstract bool HasList();

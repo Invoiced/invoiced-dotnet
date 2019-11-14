@@ -19,6 +19,10 @@ public class Customer : Entity<Customer>
 		return this.Id;
 	}
 
+	override public string EntityIDString() {
+			throw new EntityException(this.EntityName() + " ID type is long, not string");
+		}
+
 	override public string EntityName() {
 		return "customers";
 	}
@@ -60,6 +64,9 @@ public class Customer : Entity<Customer>
 
 	[JsonProperty("autopay")]
 	public bool Autopay { get; set; }
+
+	[JsonProperty("autopay_delay_days")]
+	public long AutopayDelayDays { get; set; }
 
 	[JsonProperty("payment_terms")]
 	public string PaymentTerms { get; set; }
