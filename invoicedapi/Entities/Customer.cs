@@ -39,14 +39,6 @@ public class Customer : Entity<Customer>
 		return false;
 	}
 
-	public bool ShouldSerializeId() {
-        return false;
-    }
-
-	public bool ShouldSerializeCreateAt() {
-        return false;
-    }
-
 	[JsonProperty("id")]
 	public long Id { get; set; }
 

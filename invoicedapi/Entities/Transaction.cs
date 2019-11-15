@@ -16,10 +16,6 @@ namespace Invoiced
 
 		}
 
-		public bool ShouldSerializeId() {
-			return false;
-		}
-
 		override public long EntityID() {
 			return this.Id;
 		}

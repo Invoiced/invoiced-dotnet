@@ -32,7 +32,7 @@ namespace Invoiced
 		}
 
 		override public bool HasList() {
-			return false;
+			return true;
 		}
 
 		override public bool HasStringID() {
