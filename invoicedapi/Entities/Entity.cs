@@ -61,7 +61,7 @@ namespace Invoiced
 				return;
 			}
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityID().ToString();
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIDString();
 			string entityJsonBody = this.ToJsonString();
 			string responseText = this.connection.Patch(url,entityJsonBody);
 			

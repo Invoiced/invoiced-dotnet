@@ -193,14 +193,8 @@ namespace InvoicedTest
 
 
             var JsonRequest = @"{
-                'payment_terms': 'NET 14',
-                'attention_to': 'Sarah Fisher',
-                'address1': '342 Amber St',
-                'city' : 'Hill Valley',
-                'state' : 'CA',
-                'postal_code' : '94523',
-                'tax_id' : '893-934835',
-                'phone' : '(820) 297-2983'
+                'id': 15444,
+                'attention_to': 'Sarah Fisher'
                 }";
 
             var mockHttp = new MockHttpMessageHandler();
@@ -211,14 +205,7 @@ namespace InvoicedTest
 
             var customer = createDefaultCustomer(client);
 
-            customer.PaymentTerms = "NET 14";
             customer.AttentionTo = "Sarah Fisher";
-            customer.Address1 = "342 Amber St";
-            customer.City = "Hill Valley";
-            customer.State = "CA";
-            customer.PostalCode = "94523";
-            customer.TaxId = "893-934835";
-            customer.Phone = "(820) 297-2983";
  
             customer.SaveAll();
           
