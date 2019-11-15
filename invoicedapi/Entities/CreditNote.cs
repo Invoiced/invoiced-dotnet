@@ -20,7 +20,7 @@ namespace Invoiced
 		}
 
 		override public string EntityName() {
-			return "customers";
+			return "credit_notes";
 		}
 
 		override public bool HasCRUD() {
