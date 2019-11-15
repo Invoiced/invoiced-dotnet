@@ -20,7 +20,7 @@ public class Customer : Entity<Customer>
 	}
 
 	override public string EntityIDString() {
-		throw new EntityException(this.EntityName() + " ID type is long, not string");
+		return this.Id.ToString();
 	}
 
 	override public string EntityName() {
