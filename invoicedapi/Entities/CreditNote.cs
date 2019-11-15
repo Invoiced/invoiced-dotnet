@@ -75,22 +75,22 @@ namespace Invoiced
 		public IList<LineItem> Items { get; set; }
 
 		[JsonProperty("notes")]
-		public object Notes { get; set; }
+		public string Notes { get; set; }
 
 		[JsonProperty("subtotal")]
 		public long Subtotal { get; set; }
 
 		[JsonProperty("discounts")]
-		public IList<object> Discounts { get; set; }
+		public IList<Discount> Discounts { get; set; }
 
 		[JsonProperty("taxes")]
 		public IList<Tax> Taxes { get; set; }
 
 		[JsonProperty("total")]
-		public double Total { get; set; }
+		public long Total { get; set; }
 
 		[JsonProperty("balance")]
-		public double Balance { get; set; }
+		public long Balance { get; set; }
 
 		[JsonProperty("url")]
 		public string Url { get; set; }
@@ -102,7 +102,7 @@ namespace Invoiced
 		public long CreatedAt { get; set; }
 
 		[JsonProperty("metadata")]
-		public  Metadata Metadata { get; set; }
+		public Metadata Metadata { get; set; }
 
 		[JsonProperty("attachments")]
 		public IList<long> Attachments { get; set; }

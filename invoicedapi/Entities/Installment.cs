@@ -20,10 +20,10 @@ namespace Invoiced
 		public long Date { get; set; }
 
 		[JsonProperty("amount")]
-		public double Amount { get; set; }
+		public long Amount { get; set; }
 
 		[JsonProperty("balance")]
-		public double Balance { get; set; }
+		public long Balance { get; set; }
 
 		override public long EntityID() {
 			return this.Id;

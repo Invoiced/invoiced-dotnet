@@ -70,7 +70,7 @@ public class Customer : Entity<Customer>
 	public bool Taxable { get; set; }
 
 	[JsonProperty("taxes")]
-	public IList<object> Taxes { get; set; }
+	public IList<Tax> Taxes { get; set; }
 
 	[JsonProperty("type")]
 	public string Type { get; set; }

@@ -44,7 +44,7 @@ namespace Invoiced
 		public long Id { get; set; }
 
 		[JsonProperty("object")]
-		public string object2 { get; set; }
+		public string Obj { get; set; }
 
 		[JsonProperty("customer")]
 		public long Customer { get; set; }
@@ -53,7 +53,7 @@ namespace Invoiced
 		public long Invoice { get; set; }
 
 		[JsonProperty("credit_note")]
-		public object CreditNote { get; set; }
+		public long CreditNote { get; set; }
 
 		[JsonProperty("date")]
 		public long Date { get; set; }

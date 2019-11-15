@@ -80,7 +80,7 @@ namespace Invoiced
 				return;
 			}
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityID().ToString();
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIDString();
 			string responseText = this.connection.Patch(url,partialDataObject);
 			
 			try {
@@ -107,13 +107,29 @@ namespace Invoiced
 			
 		}
 
+		public T Retrieve(string id) {
+
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + id;
+			string responseText = this.connection.Get(url,null);
+			T serializedObject;
+			try {
+					serializedObject = JsonConvert.DeserializeObject<T>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+					serializedObject.connection = this.connection;
+			} catch(Exception e) {
+				throw new EntityException("",e);
+			}
+
+			return serializedObject;
+			
+		}
+
 		public void Delete() {
 
 			if (!HasCRUD()) {
 				return;
 			}
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityID().ToString();
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIDString();
 			
 			this.connection.Delete(url);
 

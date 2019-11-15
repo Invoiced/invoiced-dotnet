@@ -49,7 +49,7 @@ namespace Invoiced
 		public long Customer { get; set; }
 
 		[JsonProperty("name")]
-		public object Name { get; set; }
+		public string Name { get; set; }
 
 		[JsonProperty("currency")]
 		public string Currency { get; set; }
@@ -70,7 +70,7 @@ namespace Invoiced
 		public bool Chase { get; set; }
 
 		[JsonProperty("next_chase_on")]
-		public object NextChaseOn { get; set; }
+		public long NextChaseOn { get; set; }
 
 		[JsonProperty("autopay")]
 		public bool Autopay { get; set; }
@@ -79,10 +79,10 @@ namespace Invoiced
 		public long AttemptCount { get; set; }
 
 		[JsonProperty("next_payment_attempt")]
-		public object NextPaymentAttempt { get; set; }
+		public long NextPaymentAttempt { get; set; }
 
 		[JsonProperty("subscription")]
-		public object Subscription { get; set; }
+		public long Subscription { get; set; }
 
 		[JsonProperty("number")]
 		public string Number { get; set; }
@@ -91,7 +91,7 @@ namespace Invoiced
 		public long Date { get; set; }
 
 		[JsonProperty("due_date")]
-		public long? DueDate { get; set; }
+		public long DueDate { get; set; }
 
 		[JsonProperty("payment_terms")]
 		public string PaymentTerms { get; set; }
@@ -100,22 +100,22 @@ namespace Invoiced
 		public IList<LineItem> Items { get; set; }
 
 		[JsonProperty("notes")]
-		public object Notes { get; set; }
+		public string Notes { get; set; }
 
 		[JsonProperty("subtotal")]
-		public double Subtotal { get; set; }
+		public long Subtotal { get; set; }
 
 		[JsonProperty("discounts")]
-		public IList<object> Discounts { get; set; }
+		public IList<Discount> Discounts { get; set; }
 
 		[JsonProperty("taxes")]
 		public IList<Tax> Taxes { get; set; }
 
 		[JsonProperty("total")]
-		public double Total { get; set; }
+		public long Total { get; set; }
 
 		[JsonProperty("balance")]
-		public double Balance { get; set; }
+		public long Balance { get; set; }
 
 		[JsonProperty("payment_plan")]
 		public long PaymentPlan { get; set; }
@@ -134,9 +134,6 @@ namespace Invoiced
 
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }
-
-		[JsonProperty("ship_to")]
-		public object ShipTo { get; set; }
 
 		[JsonProperty("attachments")]
 		public IList<long> Attachments { get; set; }

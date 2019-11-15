@@ -91,13 +91,13 @@ namespace Invoiced
 		public long Subtotal { get; set; }
 
 		[JsonProperty("discounts")]
-		public IList<object> Discounts { get; set; }
+		public IList<Discount> Discounts { get; set; }
 
 		[JsonProperty("taxes")]
 		public IList<Tax> Taxes { get; set; }
 
 		[JsonProperty("total")]
-		public double Total { get; set; }
+		public long Total { get; set; }
 
 		[JsonProperty("deposit")]
 		public long Deposit { get; set; }

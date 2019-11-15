@@ -29,16 +29,16 @@ namespace Invoiced
         public string Name { get; set; }
 
         [JsonProperty("description")]
-        public object Description { get; set; }
+        public string Description { get; set; }
 
         [JsonProperty("quantity")]
         public long Quantity { get; set; }
 
         [JsonProperty("unit_cost")]
-        public double UnitCost { get; set; }
+        public long UnitCost { get; set; }
 
         [JsonProperty("amount")]
-        public double Amount { get; set; }
+        public long Amount { get; set; }
 
         [JsonProperty("discountable")]
         public bool Discountable { get; set; }
