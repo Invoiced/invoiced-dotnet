@@ -43,7 +43,7 @@ public class Customer : Entity<Customer>
 	public long Id { get; set; }
 
 	[JsonProperty("object")]
-	public Object Object2 { get; set; }
+	public string Obj { get; set; }
 
 	[JsonProperty("name")]
 	public string Name { get; set; }

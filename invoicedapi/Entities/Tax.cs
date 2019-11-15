@@ -22,7 +22,7 @@ namespace Invoiced
 		public double Amount { get; set; }
 
 		[JsonProperty("tax_rate")]
-		public Rate TaxRate { get; set; }
+		public TaxRate TaxRate { get; set; }
 
 		override public long EntityID() {
 			return this.Id;

@@ -76,7 +76,7 @@ namespace Invoiced
 		public bool Autopay { get; set; }
 
 		[JsonProperty("attempt_count")]
-		public int AttemptCount { get; set; }
+		public long AttemptCount { get; set; }
 
 		[JsonProperty("next_payment_attempt")]
 		public object NextPaymentAttempt { get; set; }
@@ -136,7 +136,7 @@ namespace Invoiced
 		public Metadata Metadata { get; set; }
 
 		[JsonProperty("ship_to")]
-		public Metadata ShipTo { get; set; }
+		public object ShipTo { get; set; }
 
 		[JsonProperty("attachments")]
 		public IList<long> Attachments { get; set; }

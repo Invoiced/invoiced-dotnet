@@ -44,10 +44,10 @@ namespace Invoiced
 		public long Id { get; set; }
 
 		[JsonProperty("object")]
-		public string Object2 { get; set; }
+		public string Obj { get; set; }
 
 		[JsonProperty("customer")]
-		public int Customer { get; set; }
+		public long Customer { get; set; }
 
 		[JsonProperty("plan")]
 		public string Plan { get; set; }
@@ -56,19 +56,19 @@ namespace Invoiced
 		public object Cycles { get; set; }
 
 		[JsonProperty("quantity")]
-		public int Quantity { get; set; }
+		public long Quantity { get; set; }
 
 		[JsonProperty("start_date")]
-		public int StartDate { get; set; }
+		public long StartDate { get; set; }
 
 		[JsonProperty("bill_in")]
 		public string BillIn { get; set; }
 
 		[JsonProperty("period_start")]
-		public int PeriodStart { get; set; }
+		public long PeriodStart { get; set; }
 
 		[JsonProperty("period_end")]
-		public int PeriodEnd { get; set; }
+		public long PeriodEnd { get; set; }
 
 		[JsonProperty("cancel_at_period_end")]
 		public bool CancelAtPeriodEnd { get; set; }
@@ -89,7 +89,7 @@ namespace Invoiced
 		public long ContractPeriodEnd { get; set; }
 
 		[JsonProperty("contract_renewal_cycles")]
-		public int ContractRenewalCycles { get; set; }
+		public long ContractRenewalCycles { get; set; }
 
 		[JsonProperty("contract_renewal_mode")]
 		public string ContractRenewalMode { get; set; }
@@ -127,13 +127,13 @@ namespace Invoiced
 		public long Id { get; set; }
 
 		[JsonProperty("object")]
-		public string Object2 { get; set; }
+		public string Obj { get; set; }
 
 		[JsonProperty("plan")]
 		public string Plan { get; set; }
 
 		[JsonProperty("quantity")]
-		public int Quantity { get; set; }
+		public long Quantity { get; set; }
 
 		[JsonProperty("description")]
 		public string Description { get; set; }

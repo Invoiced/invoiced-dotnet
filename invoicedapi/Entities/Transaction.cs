@@ -80,7 +80,7 @@ namespace Invoiced
 		public string Currency { get; set; }
 
 		[JsonProperty("amount")]
-		public int Amount { get; set; }
+		public long Amount { get; set; }
 
 		[JsonProperty("notes")]
 		public string Notes { get; set; }
@@ -95,7 +95,7 @@ namespace Invoiced
 		public string PdfUrl { get; set; }
 
 		[JsonProperty("created_at")]
-		public int CreatedAt { get; set; }
+		public long CreatedAt { get; set; }
 
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }

@@ -39,76 +39,43 @@ namespace Invoiced
 		public string Id { get; set; }
 
 		[JsonProperty("object")]
-		public string Object2 { get; set; }
-
-		[JsonProperty("customer")]
-		public int Customer { get; set; }
-
-		[JsonProperty("invoice")]
-		public int Invoice { get; set; }
+		public string Obj { get; set; }
 
 		[JsonProperty("name")]
-		public object Name { get; set; }
+		public string Name { get; set; }
 
 		[JsonProperty("currency")]
 		public string Currency { get; set; }
 
-		[JsonProperty("draft")]
-		public bool Draft { get; set; }
+		[JsonProperty("unit_cost")]
+		public long UnitCost { get; set; }
 
-		[JsonProperty("closed")]
-		public bool Closed { get; set; }
+		[JsonProperty("description")]
+		public string Description { get; set; }
 
-		[JsonProperty("paid")]
-		public bool Paid { get; set; }
+		[JsonProperty("type")]
+		public string Type { get; set; }
 
-		[JsonProperty("status")]
-		public string Status { get; set; }
-
-		[JsonProperty("number")]
-		public string Number { get; set; }
-
-		[JsonProperty("date")]
-		public int Date { get; set; }
-
-		[JsonProperty("items")]
-		public IList<LineItem> Items { get; set; }
-
-		[JsonProperty("notes")]
-		public object Notes { get; set; }
-
-		[JsonProperty("subtotal")]
-		public int Subtotal { get; set; }
-
-		[JsonProperty("discounts")]
-		public IList<object> Discounts { get; set; }
+		[JsonProperty("taxable")]
+		public bool Taxable { get; set; }
 
 		[JsonProperty("taxes")]
-		public IList<Tax> Taxes { get; set; }
+		public Tax[] Taxes { get; set; }
 
-		[JsonProperty("total")]
-		public double Total { get; set; }
+		[JsonProperty("avalara_tax_code")]
+		public string AvalaraTaxCode { get; set; }
 
-		[JsonProperty("balance")]
-		public double Balance { get; set; }
+		[JsonProperty("gl_account")]
+		public string GLAccount { get; set; }
 
-		[JsonProperty("url")]
-		public string Url { get; set; }
-
-		[JsonProperty("pdf_url")]
-		public string PdfUrl { get; set; }
-
+		[JsonProperty("discountable")]
+		public bool Discountable { get; set; }
+		
 		[JsonProperty("created_at")]
-		public int CreatedAt { get; set; }
+		public long CreatedAt { get; set; }
 
 		[JsonProperty("metadata")]
-		public  Metadata Metadata { get; set; }
-
-		[JsonProperty("attachments")]
-		public IList<long> Attachments { get; set; }
-
-		[JsonProperty("calculate_taxes")]
-		public bool CalculateTaxes { get; set; }
+		public Metadata Metadata { get; set; }
 
 	}
 

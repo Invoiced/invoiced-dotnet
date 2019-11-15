@@ -15,13 +15,13 @@ namespace Invoiced
 		public long Id { get; set; }
 
 		[JsonProperty("object")]
-		public string Object2 { get; set; }
+		public string Obj { get; set; }
 
 		[JsonProperty("amount")]
 		public double Amount { get; set; }
 
 		[JsonProperty("coupon")]
-		public Rate Coupon { get; set; }
+		public Coupon Coupon { get; set; }
 
 		[JsonProperty("expires")]
 		public long Expires { get; set; }

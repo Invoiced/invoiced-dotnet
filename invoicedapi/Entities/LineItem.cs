@@ -17,7 +17,7 @@ namespace Invoiced
         public long Id { get; set; }
 
         [JsonProperty("object")]
-        public string Object2 { get; set; }
+        public string Obj { get; set; }
 
         [JsonProperty("catalog_item")]
         public string CatalogItem { get; set; }
@@ -32,7 +32,7 @@ namespace Invoiced
         public object Description { get; set; }
 
         [JsonProperty("quantity")]
-        public int Quantity { get; set; }
+        public long Quantity { get; set; }
 
         [JsonProperty("unit_cost")]
         public double UnitCost { get; set; }
