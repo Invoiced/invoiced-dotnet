@@ -41,36 +41,33 @@ namespace Invoiced
 		[JsonProperty("object")]
 		public string Obj { get; set; }
 
+        [JsonProperty("catalog_item")]
+		public string CatalogItem { get; set; }
+
 		[JsonProperty("name")]
 		public string Name { get; set; }
 
 		[JsonProperty("currency")]
 		public string Currency { get; set; }
 
-		[JsonProperty("unit_cost")]
-		public long UnitCost { get; set; }
+		[JsonProperty("amount")]
+		public long Amount { get; set; }
 
-		[JsonProperty("description")]
-		public string Description { get; set; }
+        [JsonProperty("pricing_mode")]
+		public string PricingMode { get; set; }
 
-		[JsonProperty("type")]
-		public string Type { get; set; }
+        [JsonProperty("quantity_type")]
+		public string QuantityType { get; set; }
 
-		[JsonProperty("taxable")]
-		public bool Taxable { get; set; }
+        [JsonProperty("interval")]
+		public string Interval { get; set; }
 
-		[JsonProperty("taxes")]
-		public Tax[] Taxes { get; set; }
+        [JsonProperty("interval_count")]
+		public long IntervalCount { get; set; }
 
-		[JsonProperty("avalara_tax_code")]
-		public string AvalaraTaxCode { get; set; }
+        [JsonProperty("tiers")]
+		public object Tiers { get; set; }
 
-		[JsonProperty("gl_account")]
-		public string GLAccount { get; set; }
-
-		[JsonProperty("discountable")]
-		public bool Discountable { get; set; }
-		
 		[JsonProperty("created_at")]
 		public long CreatedAt { get; set; }
 
