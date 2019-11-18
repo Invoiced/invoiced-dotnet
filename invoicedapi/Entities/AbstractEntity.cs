@@ -107,7 +107,7 @@ namespace Invoiced
 			
 		}
 
-			public T Retrieve() {
+		public T Retrieve() {
 
 			string url = this.connection.baseUrl() + "/" + this.EntityName();
 			string responseText = this.connection.Get(url,null);
