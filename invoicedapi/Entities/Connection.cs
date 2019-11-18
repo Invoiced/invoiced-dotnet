@@ -50,7 +50,7 @@ namespace Invoiced
             return transaction;
         }
 
-        public Subscription  NewSubscription() {
+        public Subscription NewSubscription() {
             Subscription subscription = new Subscription(this);
             return subscription;
         }
