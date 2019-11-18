@@ -207,6 +207,7 @@ namespace Invoiced
 		public abstract bool HasCRUD();
 		public abstract bool HasList();
 		public abstract bool HasStringId();
+		public abstract bool IsSubEntity();
 
 	}
 
