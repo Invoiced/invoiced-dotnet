@@ -240,14 +240,68 @@ namespace Invoiced
 				return null;
 			}
 
-			IList<Attachment> entities = null;
+			IList<Attachment> objects = null;
 
 			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/attachments";
 
 			string responseText = this.connection.Get(url,null);
-			entities = JsonConvert.DeserializeObject<IList<Attachment>>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+			objects = JsonConvert.DeserializeObject<IList<Attachment>>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
 
-			return entities;
+			return objects;
+		}
+
+		public IList<Email> SendEmail(EmailRequest emailRequest) {
+
+			if (!this.HasSends()) {
+				return null;
+			}
+
+			IList<Email> objects = null;
+
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/emails";
+
+			string jsonRequestBody = emailRequest.ToJsonString();
+
+			string responseText = this.connection.Post(url,null,jsonRequestBody);
+			objects = JsonConvert.DeserializeObject<IList<Email>>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+
+			return objects;
+		}
+
+		public IList<Letter> SendLetter(LetterRequest letterRequest = null) {
+
+			if (!this.HasSends()) {
+				return null;
+			}
+
+			IList<Letter> objects = null;
+
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/letters";
+
+			string jsonRequestBody = letterRequest.ToJsonString();
+
+			string responseText = this.connection.Post(url,null,jsonRequestBody);
+			objects = JsonConvert.DeserializeObject<IList<Letter>>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+
+			return objects;
+		}
+
+		public IList<TextMessage> SendText(TextRequest textRequest) {
+
+			if (!this.HasSends()) {
+				return null;
+			}
+
+			IList<TextMessage> objects = null;
+
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/text_messages";
+
+			string jsonRequestBody = textRequest.ToJsonString();
+
+			string responseText = this.connection.Post(url,null,jsonRequestBody);
+			objects = JsonConvert.DeserializeObject<IList<TextMessage>>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+
+			return objects;
 		}
 
 		public abstract long EntityId();
@@ -275,6 +329,10 @@ namespace Invoiced
 		}
 
 		public virtual bool HasAttachments() {
+			return false;
+		}
+
+		public virtual bool HasSends() {
 			return false;
 		}
 

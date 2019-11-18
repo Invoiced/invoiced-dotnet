@@ -35,6 +35,10 @@ namespace Invoiced
 			return true;
 		}
 
+		public override bool HasSends() {
+			return true;
+		}
+
 		[JsonProperty("id")]
 		public long Id { get; set; }
 

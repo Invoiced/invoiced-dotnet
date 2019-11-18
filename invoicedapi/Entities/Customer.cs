@@ -26,6 +26,10 @@ namespace Invoiced
 			return "customers";
 		}
 
+		public override bool HasSends() {
+			return true;
+		}
+
 		[JsonProperty("id")]
 		public long Id { get; set; }
 
@@ -157,6 +161,18 @@ namespace Invoiced
 
 		public Task newTask() {
 			return new Task(this.connection, this.Id);
+		}
+
+		public IList<Email> SendStatementEmail(EmailRequest emailRequest) {
+			return this.SendEmail(emailRequest);
+		}
+
+		public IList<Letter> SendStatementLetter(LetterRequest letterRequest = null) {
+			return this.SendLetter(letterRequest);
+		}
+
+		public IList<TextMessage> SendStatementText(TextRequest textRequest) {
+			return this.SendText(textRequest);
 		}
 
 	}
