@@ -54,11 +54,24 @@ namespace Invoiced
         [JsonProperty("user_id")]
 		public long UserId { get; set; }
 
+        [JsonProperty("due_date")]
+		public long DueDate { get; set; }
+
+        [JsonProperty("complete")]
+		public bool Complete { get; set; }
+
+        [JsonProperty("completed_date")]
+		public long CompletedDate { get; set; }
+
+        [JsonProperty("completed_by_user_id")]
+		public long CompletedByUserId { get; set; }
+
+        [JsonProperty("chase_step_id")]
+		public long ChaseStepId { get; set; }
+
 		[JsonProperty("created_at")]
 		public long CreatedAt { get; set; }
 
-        [JsonProperty("metadata")]
-		public Metadata Metadata { get; set; }
 	}
 
 }
