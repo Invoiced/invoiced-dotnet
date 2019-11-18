@@ -23,20 +23,8 @@ namespace Invoiced
 			return "tax_rates";
 		}
 
-		public override bool HasCRUD() {
-			return true;
-		}
-		
-		public override bool HasList() {
-			return true;
-		}
-
 		public override bool HasStringId() {
 			return true;
-		}
-
-		public override bool IsSubEntity() {
-			return false;
 		}
 
 		[JsonProperty("id")]

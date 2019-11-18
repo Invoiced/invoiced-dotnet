@@ -30,18 +30,6 @@ namespace Invoiced
 			return "customers/" + CustomerId.ToString() + "/contacts";
 		}
 
-		public override bool HasCRUD() {
-			return true;
-		}
-
-		public override bool HasList() {
-			return true;
-		}
-
-		public override bool HasStringId() {
-			return false;
-		}
-
 		public override bool IsSubEntity() {
 			return true;
 		}

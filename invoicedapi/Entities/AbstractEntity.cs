@@ -217,13 +217,46 @@ namespace Invoiced
 			return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore } );
 		}
 
+		public void Void() {
+
+			if (!this.HasVoid()) {
+				return;
+			}
+
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/void";
+
+			string responseText = this.connection.Post(url,null,null);
+			
+			try {
+				JsonConvert.PopulateObject(responseText,this);
+			} catch(Exception e) {
+				throw new EntityException("",e);
+			}
+		}
+
 		public abstract long EntityId();
 		public abstract string EntityIdString();
 		public abstract string EntityName();
-		public abstract bool HasCRUD();
-		public abstract bool HasList();
-		public abstract bool HasStringId();
-		public abstract bool IsSubEntity();
+
+		public virtual bool HasCRUD() {
+			return true;
+		}
+
+		public virtual bool HasList() {
+			return true;
+		}
+
+		public virtual bool HasVoid() {
+			return false;
+		}
+		
+		public virtual bool HasStringId() {
+			return false;
+		}
+
+		public virtual bool IsSubEntity() {
+			return false;
+		}
 
 	}
 

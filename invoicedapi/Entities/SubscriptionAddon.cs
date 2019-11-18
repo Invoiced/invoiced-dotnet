@@ -4,8 +4,11 @@ using Newtonsoft.Json;
 
 namespace Invoiced
 {
-    public class SubscriptionAddon
-    {
+    public class SubscriptionAddon : AbstractItem
+	{
+		public SubscriptionAddon() : base(){
+
+		}
 
         [JsonProperty("id")]
         public long Id { get; set; }
@@ -24,6 +27,10 @@ namespace Invoiced
 
         [JsonProperty("created_at")]
         public long CreatedAt { get; set; }
+
+        public override string EntityId() {
+			return this.Id.ToString();
+		}
 
     }
 }

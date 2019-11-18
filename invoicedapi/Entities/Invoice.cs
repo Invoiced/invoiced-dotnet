@@ -27,20 +27,8 @@ namespace Invoiced
 			return "invoices";
 		}
 
-		public override bool HasCRUD() {
+		public override bool HasVoid() {
 			return true;
-		}
-
-		public override bool HasList() {
-			return true;
-		}
-
-		public override bool HasStringId() {
-			return false;
-		}
-
-		public override bool IsSubEntity() {
-			return false;
 		}
 
 		[JsonProperty("id")]
@@ -154,10 +142,6 @@ namespace Invoiced
 
 		public Note NewNote() {
 			return new Note(this.connection, -1, this.Id);
-		}
-
-		public void voidInvoice() {
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/void";
 		}
 
 	}

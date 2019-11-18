@@ -30,22 +30,6 @@ namespace Invoiced
 			return "notes";
 		}
 
-		public override bool HasCRUD() {
-			return true;
-		}
-
-		public override bool HasList() {
-			return true;
-		}
-
-		public override bool HasStringId() {
-			return false;
-		}
-
-		public override bool IsSubEntity() {
-			return false;
-		}
-
 		[JsonProperty("id")]
 		public long Id { get; set; }
 

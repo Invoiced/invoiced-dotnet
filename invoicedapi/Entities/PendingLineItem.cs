@@ -30,18 +30,6 @@ namespace Invoiced
 			return "customers/" + this.CustomerId.ToString() + "/line_items";
 		}
 
-		public override bool HasCRUD() {
-			return true;
-		}
-
-		public override bool HasList() {
-			return true;
-		}
-
-		public override bool HasStringId() {
-			return false;
-		}
-
 		public override bool IsSubEntity() {
 			return true;
 		}

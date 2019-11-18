@@ -31,20 +31,8 @@ namespace Invoiced
 			return "invoices/" + this.InvoiceId.ToString() + "/payment_plan";
 		}
 
-		public override bool HasCRUD() {
-			return true;
-		}
-
 		public override bool HasList() {
 			return false;
-		}
-
-		public override bool HasStringId() {
-			return false;
-		}
-
-		public override bool IsSubEntity() {
-			return true;
 		}
 
 		[JsonProperty("id")]

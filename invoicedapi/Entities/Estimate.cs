@@ -27,20 +27,8 @@ namespace Invoiced
 			return "estimates";
 		}
 
-		public override bool HasCRUD() {
+		public override bool HasVoid() {
 			return true;
-		}
-
-		public override bool HasList() {
-			return true;
-		}
-
-		public override bool HasStringId() {
-			return false;
-		}
-
-		public override bool IsSubEntity() {
-			return false;
 		}
 
 		[JsonProperty("id")]
