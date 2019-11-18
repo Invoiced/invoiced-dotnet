@@ -8,9 +8,9 @@ namespace Invoiced
 	public class RefundRequest : Item
 	{
 		
-		public RefundRequest(long amount) : base() {
+        public RefundRequest(long amount) : base() {
             this.Amount = amount;
-		}
+        }
 
 		[JsonProperty("amount")]
 		public long Amount { get; set; }
