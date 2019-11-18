@@ -31,7 +31,7 @@ namespace Invoiced
 		public long CreatedAt { get; set; }
 
 
-		override public string EntityID() {
+		override public string EntityId() {
 			return this.Id.ToString();
 		}
 		

@@ -5,10 +5,14 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class File : Entity<File> {
+	public class Task : Entity<Task>
+	{
 
+		public Task(Connection conn) : base(conn) {
+		}
 
-		internal File(Connection conn) : base(conn) {
+		public Task() : base(){
+
 		}
 
 		override public long EntityId() {
@@ -20,15 +24,15 @@ namespace Invoiced
 		}
 
 		override public string EntityName() {
-			return "files";
+			return "tasks";
 		}
 
 		override public bool HasCRUD() {
 			return true;
 		}
-		
+
 		override public bool HasList() {
-			return false;
+			return true;
 		}
 
 		override public bool HasStringId() {
@@ -38,24 +42,23 @@ namespace Invoiced
 		[JsonProperty("id")]
 		public long Id { get; set; }
 
-		[JsonProperty("object")]
-		public string Obj { get; set; }
-
 		[JsonProperty("name")]
 		public string Name { get; set; }
 
-		[JsonProperty("size")]
-		public long Size { get; set; }
+		[JsonProperty("action")]
+		public string Action { get; set; }
 
-		[JsonProperty("type")]
-		public string Type { get; set; }
+		[JsonProperty("customer_id")]
+		public long CustomerId { get; set; }
 
-        [JsonProperty("url")]
-		public string Url { get; set; }
+        [JsonProperty("user_id")]
+		public long UserId { get; set; }
 
 		[JsonProperty("created_at")]
 		public long CreatedAt { get; set; }
 
+        [JsonProperty("metadata")]
+		public Metadata Metadata { get; set; }
 	}
 
 }

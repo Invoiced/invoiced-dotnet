@@ -25,7 +25,7 @@ namespace Invoiced
 		[JsonProperty("user_agent")]
 		public string UserAgent { get; set; }
 
-		override public string EntityID() {
+		override public string EntityId() {
 			return this.Id.ToString();
 		}
 		

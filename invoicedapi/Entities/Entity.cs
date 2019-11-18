@@ -12,7 +12,7 @@ namespace Invoiced
 		private bool entityCreated;
 		
 		public override string ToString() {
-			var s = base.ToString() + "<" + this.EntityID().ToString() +">";
+			var s = base.ToString() + "<" + this.EntityId().ToString() +">";
 			var jsonS =  s + " " + this.ToJsonString();
 
 			return jsonS;
@@ -61,7 +61,7 @@ namespace Invoiced
 				return;
 			}
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIDString();
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
 			string entityJsonBody = this.ToJsonString();
 			string responseText = this.connection.Patch(url,entityJsonBody);
 			
@@ -80,7 +80,7 @@ namespace Invoiced
 				return;
 			}
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIDString();
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
 			string responseText = this.connection.Patch(url,partialDataObject);
 			
 			try {
@@ -129,7 +129,7 @@ namespace Invoiced
 				return;
 			}
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIDString();
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
 			
 			this.connection.Delete(url);
 
@@ -201,12 +201,12 @@ namespace Invoiced
 			return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore } );
 		}
 
-		public abstract long EntityID();
-		public abstract string EntityIDString();
+		public abstract long EntityId();
+		public abstract string EntityIdString();
 		public abstract string EntityName();
 		public abstract bool HasCRUD();
 		public abstract bool HasList();
-		public abstract bool HasStringID();
+		public abstract bool HasStringId();
 
 	}
 

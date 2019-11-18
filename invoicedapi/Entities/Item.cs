@@ -13,7 +13,7 @@ namespace Invoiced
 		}
 
 		public override string ToString(){
-				var s = base.ToString() + "<" + this.EntityID() +">";
+				var s = base.ToString() + "<" + this.EntityId() +">";
 				var jsonS =  s + " " + this.ToJsonString();
 
 				return jsonS;
@@ -22,7 +22,7 @@ namespace Invoiced
 		public string ToJsonString() {
 				return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore } );
 		}
-		public abstract string EntityID();
+		public abstract string EntityId();
 
 	}
 

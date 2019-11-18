@@ -25,7 +25,7 @@ namespace Invoiced
 		[JsonProperty("balance")]
 		public long Balance { get; set; }
 
-		override public string EntityID() {
+		override public string EntityId() {
 			return this.Id.ToString();
 		}
 		

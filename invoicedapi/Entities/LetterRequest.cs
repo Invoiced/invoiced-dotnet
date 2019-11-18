@@ -24,7 +24,7 @@ namespace Invoiced
         [JsonProperty("items")]
 		public string Items { get; set; }
 
-		override public string EntityID() {
+		override public string EntityId() {
 			return "LetterRequest";
             // this is only used for json heading in ToString()
 		}

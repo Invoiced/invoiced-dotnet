@@ -14,11 +14,11 @@ namespace Invoiced
 
 		}
 
-		override public long EntityID() {
+		override public long EntityId() {
 			return this.Id;
 		}
 
-		override public string EntityIDString() {
+		override public string EntityIdString() {
 			return this.Id.ToString();
 		}
 
@@ -34,7 +34,7 @@ namespace Invoiced
 			return true;
 		}
 
-		override public bool HasStringID() {
+		override public bool HasStringId() {
 			return false;
 		}
 
