@@ -87,6 +87,24 @@ namespace Invoiced
 
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }
+
+		public Transaction InitiateCharge(ChargeRequest chargeRequest) {
+
+			string url = this.connection.baseUrl() + "/charges";
+			string jsonRequestBody = chargeRequest.ToJsonString();
+
+			string responseText = this.connection.Post(url,null,jsonRequestBody);
+			Transaction serializedObject;
+			
+			try {
+					serializedObject = JsonConvert.DeserializeObject<Transaction>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+			} catch(Exception e) {
+				throw new EntityException("",e);
+			}
+
+			return serializedObject;
+
+		}
 	
 	}
 

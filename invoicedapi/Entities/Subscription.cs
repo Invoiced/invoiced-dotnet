@@ -106,10 +106,32 @@ namespace Invoiced
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }
 
+		[JsonProperty("pending_line_items")]
+		public IList<string> PendingLineItems { get; set; }
+
 		public void Cancel() {
 			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
 			
 			this.connection.Delete(url);
+		}
+
+		public SubscriptionPreview Preview() {
+
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/preview";
+
+			string jsonRequestBody = this.ToJsonString();
+
+			string responseText = this.connection.Post(url,null,jsonRequestBody);
+			SubscriptionPreview serializedObject;
+			
+			try {
+					serializedObject = JsonConvert.DeserializeObject<SubscriptionPreview>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+			} catch(Exception e) {
+				throw new EntityException("",e);
+			}
+
+			return serializedObject;
+
 		}
 	
 	}

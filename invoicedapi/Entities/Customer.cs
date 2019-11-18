@@ -201,6 +201,7 @@ namespace Invoiced
 			
 			try {
 					serializedObject = JsonConvert.DeserializeObject<Invoice>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+					serializedObject.ChangeConnection(this.GetConnection());
 			} catch(Exception e) {
 				throw new EntityException("",e);
 			}

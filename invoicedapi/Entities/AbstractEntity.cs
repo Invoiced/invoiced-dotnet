@@ -26,6 +26,10 @@ namespace Invoiced
 		public AbstractEntity() {
 
 		}
+		
+		public Connection GetConnection() {
+			return this.connection;
+		}
 
 		public void ChangeConnection(Connection conn) {
 			this.connection = conn;
