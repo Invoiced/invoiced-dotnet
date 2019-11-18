@@ -234,6 +234,22 @@ namespace Invoiced
 			}
 		}
 
+		public IList<Attachment> ListAttachments() {
+
+			if (!this.HasAttachments()) {
+				return null;
+			}
+
+			IList<Attachment> entities = null;
+
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/attachments";
+
+			string responseText = this.connection.Get(url,null);
+			entities = JsonConvert.DeserializeObject<IList<Attachment>>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+
+			return entities;
+		}
+
 		public abstract long EntityId();
 		public abstract string EntityIdString();
 		public abstract string EntityName();
@@ -255,6 +271,10 @@ namespace Invoiced
 		}
 
 		public virtual bool IsSubEntity() {
+			return false;
+		}
+
+		public virtual bool HasAttachments() {
 			return false;
 		}
 
