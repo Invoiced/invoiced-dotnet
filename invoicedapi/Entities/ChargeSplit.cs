@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class ChargeSplit : Item
+	public class ChargeSplit : AbstractItem
 	{
 		
 		public ChargeSplit() : base() {

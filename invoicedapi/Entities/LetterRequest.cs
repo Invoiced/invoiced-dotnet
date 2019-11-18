@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class LetterRequest : Item
+	public class LetterRequest : AbstractItem
 	{
 		
 		public LetterRequest() : base() {

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class CreditNote : Entity<CreditNote> {
+	public class CreditNote : AbstractEntity<CreditNote> {
 
 
 		internal CreditNote(Connection conn) : base(conn) {

@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class Subscription :Entity<Subscription>
+	public class Subscription :AbstractEntity<Subscription>
 	{
 
 		internal Subscription(Connection conn) : base(conn) {

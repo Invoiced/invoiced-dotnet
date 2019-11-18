@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class Attachment : Item
+	public class Attachment : AbstractItem
 	{
 		
 		public Attachment() : base() {

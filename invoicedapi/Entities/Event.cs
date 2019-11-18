@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class Event : Entity<Event> {
+	public class Event : AbstractEntity<Event> {
 
 
 		internal Event(Connection conn) : base(conn) {

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class RefundRequest : Item
+	public class RefundRequest : AbstractItem
 	{
 		
         public RefundRequest(long amount) : base() {

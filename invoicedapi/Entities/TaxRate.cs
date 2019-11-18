@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class TaxRate : Entity<TaxRate> {
+	public class TaxRate : AbstractEntity<TaxRate> {
 
 
 		internal TaxRate(Connection conn) : base(conn) {

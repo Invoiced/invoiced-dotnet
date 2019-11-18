@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class PendingLineItem : Entity<PendingLineItem>
+	public class PendingLineItem : AbstractEntity<PendingLineItem>
 	{
 
 		public PendingLineItem(Connection conn) : base(conn) {

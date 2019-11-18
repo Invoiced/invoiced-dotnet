@@ -6,11 +6,11 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class PaymentPlan : Entity<PaymentPlan>
+	public class PaymentPlan : AbstractEntity<PaymentPlan>
 	{
 
 		internal long InvoiceId;
-		
+
 		public PaymentPlan(Connection conn, long InvoiceId) : base(conn) {
 			this.InvoiceId = InvoiceId;
 		}
@@ -64,10 +64,6 @@ namespace Invoiced
 
 		[JsonProperty("created_at")]
 		public long CreatedAt { get; set; }
-
-		public override string EntityId() {
-			return this.Id.ToString();
-		}
 
 	}
 	

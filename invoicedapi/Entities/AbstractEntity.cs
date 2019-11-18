@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Invoiced
 {
 
-    public abstract class Entity<T> where T : Entity<T> {
+    public abstract class AbstractEntity<T> where T : AbstractEntity<T> {
 
 		private Connection connection;
 		private bool entityCreated;
@@ -18,12 +18,12 @@ namespace Invoiced
 			return jsonS;
 		}
 
-		internal Entity(Connection conn) {
+		internal AbstractEntity(Connection conn) {
 			this.connection = conn;
 
 		}
 
-		public Entity() {
+		public AbstractEntity() {
 
 		}
 

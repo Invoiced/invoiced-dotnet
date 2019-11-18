@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class Estimate : Entity<Estimate>
+	public class Estimate : AbstractEntity<Estimate>
 	{
 
 		public Estimate() : base(){

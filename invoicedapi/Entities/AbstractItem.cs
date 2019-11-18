@@ -6,9 +6,9 @@ using System.Reflection;
 namespace Invoiced
 {
 	
-	public abstract class Item {
+	public abstract class AbstractItem {
 
-		public Item() {
+		public AbstractItem() {
 
 		}
 

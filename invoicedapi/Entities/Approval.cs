@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class Approval : Item
+	public class Approval : AbstractItem
 	{
 
 		public Approval() : base(){

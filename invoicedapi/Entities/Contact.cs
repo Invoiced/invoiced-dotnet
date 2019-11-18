@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class Contact : Entity<Contact>
+	public class Contact : AbstractEntity<Contact>
 	{
 
 		public Contact(Connection conn) : base(conn) {
