@@ -27,6 +27,10 @@ namespace Invoiced
 			return true;
 		}
 
+		public override bool HasAttachments() {
+			return true;
+		}
+
 		[JsonProperty("id")]
 		public long Id { get; set; }
 
