@@ -8,7 +8,10 @@ namespace Invoiced
 	public class PendingLineItem : AbstractEntity<PendingLineItem>
 	{
 
-		public PendingLineItem(Connection conn) : base(conn) {
+		private long CustomerId;
+
+		public PendingLineItem(Connection conn, long customerId) : base(conn) {
+			this.CustomerId = customerId;
 		}
 
 		public PendingLineItem() : base(){
@@ -24,7 +27,7 @@ namespace Invoiced
 		}
 
 		public override string EntityName() {
-			return "line_items";
+			return "customers/" + this.CustomerId.ToString() + "/line_items";
 		}
 
 		public override bool HasCRUD() {

@@ -8,7 +8,10 @@ namespace Invoiced
 	public class Contact : AbstractEntity<Contact>
 	{
 
-		public Contact(Connection conn) : base(conn) {
+		private long CustomerId;
+
+		public Contact(Connection conn, long customerId) : base(conn) {
+			this.CustomerId = customerId;
 		}
 
 		public Contact() : base(){
@@ -24,7 +27,7 @@ namespace Invoiced
 		}
 
 		public override string EntityName() {
-			return "contacts";
+			return "customers/" + CustomerId.ToString() + "/contacts";
 		}
 
 		public override bool HasCRUD() {

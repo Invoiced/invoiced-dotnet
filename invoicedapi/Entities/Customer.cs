@@ -159,6 +159,22 @@ namespace Invoiced
 		[JsonProperty("disabled_payment_methods")]
 		public IList<string> DisabledPaymentMethods { get; set; }
 
+		public Note NewNote() {
+			return new Note(this.connection, this.Id, -1);
+		}
+
+		public Contact NewContact() {
+			return new Contact(this.connection, this.Id);
+		}
+
+		public PendingLineItem NewPendingLineItem() {
+			return new PendingLineItem(this.connection, this.Id);
+		}
+
+		public Task newTask() {
+			return new Task(this.connection, this.Id);
+		}
+
 	}
 
 }

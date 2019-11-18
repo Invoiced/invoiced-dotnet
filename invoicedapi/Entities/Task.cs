@@ -8,7 +8,8 @@ namespace Invoiced
 	public class Task : AbstractEntity<Task>
 	{
 
-		public Task(Connection conn) : base(conn) {
+		public Task(Connection conn, long customerId) : base(conn) {
+			this.CustomerId = customerId;
 		}
 
 		public Task() : base(){
