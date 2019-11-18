@@ -40,10 +40,10 @@ namespace Invoiced
 		}
 
 		[JsonProperty("id")]
-		public long Id { get;set; }
+		public long Id { get; set; }
 
 		[JsonProperty("object")]
-		public string Object { get; set; }
+		public string Obj { get; set; }
 
 		[JsonProperty("customer")]
 		public long Customer { get; set; }
