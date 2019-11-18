@@ -175,6 +175,40 @@ namespace Invoiced
 			return this.SendText(textRequest);
 		}
 
+		public Balance GetBalance() {
+
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/balance";
+
+			string responseText = this.connection.Get(url,null);
+			Balance serializedObject;
+			
+			try {
+					serializedObject = JsonConvert.DeserializeObject<Balance>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+			} catch(Exception e) {
+				throw new EntityException("",e);
+			}
+
+			return serializedObject;
+
+		}
+
+		public Invoice ConsolidateInvoices(long? cutoffDate = null) {
+
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/consolidate_invoices";
+
+			string responseText = this.connection.Post(url,null,cutoffDate.ToString());
+			Invoice serializedObject;
+			
+			try {
+					serializedObject = JsonConvert.DeserializeObject<Invoice>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+			} catch(Exception e) {
+				throw new EntityException("",e);
+			}
+
+			return serializedObject;
+
+		}
+
 	}
 
 }
