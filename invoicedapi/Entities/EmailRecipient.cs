@@ -20,7 +20,8 @@ namespace Invoiced
 
 
 		override public string EntityID() {
-			throw new EntityException("Email recipients have no ID");
+			return "EmailRecipient";
+			// this is only used for json heading in ToString()
 		}
 		
 	}

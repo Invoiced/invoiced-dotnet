@@ -37,7 +37,8 @@ namespace Invoiced
 		public string Items { get; set; }
 
 		override public string EntityID() {
-			throw new EntityException("Email requests have no ID");
+			return "EmailRequest";
+			// this is only used for json heading in ToString()
 		}
 		
 	}
