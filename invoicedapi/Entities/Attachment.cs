@@ -22,7 +22,7 @@ namespace Invoiced
 		public long CreatedAt { get; set; }
 
 
-		override public string EntityId() {
+		public override string EntityId() {
 			return this.Id.ToString();
 		}
 		

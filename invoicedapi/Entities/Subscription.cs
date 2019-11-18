@@ -16,27 +16,27 @@ namespace Invoiced
 
 		}
 
-		override public long EntityId() {
+		public override long EntityId() {
 			return this.Id;
 		}
 
-		override public string EntityIdString() {
+		public override string EntityIdString() {
 			return this.Id.ToString();
 		}
 
-		override public string EntityName() {
+		public override string EntityName() {
 			return "subscriptions";
 		}
 
-		override public bool HasCRUD() {
+		public override bool HasCRUD() {
 			return true;
 		}
 
-		override public bool HasList() {
+		public override bool HasList() {
 			return true;
 		}
 
-		override public bool HasStringId() {
+		public override bool HasStringId() {
 			return false;
 		}
 

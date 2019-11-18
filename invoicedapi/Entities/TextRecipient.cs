@@ -5,22 +5,22 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class EmailRecipient : Item
+	public class TextRecipient : Item
 	{
 		
-		public EmailRecipient() : base() {
+		public TextRecipient() : base() {
 
 		}
 
 		[JsonProperty("name")]
 		public string Name { get; set; }
 
-		[JsonProperty("email")]
-		public string Email { get; set; }
+		[JsonProperty("phone")]
+		public string Phone { get; set; }
 
 
 		public override string EntityId() {
-			return "EmailRecipient";
+			return "TextRecipient";
 			// this is only used for json heading in ToString()
 		}
 		

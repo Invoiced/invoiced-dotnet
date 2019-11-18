@@ -11,27 +11,27 @@ namespace Invoiced
 		internal TaxRate(Connection conn) : base(conn) {
 		}
 
-		override public long EntityId() {
+		public override long EntityId() {
 			throw new EntityException(this.EntityName() + " ID type is string, not long");
 		}
 
-		override public string EntityIdString() {
+		public override string EntityIdString() {
 			return this.Id;
 		}
 
-		override public string EntityName() {
+		public override string EntityName() {
 			return "tax_rates";
 		}
 
-		override public bool HasCRUD() {
+		public override bool HasCRUD() {
 			return true;
 		}
 		
-		override public bool HasList() {
+		public override bool HasList() {
 			return true;
 		}
 
-		override public bool HasStringId() {
+		public override bool HasStringId() {
 			return true;
 		}
 

@@ -33,7 +33,7 @@ namespace Invoiced
 		[JsonProperty("funding")]
 		public string Funding { get; set; }
 
-		override public string EntityId() {
+		public override string EntityId() {
 			return this.Id.ToString();
 		}
 

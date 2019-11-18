@@ -24,7 +24,7 @@ namespace Invoiced
 		[JsonProperty("tax_rate")]
 		public TaxRate TaxRate { get; set; }
 
-		override public string EntityId() {
+		public override string EntityId() {
 			return this.Id.ToString();
 		}
 
