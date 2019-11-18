@@ -105,6 +105,12 @@ namespace Invoiced
 
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }
+
+		public void Cancel() {
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
+			
+			this.connection.Delete(url);
+		}
 	
 	}
 }
