@@ -107,6 +107,22 @@ namespace Invoiced
 			
 		}
 
+			public T Retrieve() {
+
+			string url = this.connection.baseUrl() + "/" + this.EntityName();
+			string responseText = this.connection.Get(url,null);
+			T serializedObject;
+			try {
+					serializedObject = JsonConvert.DeserializeObject<T>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+					serializedObject.connection = this.connection;
+			} catch(Exception e) {
+				throw new EntityException("",e);
+			}
+
+			return serializedObject;
+			
+		}
+
 		public T Retrieve(string id) {
 
 			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + id;
