@@ -8,7 +8,10 @@ namespace Invoiced
 	public class Note : AbstractEntity<Note>
 	{
 
-		public Note(Connection conn) : base(conn) {
+		public Note(Connection conn, long CustomerId, long InvoiceId) : base(conn) {
+			// cannot set all the time; this avoids SaveAll() error
+			if(CustomerId > 0) this.CustomerId = CustomerId;
+			if(InvoiceId > 0) this.InvoiceId = InvoiceId;
 		}
 
 		public Note() : base(){

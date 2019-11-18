@@ -148,6 +148,14 @@ namespace Invoiced
 		[JsonProperty("disabled_payment_methods")]
 		public IList<string> DisabledPaymentMethods { get; set; }
 
+		public PaymentPlan NewPaymentPlan() {
+			return new PaymentPlan(this.connection, this.Id);
+		}
+
+		public Note NewNote() {
+			return new Note(this.connection, -1, this.Id);
+		}
+
 	}
 
 }

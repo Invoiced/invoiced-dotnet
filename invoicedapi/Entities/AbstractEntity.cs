@@ -8,7 +8,7 @@ namespace Invoiced
 
     public abstract class AbstractEntity<T> where T : AbstractEntity<T> {
 
-		private Connection connection;
+		protected Connection connection;
 		private bool entityCreated;
 		
 		public override string ToString() {

@@ -9,7 +9,7 @@ namespace Invoiced
 	public class PaymentPlan : AbstractEntity<PaymentPlan>
 	{
 
-		internal long InvoiceId;
+		private long InvoiceId;
 
 		public PaymentPlan(Connection conn, long InvoiceId) : base(conn) {
 			this.InvoiceId = InvoiceId;
