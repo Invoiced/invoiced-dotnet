@@ -156,6 +156,10 @@ namespace Invoiced
 			return new Note(this.connection, -1, this.Id);
 		}
 
+		public void voidInvoice() {
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/void";
+		}
+
 	}
 
 }

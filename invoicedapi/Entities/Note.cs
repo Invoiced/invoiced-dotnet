@@ -69,6 +69,40 @@ namespace Invoiced
 
         [JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }
+
+		// Retrieve() for notes must produce a list and also account for two possible endpoints
+		public new IList<Note> Retrieve() {
+
+			string url = null;
+
+			if(this.CustomerId > 0) {
+				url = this.connection.baseUrl() + "/customers/" + this.CustomerId + "/notes";
+			} else if(this.InvoiceId > 0) {
+				url = this.connection.baseUrl() + "/invoices/" + this.InvoiceId + "/notes";
+			} else {
+				return null;
+			}
+
+			ListResponse response = this.connection.GetList(url,null);
+
+			EntityList<Note> entities;
+			
+			try {
+					entities = JsonConvert.DeserializeObject<EntityList<Note>>(response.Result,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+					entities.LinkURLS = response.Links;
+					entities.TotalCount = response.TotalCount;
+			} catch(Exception e) {
+				throw new EntityException("",e);
+			}
+
+			foreach (var entity in entities) {
+				entity.ChangeConnection(connection);
+			}
+
+			return entities;
+
+		}
+			
 	}
 
 }
