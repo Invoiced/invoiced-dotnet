@@ -36,7 +36,7 @@ namespace Invoiced
         [JsonProperty("items")]
 		public string Items { get; set; }
 
-		override public long EntityID() {
+		override public string EntityID() {
 			throw new EntityException("Email requests have no ID");
 		}
 		

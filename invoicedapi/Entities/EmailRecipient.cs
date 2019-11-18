@@ -19,7 +19,7 @@ namespace Invoiced
 		public string Email { get; set; }
 
 
-		override public long EntityID() {
+		override public string EntityID() {
 			throw new EntityException("Email recipients have no ID");
 		}
 		

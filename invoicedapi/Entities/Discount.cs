@@ -26,8 +26,8 @@ namespace Invoiced
 		[JsonProperty("expires")]
 		public long Expires { get; set; }
 
-		override public long EntityID() {
-			return this.Id;
+		override public string EntityID() {
+			return this.Id.ToString();
 		}
 
 	}
