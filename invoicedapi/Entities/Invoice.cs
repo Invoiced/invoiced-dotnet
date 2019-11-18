@@ -152,6 +152,20 @@ namespace Invoiced
 			return new Note(this.connection, -1, this.Id);
 		}
 
+		public void Pay() {
+
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/pay";
+
+			string responseText = this.connection.Post(url,null,"");
+			
+			try {
+				JsonConvert.PopulateObject(responseText,this);
+			} catch(Exception e) {
+				throw new EntityException("",e);
+			}
+
+		}
+
 	}
 
 }
