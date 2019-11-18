@@ -46,7 +46,7 @@ namespace Invoiced
 		public string ReceiptEmail { get; set; }
 
 		[JsonProperty("splits")]
-		public ChargeSplit[] splits { get; set; }
+		public IList<ChargeSplit> splits { get; set; }
 
 		public override string EntityId() {
 			return "ChargeRequest";

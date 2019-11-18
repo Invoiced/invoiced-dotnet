@@ -71,13 +71,13 @@ namespace Invoiced
 		public bool Discountable { get; set; }
 
         [JsonProperty("discounts")]
-		public Discount[] Discounts { get; set; }
+		public IList<Discount> Discounts { get; set; }
 
 		[JsonProperty("taxable")]
 		public bool Taxable { get; set; }
 
 		[JsonProperty("taxes")]
-		public Tax[] Taxes { get; set; }
+		public IList<Tax> Taxes { get; set; }
 
 		[JsonProperty("plan")]
 		public string Plan { get; set; }

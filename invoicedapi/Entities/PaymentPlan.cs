@@ -6,11 +6,45 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class PaymentPlan : Item
+	public class PaymentPlan : Entity<PaymentPlan>
 	{
 
+		internal long InvoiceId;
+		
+		public PaymentPlan(Connection conn, long InvoiceId) : base(conn) {
+			this.InvoiceId = InvoiceId;
+		}
+		
 		public PaymentPlan() : base(){
 
+		}
+
+		public override long EntityId() {
+			return this.Id;
+		}
+
+		public override string EntityIdString() {
+			return this.Id.ToString();
+		}
+
+		public override string EntityName() {
+			return "invoices/" + this.InvoiceId.ToString() + "/payment_plan";
+		}
+
+		public override bool HasCRUD() {
+			return true;
+		}
+
+		public override bool HasList() {
+			return false;
+		}
+
+		public override bool HasStringId() {
+			return false;
+		}
+
+		public override bool IsSubEntity() {
+			return true;
 		}
 
 		[JsonProperty("id")]

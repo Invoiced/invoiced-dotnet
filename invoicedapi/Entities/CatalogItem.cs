@@ -64,7 +64,7 @@ namespace Invoiced
 		public bool Taxable { get; set; }
 
 		[JsonProperty("taxes")]
-		public Tax[] Taxes { get; set; }
+		public IList<Tax> Taxes { get; set; }
 
 		[JsonProperty("avalara_tax_code")]
 		public string AvalaraTaxCode { get; set; }
