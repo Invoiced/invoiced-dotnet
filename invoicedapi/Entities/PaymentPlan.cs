@@ -65,6 +65,20 @@ namespace Invoiced
 		[JsonProperty("created_at")]
 		public long CreatedAt { get; set; }
 
+		public void Cancel() {
+			if (!HasCRUD()) {
+				return;
+			}
+
+			string url = this.connection.baseUrl() + "/" + this.EntityName();
+			
+			this.connection.Delete(url);
+		}
+
+		public override void Delete() {
+			this.Cancel();
+		}
+
 	}
 	
 }

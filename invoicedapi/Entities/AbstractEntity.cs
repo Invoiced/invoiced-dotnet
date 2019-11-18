@@ -139,7 +139,7 @@ namespace Invoiced
 			
 		}
 
-		public void Delete() {
+		public virtual void Delete() {
 
 			if (!HasCRUD()) {
 				return;
