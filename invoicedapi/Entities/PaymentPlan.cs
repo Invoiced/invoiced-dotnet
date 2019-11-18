@@ -15,7 +15,7 @@ namespace Invoiced
 			this.InvoiceId = InvoiceId;
 		}
 		
-		public PaymentPlan() : base(){
+		public PaymentPlan() : base() {
 
 		}
 
