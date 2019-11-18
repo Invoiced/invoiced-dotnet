@@ -65,6 +65,7 @@ namespace Invoiced
 		[JsonProperty("created_at")]
 		public long CreatedAt { get; set; }
 
+		// identical to default Delete() but does not append ID to end of URL
 		public void Cancel() {
 			if (!HasCRUD()) {
 				return;
@@ -75,6 +76,7 @@ namespace Invoiced
 			this.connection.Delete(url);
 		}
 
+		// necessary to override this to avoid appending payment plan ID to DELETE request url
 		public override void Delete() {
 			this.Cancel();
 		}
