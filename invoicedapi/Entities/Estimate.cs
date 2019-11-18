@@ -123,6 +123,23 @@ namespace Invoiced
 		[JsonProperty("disabled_payment_methods")]
 		public IList<string> DisabledPaymentMethods { get; set; }
 
+		public Invoice ConvertToInvoice() {
+
+			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/invoice";
+
+			string responseText = this.connection.Post(url,null,"");
+			Invoice serializedObject;
+			
+			try {
+					serializedObject = JsonConvert.DeserializeObject<Invoice>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+			} catch(Exception e) {
+				throw new EntityException("",e);
+			}
+
+			return serializedObject;
+
+		}
+
 	}
 
 }
