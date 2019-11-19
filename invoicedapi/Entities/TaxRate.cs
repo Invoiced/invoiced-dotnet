@@ -54,6 +54,8 @@ namespace Invoiced
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }
 
+		// Conditional Serialisation
+
 		public bool ShouldSerializeId() {
 			if (this.currentOperation != "Create") return false;
 			return true;

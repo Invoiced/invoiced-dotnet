@@ -61,6 +61,8 @@ namespace Invoiced
 		[JsonProperty("created_at")]
 		public long CreatedAt { get; set; }
 
+		// Conditional Serialisation
+
 		public bool ShouldSerializeId() {
 			return false;
 		}

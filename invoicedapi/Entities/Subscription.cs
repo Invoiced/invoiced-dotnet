@@ -135,6 +135,8 @@ namespace Invoiced
 
 		}
 
+		// Conditional Serialisation
+
 		public bool ShouldSerializeId() {
 			if (this.currentOperation != "Create") return false;
 			return true;
