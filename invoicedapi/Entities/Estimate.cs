@@ -141,6 +141,54 @@ namespace Invoiced
 
 		}
 
+		// Conditional Serialisation
+		
+		public bool ShouldSerializeId() {
+			return false;
+		}
+
+		public bool ShouldSerializeObj() {
+			return false;
+		}
+
+		public bool ShouldSerializeCustomer() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeInvoice() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeApproved() {
+			return false;
+		}
+
+		public bool ShouldSerializeStatus() {
+			return false;
+		}
+
+		public bool ShouldSerializeSubtotal() {
+			return false;
+		}
+
+		public bool ShouldSerializeTotal() {
+			return false;
+		}
+
+		public bool ShouldSerializeUrl() {
+			return false;
+		}
+
+		public bool ShouldSerializePdfUrl() {
+			return false;
+		}
+
+		public bool ShouldSerializeCreatedAt() {
+			return false;
+		}
+
 	}
 
 }
