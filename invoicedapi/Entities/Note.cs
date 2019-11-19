@@ -51,9 +51,6 @@ namespace Invoiced
 		[JsonProperty("created_at")]
 		public long CreatedAt { get; set; }
 
-        [JsonProperty("metadata")]
-		public Metadata Metadata { get; set; }
-
 		// Retrieve() for notes must produce a list and also account for two possible endpoints
 		public new IList<Note> Retrieve() {
 
@@ -85,6 +82,32 @@ namespace Invoiced
 
 			return entities;
 
+		}
+
+		public bool ShouldSerializeId() {
+			return false;
+		}
+
+		public bool ShouldSerializeObj() {
+			return false;
+		}
+
+		public bool ShouldSerializeCustomer() {
+			return false;
+		}
+
+		public bool ShouldSerializeCustomerId() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeInvoiceId() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeCreatedAt() {
+			return false;
 		}
 			
 	}
