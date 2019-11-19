@@ -110,6 +110,56 @@ namespace Invoiced
 		[JsonProperty("calculate_taxes")]
 		public bool CalculateTaxes { get; set; }
 
+		public bool ShouldSerializeId() {
+			return false;
+		}
+
+		public bool ShouldSerializeObj() {
+			return false;
+		}
+
+		public bool ShouldSerializeCustomer() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeInvoice() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializePaid() {
+			return false;
+		}
+
+		public bool ShouldSerializeStatus() {
+			return false;
+		}
+
+		public bool ShouldSerializeSubtotal() {
+			return false;
+		}
+
+		public bool ShouldSerializeTotal() {
+			return false;
+		}
+
+		public bool ShouldSerializeBalance() {
+			return false;
+		}
+
+		public bool ShouldSerializeUrl() {
+			return false;
+		}
+
+		public bool ShouldSerializePdfUrl() {
+			return false;
+		}
+
+		public bool ShouldSerializeCreatedAt() {
+			return false;
+		}
+
 	}
 
 }
