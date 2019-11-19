@@ -110,6 +110,8 @@ namespace Invoiced
 		[JsonProperty("calculate_taxes")]
 		public bool CalculateTaxes { get; set; }
 
+		// Conditional Serialisation
+		
 		public bool ShouldSerializeId() {
 			return false;
 		}

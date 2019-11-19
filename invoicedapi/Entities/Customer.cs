@@ -130,7 +130,7 @@ namespace Invoiced
 		public string SignUpPage { get; set; }
 
 		[JsonProperty("sign_up_url")]
-		public string SignupUrl { get; set; }
+		public string SignUpUrl { get; set; }
 
 		[JsonProperty("statement_pdf_url")]
 		public string StatementPdfUrl { get; set; }
@@ -208,6 +208,33 @@ namespace Invoiced
 
 			return serializedObject;
 
+		}
+
+		// Conditional Serialisation
+
+		public bool ShouldSerializeId() {
+			return false;
+		}
+
+		public bool ShouldSerializeObj() {
+			return false;
+		}
+
+		public bool ShouldSerializeNextChaseStep() {
+			return false;
+		}
+
+		public bool ShouldSerializeAutopayDelayDays() {
+			if (currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeSignUpUrl() {
+			return false;
+		}
+
+		public bool ShouldSerializeStatementPdfUrl() {
+			return false;
 		}
 
 	}
