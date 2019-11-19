@@ -76,6 +76,15 @@ namespace Invoiced
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }
 
+		public bool ShouldSerializeId() {
+			return false;
+		}
+
+		public bool ShouldSerializeCatalogItem() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
 	}
 
 }
