@@ -10,6 +10,13 @@ namespace Invoiced
 
 		protected Connection connection;
 		private bool entityCreated;
+
+		// used to determine safe json serialisation. should always be null outside function bodies
+		private string currentOperation;
+
+		public bool ShouldSerializecurrentOperation() {
+			return false;
+		}
 		
 		public override string ToString() {
 			var s = base.ToString() + "<" + this.EntityId().ToString() +">";
@@ -59,6 +66,7 @@ namespace Invoiced
 
 		}
 
+		// this method serialises the existing object (with respect for defined create/update safety, i.e. ShouldSerialize functions)
 		public void SaveAll() {
 
 			if (!this.HasCRUD()) {
@@ -78,6 +86,7 @@ namespace Invoiced
 
 		}
 
+		// this method does not serialise an existing object
 		public void Save(string partialDataObject) {
 
 			if (!this.HasCRUD()) {
@@ -216,9 +225,16 @@ namespace Invoiced
 			return entities;
 
 		}
-	
-		public string ToJsonString() {
-			return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore } );
+
+		public string ToJsonString([System.Runtime.CompilerServices.CallerMemberName] string enclosingFunction = "") {
+			if (enclosingFunction != "") {
+				this.currentOperation = enclosingFunction;
+			}
+
+			var output = Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore } );
+
+			this.currentOperation = null;
+			return output;
 		}
 
 		public void Void() {

@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
+	// subscription has additional serialisation case 'Preview' in addition to the standard 'Create' and 'SaveAll' methods
 	public class Subscription :AbstractEntity<Subscription>
 	{
 
