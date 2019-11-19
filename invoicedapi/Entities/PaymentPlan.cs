@@ -69,6 +69,33 @@ namespace Invoiced
 			this.Cancel();
 		}
 
+		// Conditional Serialisation
+
+		public bool ShouldSerializeId() {
+			return false;
+		}
+
+		public bool ShouldSerializeObj() {
+			return false;
+		}
+
+		public bool ShouldSerializeStatus() {
+			return false;
+		}
+
+		public bool ShouldSerializeInstallments() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeApproval() {
+			return false;
+		}
+
+		public bool ShouldSerializeCreatedAt() {
+			return false;
+		}
+
 	}
 	
 }

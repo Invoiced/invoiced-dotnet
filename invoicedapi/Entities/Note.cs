@@ -84,6 +84,8 @@ namespace Invoiced
 
 		}
 
+		// Conditional Serialisation
+
 		public bool ShouldSerializeId() {
 			return false;
 		}
