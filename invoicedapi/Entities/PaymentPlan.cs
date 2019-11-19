@@ -11,19 +11,15 @@ namespace Invoiced
 
 		private long InvoiceId;
 
-		public PaymentPlan(Connection conn, long InvoiceId) : base(conn) {
-			this.InvoiceId = InvoiceId;
+		public PaymentPlan(Connection conn, long invoiceId) : base(conn) {
+			this.InvoiceId = invoiceId;
 		}
 		
 		public PaymentPlan() : base() {
 
 		}
 
-		public override long EntityId() {
-			return this.Id;
-		}
-
-		public override string EntityIdString() {
+		protected override string EntityIdString() {
 			return this.Id.ToString();
 		}
 

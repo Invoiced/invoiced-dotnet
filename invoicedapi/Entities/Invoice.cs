@@ -15,11 +15,7 @@ namespace Invoiced
 
 		}
 
-		public override long EntityId() {
-			return this.Id ?? default(long);
-		}
-
-		public override string EntityIdString() {
+		protected override string EntityIdString() {
 			return this.Id.ToString();
 		}
 

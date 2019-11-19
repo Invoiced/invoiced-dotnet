@@ -11,11 +11,7 @@ namespace Invoiced
 		internal Coupon(Connection conn) : base(conn) {
 		}
 
-		public override long EntityId() {
-			throw new EntityException(this.EntityName() + " ID type is string, not long");
-		}
-
-		public override string EntityIdString() {
+		protected override string EntityIdString() {
 			return this.Id;
 		}
 

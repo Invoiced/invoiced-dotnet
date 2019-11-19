@@ -19,7 +19,7 @@ namespace Invoiced
 		}
 		
 		public override string ToString() {
-			var s = base.ToString() + "<" + this.EntityId().ToString() +">";
+			var s = base.ToString() + "<" + this.EntityIdString() +">";
 			var jsonS =  s + " " + this.ToJsonString();
 
 			return jsonS;
@@ -324,8 +324,7 @@ namespace Invoiced
 			return objects;
 		}
 
-		public abstract long EntityId();
-		public abstract string EntityIdString();
+		protected abstract string EntityIdString();
 		public abstract string EntityName();
 
 		public virtual bool HasCRUD() {

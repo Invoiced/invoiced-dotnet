@@ -15,11 +15,7 @@ namespace Invoiced
 		internal Estimate(Connection conn) : base(conn) {
 		}
 
-		public override long EntityId() {
-			return this.Id;
-		}
-
-		public override string EntityIdString() {
+		protected override string EntityIdString() {
 			return this.Id.ToString();
 		}
 
