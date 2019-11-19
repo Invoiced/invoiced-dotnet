@@ -49,10 +49,10 @@ namespace Invoiced
 		public bool Exclusive { get; set; }
 
         [JsonProperty("expiration_date")]
-		public long ExpirationDate { get; set; }
+		public long? ExpirationDate { get; set; }
 
         [JsonProperty("max_redemptions")]
-		public long MaxRedemptions { get; set; }
+		public long? MaxRedemptions { get; set; }
 
 		[JsonProperty("created_at")]
 		public long CreatedAt { get; set; }

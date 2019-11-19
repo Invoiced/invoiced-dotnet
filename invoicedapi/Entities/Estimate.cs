@@ -76,7 +76,7 @@ namespace Invoiced
 		public long Date { get; set; }
 
 		[JsonProperty("expiration_date")]
-		public long ExpirationDate { get; set; }
+		public long? ExpirationDate { get; set; }
 
 		[JsonProperty("payment_terms")]
 		public string PaymentTerms { get; set; }
@@ -100,7 +100,7 @@ namespace Invoiced
 		public long Total { get; set; }
 
 		[JsonProperty("deposit")]
-		public long Deposit { get; set; }
+		public long? Deposit { get; set; }
 
 		[JsonProperty("deposit_paid")]
 		public bool DepositPaid { get; set; }

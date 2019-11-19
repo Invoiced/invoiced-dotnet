@@ -53,7 +53,7 @@ namespace Invoiced
         public IList<Tax> Taxes { get; set; }
 
         [JsonProperty("plan")]
-		public long Plan { get; set; }
+		public long? Plan { get; set; }
 
         [JsonProperty("metadata")]
         public Metadata Metadata { get; set; }

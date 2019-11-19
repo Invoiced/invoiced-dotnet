@@ -16,7 +16,7 @@ namespace Invoiced
 		}
 
 		public override long EntityId() {
-			return this.Id;
+			return this.Id ?? default(long);
 		}
 
 		public override string EntityIdString() {
@@ -39,14 +39,15 @@ namespace Invoiced
 			return true;
 		}
 
+		// numerous properties must be nullable due to avoid errors with subscription preview `first_invoice` objects
 		[JsonProperty("id")]
-		public long Id { get; set; }
+		public long? Id { get; set; }
 
 		[JsonProperty("object")]
 		public string Obj { get; set; }
 
 		[JsonProperty("customer")]
-		public long Customer { get; set; }
+		public long? Customer { get; set; }
 
 		[JsonProperty("name")]
 		public string Name { get; set; }
@@ -70,28 +71,28 @@ namespace Invoiced
 		public bool Chase { get; set; }
 
 		[JsonProperty("next_chase_on")]
-		public long NextChaseOn { get; set; }
+		public long? NextChaseOn { get; set; }
 
 		[JsonProperty("autopay")]
 		public bool Autopay { get; set; }
 
 		[JsonProperty("attempt_count")]
-		public long AttemptCount { get; set; }
+		public long? AttemptCount { get; set; }
 
 		[JsonProperty("next_payment_attempt")]
-		public long NextPaymentAttempt { get; set; }
+		public long? NextPaymentAttempt { get; set; }
 
 		[JsonProperty("subscription")]
-		public long Subscription { get; set; }
+		public long? Subscription { get; set; }
 
 		[JsonProperty("number")]
 		public string Number { get; set; }
 
 		[JsonProperty("date")]
-		public long Date { get; set; }
+		public long? Date { get; set; }
 
 		[JsonProperty("due_date")]
-		public long DueDate { get; set; }
+		public long? DueDate { get; set; }
 
 		[JsonProperty("payment_terms")]
 		public string PaymentTerms { get; set; }
@@ -115,10 +116,10 @@ namespace Invoiced
 		public long Total { get; set; }
 
 		[JsonProperty("balance")]
-		public long Balance { get; set; }
+		public long? Balance { get; set; }
 
 		[JsonProperty("payment_plan")]
-		public long PaymentPlan { get; set; }
+		public long? PaymentPlan { get; set; }
 
 		[JsonProperty("url")]
 		public string Url { get; set; }
@@ -130,7 +131,7 @@ namespace Invoiced
 		public string PdfUrl { get; set; }
 
 		[JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }
@@ -145,11 +146,11 @@ namespace Invoiced
 		public IList<string> DisabledPaymentMethods { get; set; }
 
 		public PaymentPlan NewPaymentPlan() {
-			return new PaymentPlan(this.connection, this.Id);
+			return new PaymentPlan(this.connection, this.Id ?? default(long));
 		}
 
 		public Note NewNote() {
-			return new Note(this.connection, -1, this.Id);
+			return new Note(this.connection, -1, this.Id ?? default(long));
 		}
 
 		public void Pay() {

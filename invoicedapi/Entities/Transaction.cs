@@ -38,10 +38,10 @@ namespace Invoiced
 		public long Customer { get; set; }
 
 		[JsonProperty("invoice")]
-		public long Invoice { get; set; }
+		public long? Invoice { get; set; }
 
 		[JsonProperty("credit_note")]
-		public long CreditNote { get; set; }
+		public long? CreditNote { get; set; }
 
 		[JsonProperty("date")]
 		public long Date { get; set; }
@@ -77,7 +77,7 @@ namespace Invoiced
 		public string FailureReason { get; set; }
 
 		[JsonProperty("parent_transaction")]
-		public long ParentTransaction { get; set; }
+		public long? ParentTransaction { get; set; }
 
 		[JsonProperty("pdf_url")]
 		public string PdfUrl { get; set; }

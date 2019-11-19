@@ -72,13 +72,13 @@ namespace Invoiced
 		public string Status { get; set; }
 
 		[JsonProperty("contract_period_start")]
-		public long ContractPeriodStart { get; set; }
+		public long? ContractPeriodStart { get; set; }
 
 		[JsonProperty("contract_period_end")]
-		public long ContractPeriodEnd { get; set; }
+		public long? ContractPeriodEnd { get; set; }
 
 		[JsonProperty("contract_renewal_cycles")]
-		public long ContractRenewalCycles { get; set; }
+		public long? ContractRenewalCycles { get; set; }
 
 		[JsonProperty("contract_renewal_mode")]
 		public string ContractRenewalMode { get; set; }
