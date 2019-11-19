@@ -49,7 +49,7 @@ namespace Invoiced
 		public bool Autopay { get; set; }
 
 		[JsonProperty("autopay_delay_days")]
-		public long AutopayDelayDays { get; set; }
+		public long? AutopayDelayDays { get; set; }
 
 		[JsonProperty("payment_terms")]
 		public string PaymentTerms { get; set; }
@@ -94,10 +94,10 @@ namespace Invoiced
 		public bool Chase { get; set; }
 
 		[JsonProperty("chasing_cadence")]
-		public long ChasingCadence { get; set; }
+		public long? ChasingCadence { get; set; }
 
 		[JsonProperty("next_chase_step")]
-		public long NextChaseStep { get; set; }
+		public long? NextChaseStep { get; set; }
 
 		[JsonProperty("tax_id")]
 		public string TaxId { get; set; }
@@ -115,13 +115,13 @@ namespace Invoiced
 		public bool CreditHold { get; set; }
 
 		[JsonProperty("credit_limit")]
-		public long CreditLimit { get; set; }
+		public long? CreditLimit { get; set; }
 
 		[JsonProperty("owner")]
-		public long Owner { get; set; }
+		public long? Owner { get; set; }
 
 		[JsonProperty("parent_customer")]
-		public long ParentCustomer { get; set; }
+		public long? ParentCustomer { get; set; }
 
 		[JsonProperty("notes")]
 		public string Notes { get; set; }

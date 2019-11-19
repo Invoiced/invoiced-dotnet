@@ -14,7 +14,7 @@ namespace InvoicedTest
     public class CustomerTest
     {
       private Customer createDefaultCustomer(HttpClient client) {
-           var json =  @"{'id': 15444
+           var json =  @"{'id': 594287
                 }";
 
             var customer = JsonConvert.DeserializeObject<Customer>(json);
@@ -31,7 +31,7 @@ namespace InvoicedTest
 
         [Fact]
         public void Deserialize() {
-           var json =  @"{'id': 15444,
+           var json =  @"{'id': 594287,
                 'object': 'customer',
                 'name': 'Acme',
                 'number': 'CUST-0001',
@@ -102,38 +102,52 @@ namespace InvoicedTest
         {
 
              var  jsonReponseSave = @"{
-            'id': 15444,
-            'object': 'customer',
-            'number': 'CUST-0001',
-            'name': 'Acme',
-            'email': 'billing@acmecorp.com',
-            'autopay': false,
-            'payment_terms': 'NET 30',
-            'payment_source': null,
-            'taxes': [],
-            'type': 'company',
-            'attention_to': null,
-            'address1': null,
+            'address1': '123 Main St',
             'address2': null,
-            'city': null,
-            'state': null,
-            'postal_code': null,
+            'attention_to': null,
+            'autopay': false,
+            'autopay_delay_days': -1,
+            'avalara_entity_use_code': null,
+            'avalara_exemption_number': null,
+            'bill_to_parent': null,
+            'chase': true,
+            'chasing_cadence': null,
+            'city': 'Austin',
+            'consolidated': false,
             'country': 'US',
-            'tax_id': null,
-            'phone': null,
+            'created_at': 1574194871,
+            'credit_hold': false,
+            'credit_limit': null,
+            'email': 'example@example.com',
+            'id': 594287,
+            'language': null,
+            'metadata': {},
+            'name': 'Acme',
+            'next_chase_step': null,
             'notes': null,
+            'number': 'CUST-00006',
+            'object': 'customer',
+            'owner': 1976,
+            'parent_customer': null,
+            'payment_source': null,
+            'payment_terms': 'NET 7',
+            'phone': '5125551212',
+            'postal_code': '78730',
             'sign_up_page': null,
             'sign_up_url': null,
-            'statement_pdf_url': 'https://dundermifflin.invoiced.com/statements/t3NmhUomra3g3ueSNnbtUgrr/pdf',
-            'created_at': 1415222128,
-            'metadata': {}
-            }";
+            'state': 'TX',
+            'statement_pdf_url': 'https://ajwt.sandbox.invoiced.com/statements/iqNxncYsm91S3gtpz0jtzEXY/pdf',
+            'tax_id': null,
+            'taxable': true,
+            'taxes': [],
+            'type': 'company'
+        }";
 
 
             var jsonRequest = @"{
                 'name': 'Acme',
-                'email': 'billing@acmecorp.com',
-                'payment_terms': 'Net 30',
+                'email': 'example@example.com',
+                'payment_terms': 'NET 7',
                 'type': 'company'
                 }";
 
@@ -150,12 +164,12 @@ namespace InvoicedTest
             var customer = conn.NewCustomer();
 
             customer.Name = "Acme";
-            customer.Email = "billing@acmecorp.com";
-            customer.PaymentTerms = "Net 30";
+            customer.Email = "example@example.com";
+            customer.PaymentTerms = "NET 7";
             customer.Type = "company";
             customer.Create();
 
-            Assert.True(customer.Id == 15444);
+            Assert.True(customer.Id == 594287);
     
         }
 
@@ -164,32 +178,46 @@ namespace InvoicedTest
         {
 
         var  jsonReponseSave = @"{
-            'id': 15444,
-            'object': 'customer',
-            'number': 'CUST-0001',
-            'name': 'Acme',
-            'email': 'billing@acmecorp.com',
-            'autopay': false,
-            'payment_terms': 'NET 14',
-            'payment_source': null,
-            'taxes': [],
-            'type': 'company',
-            'attention_to': 'Sarah Fisher',
-            'address1': '342 Amber St',
+            'address1': '123 Main St',
             'address2': null,
-            'city': 'Hill Valley',
-            'state': 'CA',
-            'postal_code': '94523',
+            'attention_to': 'Sarah Fisher',
+            'autopay': false,
+            'autopay_delay_days': -1,
+            'avalara_entity_use_code': null,
+            'avalara_exemption_number': null,
+            'bill_to_parent': null,
+            'chase': true,
+            'chasing_cadence': null,
+            'city': 'Austin',
+            'consolidated': false,
             'country': 'US',
-            'tax_id': '893-934835',
-            'phone': '(820) 297-2983',
+            'created_at': 1574194871,
+            'credit_hold': false,
+            'credit_limit': null,
+            'email': 'example@example.com',
+            'id': 594287,
+            'language': null,
+            'metadata': {},
+            'name': 'Acme',
+            'next_chase_step': null,
             'notes': null,
+            'number': 'CUST-00006',
+            'object': 'customer',
+            'owner': 1976,
+            'parent_customer': null,
+            'payment_source': null,
+            'payment_terms': 'NET 7',
+            'phone': '5125551212',
+            'postal_code': '78730',
             'sign_up_page': null,
             'sign_up_url': null,
-            'statement_pdf_url': 'https://dundermifflin.invoiced.com/statements/t3NmhUomra3g3ueSNnbtUgrr/pdf',
-            'created_at': 1415222128,
-            'metadata': {}
-            }";
+            'state': 'TX',
+            'statement_pdf_url': 'https://ajwt.sandbox.invoiced.com/statements/iqNxncYsm91S3gtpz0jtzEXY/pdf',
+            'tax_id': null,
+            'taxable': true,
+            'taxes': [],
+            'type': 'company'
+        }";
 
 
             var JsonRequest = @"{
@@ -198,7 +226,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
             var httpPatch = new HttpMethod("PATCH");
-            var request = mockHttp.When(httpPatch,"https://testmode/customers/15444").WithJson(JsonRequest).Respond("application/json",jsonReponseSave);
+            var request = mockHttp.When(httpPatch,"https://testmode/customers/594287").WithJson(JsonRequest).Respond("application/json",jsonReponseSave);
 
             var client = mockHttp.ToHttpClient();
 
@@ -208,8 +236,8 @@ namespace InvoicedTest
  
             customer.SaveAll();
           
-            Assert.True(customer.Id == 15444);
-            Assert.True(customer.Number == "CUST-0001");
+            Assert.True(customer.Id == 594287);
+            Assert.True(customer.Number == "CUST-00006");
             Assert.True(customer.AttentionTo == "Sarah Fisher");
 
         } 
@@ -219,7 +247,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
   
-            var request = mockHttp.When(HttpMethod.Delete,"https://testmode/customers/15444").Respond(HttpStatusCode.NoContent);
+            var request = mockHttp.When(HttpMethod.Delete,"https://testmode/customers/594287").Respond(HttpStatusCode.NoContent);
 
             var client = mockHttp.ToHttpClient();
 
