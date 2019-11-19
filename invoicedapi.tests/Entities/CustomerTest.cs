@@ -14,7 +14,7 @@ namespace InvoicedTest
     public class CustomerTest
     {
       private static Customer CreateDefaultCustomer(HttpClient client) {
-           var json =  @"{'id': 594287
+           var json =  @"{'id': 1234
                 }";
 
             var customer = JsonConvert.DeserializeObject<Customer>(json);
@@ -31,7 +31,7 @@ namespace InvoicedTest
 
         [Fact]
         public void TestDeserialize() {
-           var json =  @"{'id': 594287,
+           var json =  @"{'id': 1234,
                 'object': 'customer',
                 'name': 'Acme',
                 'number': 'CUST-0001',
@@ -119,7 +119,7 @@ namespace InvoicedTest
             'credit_hold': false,
             'credit_limit': null,
             'email': 'example@example.com',
-            'id': 594287,
+            'id': 1234,
             'language': null,
             'metadata': {},
             'name': 'Acme',
@@ -169,7 +169,7 @@ namespace InvoicedTest
             customer.Type = "company";
             customer.Create();
 
-            Assert.True(customer.Id == 594287);
+            Assert.True(customer.Id == 1234);
     
         }
 
@@ -195,7 +195,7 @@ namespace InvoicedTest
             'credit_hold': false,
             'credit_limit': null,
             'email': 'example@example.com',
-            'id': 594287,
+            'id': 1234,
             'language': null,
             'metadata': {},
             'name': 'Acme',
@@ -226,7 +226,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
             var httpPatch = new HttpMethod("PATCH");
-            var request = mockHttp.When(httpPatch,"https://testmode/customers/594287").WithJson(JsonRequest).Respond("application/json",jsonResponse);
+            var request = mockHttp.When(httpPatch,"https://testmode/customers/1234").WithJson(JsonRequest).Respond("application/json",jsonResponse);
 
             var client = mockHttp.ToHttpClient();
 
@@ -236,7 +236,7 @@ namespace InvoicedTest
  
             customer.SaveAll();
           
-            Assert.True(customer.Id == 594287);
+            Assert.True(customer.Id == 1234);
             Assert.True(customer.Number == "CUST-00006");
             Assert.True(customer.AttentionTo == "Sarah Fisher");
 
@@ -247,7 +247,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
   
-            var request = mockHttp.When(HttpMethod.Delete,"https://testmode/customers/594287").Respond(HttpStatusCode.NoContent);
+            var request = mockHttp.When(HttpMethod.Delete,"https://testmode/customers/1234").Respond(HttpStatusCode.NoContent);
 
             var client = mockHttp.ToHttpClient();
 
@@ -319,13 +319,13 @@ namespace InvoicedTest
         public void TestNewNote()
         {
 
-            var jsonResponse = @"{'customer_id':594287,'id':1212,'notes':'example note',
+            var jsonResponse = @"{'customer_id':1234,'id':1212,'notes':'example note',
             'object': 'note'
             }";
 
 
             var jsonRequest = @"{
-                'customer_id': 594287,
+                'customer_id': 1234,
                 'notes': 'example note'
                 }";
 
@@ -342,11 +342,149 @@ namespace InvoicedTest
             var customer = CreateDefaultCustomer(client);
 
             var testNote = customer.NewNote();
-            testNote.notes = "example note";
+            testNote.Notes = "example note";
             testNote.Create();
 
             Assert.True(testNote.Obj == "note");
             Assert.True(testNote.Id == 1212);
+    
+        }
+        
+        [Fact]
+        public void TestNewContact()
+        {
+
+            const string jsonResponse = @"{
+	            'name': 'John Smith',
+	            'email': 'john@example.com',
+	            'sms_enabled': false,
+	            'primary': true,
+	            'country': 'US'
+            }";
+
+
+            const string jsonRequest = @"{
+                'name': 'John Smith',
+                }";
+
+            var mockHttp = new MockHttpMessageHandler();
+
+            mockHttp.When(HttpMethod.Post,"https://testmode/customers/1234/contacts").WithJson(jsonRequest).Respond("application/json",jsonResponse);
+     
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo",Invoiced.Environment.test);
+           
+            conn.TestClient(client);
+
+            var customer = CreateDefaultCustomer(client);
+
+            var testContact = customer.NewContact();
+            testContact.Name = "John Smith";
+            testContact.Create();
+
+            Assert.True(testContact.EntityName() == "customers/1234/contacts");
+            Assert.True(testContact.Name == "John Smith");
+    
+        }
+        
+        [Fact]
+        public void TestNewPli()
+        {
+
+            const string jsonResponse = @"{
+	            'amount': 100,
+	            'catalog_item': null,
+	            'created_at': 1574199627,
+	            'customer': 1234,
+	            'description': '',
+	            'discountable': true,
+	            'discounts': [],
+	            'id': 22904406,
+	            'metadata': {},
+	            'name': 'Paper',
+	            'object': 'line_item',
+	            'quantity': 1,
+	            'taxable': true,
+	            'taxes': [],
+	            'type': null,
+	            'unit_cost': 100
+            }";
+
+
+            const string jsonRequest = @"{
+                'name': 'Paper',
+                'quantity': 1,
+                'unit_cost': 100
+                }";
+
+            var mockHttp = new MockHttpMessageHandler();
+
+            mockHttp.When(HttpMethod.Post,"https://testmode/customers/1234/line_items").WithJson(jsonRequest).Respond("application/json",jsonResponse);
+     
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo",Invoiced.Environment.test);
+           
+            conn.TestClient(client);
+
+            var customer = CreateDefaultCustomer(client);
+
+            var testPli = customer.NewPendingLineItem();
+            testPli.Name = "Paper";
+            testPli.Quantity = 1;
+            testPli.UnitCost = 100;
+            testPli.Create();
+
+            Assert.True(testPli.EntityName() == "customers/1234/line_items");
+            Assert.True(testPli.Id == 22904406);
+    
+        }
+        
+        [Fact]
+        public void TestNewTask()
+        {
+
+            const string jsonResponse = @"{
+              'action': 'review',
+              'chase_step_id': null,
+              'complete': false,
+              'completed_by_user_id': null,
+              'completed_date': null,
+              'created_at': 1571347283,
+              'customer_id': 1234,
+              'due_date': 1571288400,
+              'id': 788,
+              'name': 'Example',
+              'user_id': null
+            }";
+
+
+            const string jsonRequest = @"{
+                'name': 'Example',
+                'customer_id': 1234,
+                'action': 'review'
+                }";
+
+            var mockHttp = new MockHttpMessageHandler();
+
+            mockHttp.When(HttpMethod.Post,"https://testmode/tasks").WithJson(jsonRequest).Respond("application/json",jsonResponse);
+     
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo",Invoiced.Environment.test);
+           
+            conn.TestClient(client);
+
+            var customer = CreateDefaultCustomer(client);
+
+            var testTask = customer.NewTask();
+            testTask.Name = "Example";
+            testTask.Action = "review";
+            testTask.Create();
+
+            Assert.True(testTask.EntityName() == "tasks");
+            Assert.True(testTask.Id == 788);
     
         }
     
