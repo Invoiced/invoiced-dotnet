@@ -125,9 +125,9 @@ namespace Invoiced
 
 		public Invoice ConvertToInvoice() {
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/invoice";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/invoice";
 
-			string responseText = this.connection.Post(url,null,"");
+			string responseText = this.Connection.Post(url,null,"");
 			Invoice serializedObject;
 			
 			try {
@@ -152,12 +152,12 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeCustomer() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 
 		public bool ShouldSerializeInvoice() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 

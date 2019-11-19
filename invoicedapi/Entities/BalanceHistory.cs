@@ -18,7 +18,7 @@ namespace Invoiced
 		[JsonProperty("balance")]
 		public long Balance { get; set; }
 
-		public override string EntityId() {
+		protected override string EntityId() {
 			return "BalanceHistory";
             // this is only used for json heading in ToString()
 		}

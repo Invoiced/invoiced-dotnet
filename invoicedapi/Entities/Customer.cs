@@ -148,19 +148,19 @@ namespace Invoiced
 		public IList<string> DisabledPaymentMethods { get; set; }
 
 		public Note NewNote() {
-			return new Note(this.connection, this.Id, -1);
+			return new Note(this.Connection, this.Id, -1);
 		}
 
 		public Contact NewContact() {
-			return new Contact(this.connection, this.Id);
+			return new Contact(this.Connection, this.Id);
 		}
 
 		public PendingLineItem NewPendingLineItem() {
-			return new PendingLineItem(this.connection, this.Id);
+			return new PendingLineItem(this.Connection, this.Id);
 		}
 
-		public Task newTask() {
-			return new Task(this.connection, this.Id);
+		public Task NewTask() {
+			return new Task(this.Connection, this.Id);
 		}
 
 		public IList<Email> SendStatementEmail(EmailRequest emailRequest) {
@@ -177,9 +177,9 @@ namespace Invoiced
 
 		public Balance GetBalance() {
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/balance";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/balance";
 
-			string responseText = this.connection.Get(url,null);
+			string responseText = this.Connection.Get(url,null);
 			Balance serializedObject;
 			
 			try {
@@ -194,9 +194,9 @@ namespace Invoiced
 
 		public Invoice ConsolidateInvoices(long? cutoffDate = null) {
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/consolidate_invoices";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/consolidate_invoices";
 
-			string responseText = this.connection.Post(url,null,cutoffDate.ToString());
+			string responseText = this.Connection.Post(url,null,cutoffDate.ToString());
 			Invoice serializedObject;
 			
 			try {
@@ -225,7 +225,7 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeAutopayDelayDays() {
-			if (currentOperation != "Create") return false;
+			if (CurrentOperation != "Create") return false;
 			return true;
 		}
 

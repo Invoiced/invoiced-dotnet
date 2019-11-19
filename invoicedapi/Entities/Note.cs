@@ -57,14 +57,14 @@ namespace Invoiced
 			string url = null;
 
 			if(this.CustomerId > 0) {
-				url = this.connection.baseUrl() + "/customers/" + this.CustomerId + "/notes";
+				url = this.Connection.baseUrl() + "/customers/" + this.CustomerId + "/notes";
 			} else if(this.InvoiceId > 0) {
-				url = this.connection.baseUrl() + "/invoices/" + this.InvoiceId + "/notes";
+				url = this.Connection.baseUrl() + "/invoices/" + this.InvoiceId + "/notes";
 			} else {
 				return null;
 			}
 
-			ListResponse response = this.connection.GetList(url,null);
+			ListResponse response = this.Connection.GetList(url,null);
 
 			EntityList<Note> entities;
 			
@@ -77,7 +77,7 @@ namespace Invoiced
 			}
 
 			foreach (var entity in entities) {
-				entity.ChangeConnection(connection);
+				entity.ChangeConnection(Connection);
 			}
 
 			return entities;
@@ -99,12 +99,12 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeCustomerId() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 
 		public bool ShouldSerializeInvoiceId() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 

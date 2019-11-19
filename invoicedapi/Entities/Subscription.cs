@@ -111,18 +111,18 @@ namespace Invoiced
 		public IList<string> PendingLineItems { get; set; }
 
 		public void Cancel() {
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
 			
-			this.connection.Delete(url);
+			this.Connection.Delete(url);
 		}
 
 		public SubscriptionPreview Preview() {
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/preview";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/preview";
 
 			string jsonRequestBody = this.ToJsonString();
 
-			string responseText = this.connection.Post(url,null,jsonRequestBody);
+			string responseText = this.Connection.Post(url,null,jsonRequestBody);
 			SubscriptionPreview serializedObject;
 			
 			try {
@@ -138,7 +138,7 @@ namespace Invoiced
 		// Conditional Serialisation
 
 		public bool ShouldSerializeId() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 
@@ -147,27 +147,27 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeCustomer() {
-			if (this.currentOperation == "SaveAll") return false;
+			if (this.CurrentOperation == "SaveAll") return false;
 			return true;
 		}
 
 		public bool ShouldSerializePlan() {
-			if (this.currentOperation == "SaveAll") return false;
+			if (this.CurrentOperation == "SaveAll") return false;
 			return true;
 		}
 
 		public bool ShouldSerializeCycles() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 
 		public bool ShouldSerializeStartDate() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 
 		public bool ShouldSerializeBillIn() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 
@@ -180,7 +180,7 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeCancelAtPeriodEnd() {
-			if (this.currentOperation == "Preview") return false;
+			if (this.CurrentOperation == "Preview") return false;
 			return true;
 		}
 
@@ -189,7 +189,7 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializePaused() {
-			if (this.currentOperation == "Preview") return false;
+			if (this.CurrentOperation == "Preview") return false;
 			return true;
 		}
 
@@ -206,12 +206,12 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeRenewalCycles() {
-			if (this.currentOperation == "Preview") return false;
+			if (this.CurrentOperation == "Preview") return false;
 			return true;
 		}
 
 		public bool ShouldSerializeRenewalMode() {
-			if (this.currentOperation == "Preview") return false;
+			if (this.CurrentOperation == "Preview") return false;
 			return true;
 		}
 
@@ -232,12 +232,12 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeMetadata() {
-			if (this.currentOperation == "Preview") return false;
+			if (this.CurrentOperation == "Preview") return false;
 			return true;
 		}
 
 		public bool ShouldSerializePendingLineItems() {
-			if (this.currentOperation != "Preview") return false;
+			if (this.CurrentOperation != "Preview") return false;
 			return true;
 		}
 	

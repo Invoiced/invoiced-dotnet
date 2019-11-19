@@ -57,7 +57,7 @@ namespace Invoiced
 		// Conditional Serialisation
 
 		public bool ShouldSerializeId() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 
@@ -66,22 +66,22 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeCurrency() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 
 		public bool ShouldSerializeValue() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 
 		public bool ShouldSerializeIsPercent() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 
 		public bool ShouldSerializeInclusive() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 

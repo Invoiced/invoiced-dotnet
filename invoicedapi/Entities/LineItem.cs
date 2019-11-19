@@ -58,7 +58,7 @@ namespace Invoiced
         [JsonProperty("metadata")]
         public Metadata Metadata { get; set; }
 
-		public override string EntityId() {
+        protected override string EntityId() {
 			return this.Id.ToString();
 		}
     

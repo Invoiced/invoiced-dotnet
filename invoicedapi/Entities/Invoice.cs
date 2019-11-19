@@ -146,18 +146,18 @@ namespace Invoiced
 		public IList<string> DisabledPaymentMethods { get; set; }
 
 		public PaymentPlan NewPaymentPlan() {
-			return new PaymentPlan(this.connection, this.Id ?? default(long));
+			return new PaymentPlan(this.Connection, this.Id ?? default(long));
 		}
 
 		public Note NewNote() {
-			return new Note(this.connection, -1, this.Id ?? default(long));
+			return new Note(this.Connection, -1, this.Id ?? default(long));
 		}
 
 		public void Pay() {
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/pay";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/pay";
 
-			string responseText = this.connection.Post(url,null,"");
+			string responseText = this.Connection.Post(url,null,"");
 			
 			try {
 				JsonConvert.PopulateObject(responseText,this);
@@ -178,7 +178,7 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeCustomer() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 

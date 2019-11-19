@@ -15,7 +15,7 @@ namespace Invoiced
 		[JsonProperty("amount")]
 		public long Amount { get; set; }
 
-		public override string EntityId() {
+		protected override string EntityId() {
 			return "RefundRequest";
             // this is only used for json heading in ToString()
 		}

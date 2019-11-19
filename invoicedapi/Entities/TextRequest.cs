@@ -30,7 +30,7 @@ namespace Invoiced
         [JsonProperty("items")]
 		public string Items { get; set; }
 
-		public override string EntityId() {
+		protected override string EntityId() {
 			return "TextRequest";
             // this is only used for json heading in ToString()
 		}

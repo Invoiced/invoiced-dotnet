@@ -48,7 +48,7 @@ namespace Invoiced
 		[JsonProperty("splits")]
 		public IList<ChargeSplit> splits { get; set; }
 
-		public override string EntityId() {
+		protected override string EntityId() {
 			return "ChargeRequest";
 			// this is only used for json heading in ToString()
 		}

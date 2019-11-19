@@ -8,13 +8,13 @@ namespace Invoiced
 
     public abstract class AbstractEntity<T> where T : AbstractEntity<T> {
 
-		protected Connection connection;
-		private bool entityCreated;
+		protected Connection Connection;
+		private bool _entityCreated;
 
 		// used to determine safe json serialisation. should always be null outside function bodies
-		protected string currentOperation;
+		protected string CurrentOperation;
 
-		public bool ShouldSerializecurrentOperation() {
+		public bool ShouldSerializeCurrentOperation() {
 			return false;
 		}
 		
@@ -26,25 +26,25 @@ namespace Invoiced
 		}
 
 		internal AbstractEntity(Connection conn) {
-			this.connection = conn;
+			this.Connection = conn;
 
 		}
 
-		public AbstractEntity() {
+		protected AbstractEntity() {
 
 		}
-		
-		public Connection GetConnection() {
-			return this.connection;
+
+		protected Connection GetConnection() {
+			return this.Connection;
 		}
 
 		public void ChangeConnection(Connection conn) {
-			this.connection = conn;
+			this.Connection = conn;
 		}
 
 		public void Create() {
 
-			if (this.entityCreated) {
+			if (this._entityCreated) {
 				return;
 			}
 
@@ -52,9 +52,9 @@ namespace Invoiced
 				return;
 			}
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName();
+			string url = this.Connection.baseUrl() + "/" + this.EntityName();
 			string entityJsonBody = this.ToJsonString();
-			string responseText = this.connection.Post(url,null,entityJsonBody);
+			string responseText = this.Connection.Post(url,null,entityJsonBody);
 		
 			try {
 				JsonConvert.PopulateObject(responseText,this);
@@ -62,7 +62,7 @@ namespace Invoiced
 				throw new EntityException("",e);
 			}
 
-			this.entityCreated = true;
+			this._entityCreated = true;
 
 		}
 
@@ -73,9 +73,9 @@ namespace Invoiced
 				return;
 			}
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
 			string entityJsonBody = this.ToJsonString();
-			string responseText = this.connection.Patch(url,entityJsonBody);
+			string responseText = this.Connection.Patch(url,entityJsonBody);
 			
 			try {
 				JsonConvert.PopulateObject(responseText,this);
@@ -93,8 +93,8 @@ namespace Invoiced
 				return;
 			}
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
-			string responseText = this.connection.Patch(url,partialDataObject);
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
+			string responseText = this.Connection.Patch(url,partialDataObject);
 			
 			try {
 				JsonConvert.PopulateObject(responseText,this);
@@ -106,12 +106,12 @@ namespace Invoiced
 
 		public T Retrieve(long id) {
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + id.ToString();
-			string responseText = this.connection.Get(url,null);
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + id.ToString();
+			string responseText = this.Connection.Get(url,null);
 			T serializedObject;
 			try {
 					serializedObject = JsonConvert.DeserializeObject<T>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
-					serializedObject.connection = this.connection;
+					serializedObject.Connection = this.Connection;
 			} catch(Exception e) {
 				throw new EntityException("",e);
 			}
@@ -122,12 +122,12 @@ namespace Invoiced
 
 		public T Retrieve() {
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName();
-			string responseText = this.connection.Get(url,null);
+			string url = this.Connection.baseUrl() + "/" + this.EntityName();
+			string responseText = this.Connection.Get(url,null);
 			T serializedObject;
 			try {
 					serializedObject = JsonConvert.DeserializeObject<T>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
-					serializedObject.connection = this.connection;
+					serializedObject.Connection = this.Connection;
 			} catch(Exception e) {
 				throw new EntityException("",e);
 			}
@@ -138,12 +138,12 @@ namespace Invoiced
 
 		public T Retrieve(string id) {
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + id;
-			string responseText = this.connection.Get(url,null);
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + id;
+			string responseText = this.Connection.Get(url,null);
 			T serializedObject;
 			try {
 					serializedObject = JsonConvert.DeserializeObject<T>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
-					serializedObject.connection = this.connection;
+					serializedObject.Connection = this.Connection;
 			} catch(Exception e) {
 				throw new EntityException("",e);
 			}
@@ -158,25 +158,25 @@ namespace Invoiced
 				return;
 			}
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
 			
-			this.connection.Delete(url);
+			this.Connection.Delete(url);
 
 		}
 
-		public EntityList<T> List(string nextURL,Dictionary<string,Object> queryParams) {
+		private EntityList<T> List(string nextUrl,Dictionary<string,Object> queryParams) {
 
 			if (!this.HasList()) {
 				return null;
 			}
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName();
+			string url = this.Connection.baseUrl() + "/" + this.EntityName();
 			
-			if (!string.IsNullOrEmpty(nextURL)) {
-				url = nextURL;
+			if (!string.IsNullOrEmpty(nextUrl)) {
+				url = nextUrl;
 			}
 
-			ListResponse response = this.connection.GetList(url,queryParams);
+			ListResponse response = this.Connection.GetList(url,queryParams);
 
 			EntityList<T> entities;
 			
@@ -189,7 +189,7 @@ namespace Invoiced
 			}
 
 			foreach (var entity in entities) {
-				entity.ChangeConnection(connection);
+				entity.ChangeConnection(Connection);
 			}
 
 			return entities;
@@ -201,7 +201,7 @@ namespace Invoiced
 				return entities;
 		}
 
-		public EntityList<T> ListAll(string nextURL,Dictionary<string,Object> queryParams) {
+		public EntityList<T> ListAll(string nextUrl,Dictionary<string,Object> queryParams) {
 
 			EntityList<T> entities = null;
 
@@ -209,7 +209,7 @@ namespace Invoiced
 				return null;
 			}
 
-			var tmpEntities = this.List(nextURL,queryParams);
+			var tmpEntities = this.List(nextUrl,queryParams);
 
 			do {
 				if (entities == null) {
@@ -226,14 +226,14 @@ namespace Invoiced
 
 		}
 
-		public string ToJsonString([System.Runtime.CompilerServices.CallerMemberName] string enclosingFunction = "") {
+		protected string ToJsonString([System.Runtime.CompilerServices.CallerMemberName] string enclosingFunction = "") {
 			if (enclosingFunction != "") {
-				this.currentOperation = enclosingFunction;
+				this.CurrentOperation = enclosingFunction;
 			}
 
 			var output = Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore } );
 
-			this.currentOperation = null;
+			this.CurrentOperation = null;
 			return output;
 		}
 
@@ -243,9 +243,9 @@ namespace Invoiced
 				return;
 			}
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/void";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/void";
 
-			string responseText = this.connection.Post(url,null,null);
+			string responseText = this.Connection.Post(url,null,null);
 			
 			try {
 				JsonConvert.PopulateObject(responseText,this);
@@ -262,9 +262,9 @@ namespace Invoiced
 
 			IList<Attachment> objects = null;
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/attachments";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/attachments";
 
-			string responseText = this.connection.Get(url,null);
+			string responseText = this.Connection.Get(url,null);
 			objects = JsonConvert.DeserializeObject<IList<Attachment>>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
 
 			return objects;
@@ -278,11 +278,11 @@ namespace Invoiced
 
 			IList<Email> objects = null;
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/emails";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/emails";
 
 			string jsonRequestBody = emailRequest.ToJsonString();
 
-			string responseText = this.connection.Post(url,null,jsonRequestBody);
+			string responseText = this.Connection.Post(url,null,jsonRequestBody);
 			objects = JsonConvert.DeserializeObject<IList<Email>>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
 
 			return objects;
@@ -296,11 +296,11 @@ namespace Invoiced
 
 			IList<Letter> objects = null;
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/letters";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/letters";
 
 			string jsonRequestBody = letterRequest.ToJsonString();
 
-			string responseText = this.connection.Post(url,null,jsonRequestBody);
+			string responseText = this.Connection.Post(url,null,jsonRequestBody);
 			objects = JsonConvert.DeserializeObject<IList<Letter>>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
 
 			return objects;
@@ -314,11 +314,11 @@ namespace Invoiced
 
 			IList<TextMessage> objects = null;
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/text_messages";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/text_messages";
 
 			string jsonRequestBody = textRequest.ToJsonString();
 
-			string responseText = this.connection.Post(url,null,jsonRequestBody);
+			string responseText = this.Connection.Post(url,null,jsonRequestBody);
 			objects = JsonConvert.DeserializeObject<IList<TextMessage>>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
 
 			return objects;

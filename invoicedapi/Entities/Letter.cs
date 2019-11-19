@@ -30,7 +30,7 @@ namespace Invoiced
         [JsonProperty("created_at")]
 		public long CreatedAt { get; set; }
 
-		public override string EntityId() {
+		protected override string EntityId() {
 			return this.Id.ToString();
 		}
 		

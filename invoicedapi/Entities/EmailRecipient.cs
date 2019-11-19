@@ -19,7 +19,7 @@ namespace Invoiced
 		public string Email { get; set; }
 
 
-		public override string EntityId() {
+		protected override string EntityId() {
 			return "EmailRecipient";
 			// this is only used for json heading in ToString()
 		}

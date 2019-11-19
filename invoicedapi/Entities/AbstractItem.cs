@@ -7,8 +7,7 @@ namespace Invoiced
 {
 	
 	public abstract class AbstractItem {
-
-		public AbstractItem() {
+		protected AbstractItem() {
 
 		}
 
@@ -22,7 +21,8 @@ namespace Invoiced
 		public string ToJsonString() {
 				return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore } );
 		}
-		public abstract string EntityId();
+
+		protected abstract string EntityId();
 
 	}
 

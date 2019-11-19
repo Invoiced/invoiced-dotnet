@@ -68,7 +68,7 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeCustomerId() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 

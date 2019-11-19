@@ -59,9 +59,9 @@ namespace Invoiced
 				return;
 			}
 
-			string url = this.connection.baseUrl() + "/" + this.EntityName();
+			string url = this.Connection.baseUrl() + "/" + this.EntityName();
 			
-			this.connection.Delete(url);
+			this.Connection.Delete(url);
 		}
 
 		// necessary to override this to avoid appending payment plan ID to DELETE request url
@@ -84,7 +84,7 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeInstallments() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 

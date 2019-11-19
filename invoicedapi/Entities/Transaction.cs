@@ -90,10 +90,10 @@ namespace Invoiced
 
 		public Transaction InitiateCharge(ChargeRequest chargeRequest) {
 
-			string url = this.connection.baseUrl() + "/charges";
+			string url = this.Connection.baseUrl() + "/charges";
 			string jsonRequestBody = chargeRequest.ToJsonString();
 
-			string responseText = this.connection.Post(url,null,jsonRequestBody);
+			string responseText = this.Connection.Post(url,null,jsonRequestBody);
 			Transaction serializedObject;
 			
 			try {
@@ -117,22 +117,22 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeCustomer() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 
 		public bool ShouldSerializeInvoice() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 
 		public bool ShouldSerializeCreditNote() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 
 		public bool ShouldSerializeType() {
-			if (this.currentOperation != "Create") return false;
+			if (this.CurrentOperation != "Create") return false;
 			return true;
 		}
 
