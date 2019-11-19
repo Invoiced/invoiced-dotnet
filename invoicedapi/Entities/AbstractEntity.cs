@@ -343,10 +343,6 @@ namespace Invoiced
 			return false;
 		}
 
-		public virtual bool IsSubEntity() {
-			return false;
-		}
-
 		public virtual bool HasAttachments() {
 			return false;
 		}

@@ -31,10 +31,6 @@ namespace Invoiced
 			return false;
 		}
 
-		public override bool IsSubEntity() {
-			return false;
-		}
-
 		[JsonProperty("id")]
 		public long Id { get; set; }
 

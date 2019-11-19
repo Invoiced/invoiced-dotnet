@@ -26,10 +26,6 @@ namespace Invoiced
 			return "customers/" + this.CustomerId.ToString() + "/line_items";
 		}
 
-		public override bool IsSubEntity() {
-			return true;
-		}
-
 		[JsonProperty("id")]
 		public long Id { get; set; }
 

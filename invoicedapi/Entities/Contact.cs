@@ -26,10 +26,6 @@ namespace Invoiced
 			return "customers/" + CustomerId.ToString() + "/contacts";
 		}
 
-		public override bool IsSubEntity() {
-			return true;
-		}
-
 		[JsonProperty("id")]
 		public long Id { get; set; }
 
