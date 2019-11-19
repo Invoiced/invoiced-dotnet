@@ -163,7 +163,7 @@ namespace Invoiced
 			return this.SendEmail(emailRequest);
 		}
 
-		public IList<Letter> SendStatementLetter(LetterRequest letterRequest = null) {
+		public Letter SendStatementLetter(LetterRequest letterRequest = null) {
 			return this.SendLetter(letterRequest);
 		}
 

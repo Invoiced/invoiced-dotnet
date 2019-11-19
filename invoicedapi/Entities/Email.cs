@@ -13,7 +13,7 @@ namespace Invoiced
 		}
 
 		[JsonProperty("id")]
-		public long Id { get; set; }
+		public string Id { get; set; }
 
 		[JsonProperty("state")]
 		public string State { get; set; }
@@ -25,16 +25,16 @@ namespace Invoiced
 		public string EMail { get; set; } // must have diff name than enclosing type; accomplished through archaic capitalization of email
 
         [JsonProperty("template")]
-		public string template { get; set; }
+		public string Template { get; set; }
 
         [JsonProperty("subject")]
-		public string subject { get; set; }
+		public string Subject { get; set; }
 
         [JsonProperty("message")]
 		public string Message { get; set; }
 
         [JsonProperty("opens")]
-		public int opens { get; set; }
+		public int Opens { get; set; }
 
         [JsonProperty("opens_detail")]
 		public object OpensDetail { get; set; }
@@ -43,7 +43,7 @@ namespace Invoiced
 		public long CreatedAt { get; set; }
 
 		protected override string EntityId() {
-			return this.Id.ToString();
+			return this.Id;
 		}
 		
 	}

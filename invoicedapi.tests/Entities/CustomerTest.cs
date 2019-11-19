@@ -487,6 +487,105 @@ namespace InvoicedTest
             Assert.True(testTask.Id == 788);
     
         }
+        [Fact]
+        public void TestSendEmail()
+        {
+
+            const string jsonResponse = @"[{'id':'f45382c6fbc44d44aa7f9a55eb2ce731',
+            'state':'sent',
+            'reject_reason':null,
+            'email':'client@example.com',
+            'template':'statement_email',
+            'subject':'test case',
+            'message':'test',
+            'opens':0,
+            'opens_detail':[],
+            'clicks':0,
+            'clicks_detail':[],
+            'created_at':1436890047}]";
+
+            var mockHttp = new MockHttpMessageHandler();
+
+            mockHttp.When(HttpMethod.Post,"https://testmode/customers/1234/emails").Respond("application/json",jsonResponse);
+     
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo",Invoiced.Environment.test);
+           
+            conn.TestClient(client);
+
+            var customer = CreateDefaultCustomer(client);
+            var testRequest = new EmailRequest();
+            var response = customer.SendStatementEmail(testRequest);
+
+            Assert.True(response[0].State == "sent");
+            Assert.True(response.Count == 1);
+
+        }
+        
+        [Fact]
+        public void TestSendLetter()
+        {
+
+            const string jsonResponse = @"{
+              'created_at': 1570826337,
+              'expected_delivery_date': 1571776737,
+              'id': '2678c1e7e6dd1011ce13fb6b76db42df',
+              'num_pages': 1,
+              'state': 'queued',
+              'to': 'Acme Inc.\n5301 Southwest Pkwy\nAustin, TX 78735'
+            }";
+
+            var mockHttp = new MockHttpMessageHandler();
+
+            mockHttp.When(HttpMethod.Post,"https://testmode/customers/1234/letters").Respond("application/json",jsonResponse);
+     
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo",Invoiced.Environment.test);
+           
+            conn.TestClient(client);
+
+            var customer = CreateDefaultCustomer(client);
+            var testRequest = new LetterRequest();
+            var response = customer.SendStatementLetter(testRequest);
+
+            Assert.True(response.State == "queued");
+
+        }
+        
+        [Fact]
+        public void TestSendText()
+        {
+
+            const string jsonResponse = @"[{
+                'created_at': 1571086718,
+                'id': 'c05c9cae8c5799da1e5723a0fff355b3',
+                'message': 'test',
+                'state': 'sent',
+                'to': '+15125551212'
+              }
+            ]";
+
+            var mockHttp = new MockHttpMessageHandler();
+
+            mockHttp.When(HttpMethod.Post,"https://testmode/customers/1234/text_messages").Respond("application/json",jsonResponse);
+     
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo",Invoiced.Environment.test);
+           
+            conn.TestClient(client);
+
+            var customer = CreateDefaultCustomer(client);
+            var testRequest = new TextRequest();
+            var response = customer.SendStatementText(testRequest);
+
+            Assert.True(response[0].State == "sent");
+            Assert.True(response[0].To == "+15125551212");
+            Assert.True(response.Count == 1);
+
+        }
     
     }
     

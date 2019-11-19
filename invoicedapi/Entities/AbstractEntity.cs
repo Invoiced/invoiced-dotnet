@@ -288,22 +288,29 @@ namespace Invoiced
 			return objects;
 		}
 
-		public IList<Letter> SendLetter(LetterRequest letterRequest = null) {
+		public Letter SendLetter(LetterRequest letterRequest = null) {
 
 			if (!this.HasSends()) {
 				return null;
 			}
 
-			IList<Letter> objects = null;
+			Letter letter = null;
+			string responseText = null;
 
 			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/letters";
 
-			string jsonRequestBody = letterRequest.ToJsonString();
+			if (letterRequest != null) {
+				string jsonRequestBody = letterRequest.ToJsonString();
+				responseText = this.Connection.Post(url, null, jsonRequestBody);
+			} else {
+				responseText = this.Connection.Post(url, null, "");
+			}
 
-			string responseText = this.Connection.Post(url,null,jsonRequestBody);
-			objects = JsonConvert.DeserializeObject<IList<Letter>>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+			letter = JsonConvert.DeserializeObject<Letter>(responseText,
+				new JsonSerializerSettings
+					{NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore});
 
-			return objects;
+				return letter;
 		}
 
 		public IList<TextMessage> SendText(TextRequest textRequest) {
