@@ -21,6 +21,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TargetFramework>netstandard2.0</TargetFramework>
     <noWarn>1591</noWarn>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
