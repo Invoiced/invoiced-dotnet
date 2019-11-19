@@ -83,8 +83,7 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeCatalogItem() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 	}
