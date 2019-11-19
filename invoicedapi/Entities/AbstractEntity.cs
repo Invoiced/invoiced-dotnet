@@ -12,7 +12,7 @@ namespace Invoiced
 		private bool entityCreated;
 
 		// used to determine safe json serialisation. should always be null outside function bodies
-		private string currentOperation;
+		protected string currentOperation;
 
 		public bool ShouldSerializecurrentOperation() {
 			return false;

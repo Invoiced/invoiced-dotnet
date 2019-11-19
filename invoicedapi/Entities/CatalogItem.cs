@@ -69,6 +69,55 @@ namespace Invoiced
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }
 
+		// Conditional Serialisation
+
+		public bool ShouldSerializeId() {
+			return false;
+		}
+		
+		public bool ShouldSerializeObj() {
+			return false;
+		}
+
+		public bool ShouldSerializeCurrency() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeUnitCost() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeTaxable() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeTaxes() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeAvalaraTaxCode() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeGLAccount() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeDiscountable() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeCreatedAt() {
+			return false;
+		}
+
 	}
 
 }
