@@ -96,7 +96,7 @@ namespace Invoiced
 		public long RecurringTotal { get; set; }
 
 		[JsonProperty("mrr")]
-		public long MRR { get; set; }
+		public long Mrr { get; set; }
 
 		[JsonProperty("url")]
 		public string Url { get; set; }
@@ -133,6 +133,110 @@ namespace Invoiced
 
 			return serializedObject;
 
+		}
+
+		public bool ShouldSerializeId() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeObj() {
+			return false;
+		}
+
+		public bool ShouldSerializeCustomer() {
+			if (this.currentOperation == "SaveAll") return false;
+			return true;
+		}
+
+		public bool ShouldSerializePlan() {
+			if (this.currentOperation == "SaveAll") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeCycles() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeStartDate() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeBillIn() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializePeriodStart() {
+			return false;
+		}
+
+		public bool ShouldSerializePeriodEnd() {
+			return false;
+		}
+
+		public bool ShouldSerializeCancelAtPeriodEnd() {
+			if (this.currentOperation == "Preview") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeCanceledAt() {
+			return false;
+		}
+
+		public bool ShouldSerializePaused() {
+			if (this.currentOperation == "Preview") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeStatus() {
+			return false;
+		}
+
+		public bool ShouldSerializeContractPeriodStart() {
+			return false;
+		}
+
+		public bool ShouldSerializeContractPeriodEnd() {
+			return false;
+		}
+
+		public bool ShouldSerializeRenewalCycles() {
+			if (this.currentOperation == "Preview") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeRenewalMode() {
+			if (this.currentOperation == "Preview") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeRecurringTotal() {
+			return false;
+		}
+
+		public bool ShouldSerializeMrr() {
+			return false;
+		}
+
+		public bool ShouldSerializeUrl() {
+			return false;
+		}
+
+		public bool ShouldSerializeCreatedAt() {
+			return false;
+		}
+
+		public bool ShouldSerializeMetadata() {
+			if (this.currentOperation == "Preview") return false;
+			return true;
+		}
+
+		public bool ShouldSerializePendingLineItems() {
+			if (this.currentOperation != "Preview") return false;
+			return true;
 		}
 	
 	}
