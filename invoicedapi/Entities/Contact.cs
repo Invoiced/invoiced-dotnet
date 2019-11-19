@@ -37,6 +37,9 @@ namespace Invoiced
 		[JsonProperty("id")]
 		public long Id { get; set; }
 
+		[JsonProperty("object")]
+		public string Obj { get; set; }
+
 		[JsonProperty("name")]
 		public string Name { get; set; }
 
@@ -78,6 +81,20 @@ namespace Invoiced
 
 		[JsonProperty("department")]
 		public string Department { get; set; }
+
+		// Conditional Serialisation
+
+		public bool ShouldSerializeId() {
+			return false;
+		}
+
+		public bool ShouldSerializeObj() {
+			return false;
+		}
+
+		public bool ShouldSerializeCreatedAt() {
+			return false;
+		}
 
 	}
 
