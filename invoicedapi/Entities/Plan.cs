@@ -69,8 +69,7 @@ namespace Invoiced
 		// Conditional Serialisation
 
 		public bool ShouldSerializeId() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeObj() {
@@ -78,43 +77,35 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeCatalogItem() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeCurrency() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeAmount() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializePricingMode() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeQuantityType() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeInterval() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeIntervalCount() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeTiers() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 	}

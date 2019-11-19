@@ -225,8 +225,7 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeAutopayDelayDays() {
-			if (CurrentOperation != "Create") return false;
-			return true;
+			return CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeSignUpUrl() {

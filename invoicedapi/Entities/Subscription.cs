@@ -138,8 +138,7 @@ namespace Invoiced
 		// Conditional Serialisation
 
 		public bool ShouldSerializeId() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeObj() {
@@ -147,28 +146,23 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeCustomer() {
-			if (this.CurrentOperation == "SaveAll") return false;
-			return true;
+			return this.CurrentOperation != "SaveAll";
 		}
 
 		public bool ShouldSerializePlan() {
-			if (this.CurrentOperation == "SaveAll") return false;
-			return true;
+			return this.CurrentOperation != "SaveAll";
 		}
 
 		public bool ShouldSerializeCycles() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeStartDate() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeBillIn() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializePeriodStart() {
@@ -180,8 +174,7 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeCancelAtPeriodEnd() {
-			if (this.CurrentOperation == "Preview") return false;
-			return true;
+			return this.CurrentOperation != "Preview";
 		}
 
 		public bool ShouldSerializeCanceledAt() {
@@ -189,8 +182,7 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializePaused() {
-			if (this.CurrentOperation == "Preview") return false;
-			return true;
+			return this.CurrentOperation != "Preview";
 		}
 
 		public bool ShouldSerializeStatus() {
@@ -206,13 +198,11 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeRenewalCycles() {
-			if (this.CurrentOperation == "Preview") return false;
-			return true;
+			return this.CurrentOperation != "Preview";
 		}
 
 		public bool ShouldSerializeRenewalMode() {
-			if (this.CurrentOperation == "Preview") return false;
-			return true;
+			return this.CurrentOperation != "Preview";
 		}
 
 		public bool ShouldSerializeRecurringTotal() {
@@ -232,13 +222,11 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeMetadata() {
-			if (this.CurrentOperation == "Preview") return false;
-			return true;
+			return this.CurrentOperation != "Preview";
 		}
 
 		public bool ShouldSerializePendingLineItems() {
-			if (this.CurrentOperation != "Preview") return false;
-			return true;
+			return this.CurrentOperation == "Preview";
 		}
 	
 	}

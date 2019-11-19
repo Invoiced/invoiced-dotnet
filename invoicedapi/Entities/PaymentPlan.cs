@@ -84,8 +84,7 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeInstallments() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeApproval() {

@@ -46,7 +46,7 @@ namespace Invoiced
 		public bool IsPercent { get; set; }
 
         [JsonProperty("inclusive")]
-		public bool Exclusive { get; set; }
+		public bool Inclusive { get; set; }
 
 		[JsonProperty("created_at")]
 		public long CreatedAt { get; set; }
@@ -66,23 +66,19 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeCurrency() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeValue() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeIsPercent() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeInclusive() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeCreatedAt() {

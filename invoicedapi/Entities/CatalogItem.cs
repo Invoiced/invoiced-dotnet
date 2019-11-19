@@ -58,7 +58,7 @@ namespace Invoiced
 		public string AvalaraTaxCode { get; set; }
 
 		[JsonProperty("gl_account")]
-		public string GLAccount { get; set; }
+		public string GlAccount { get; set; }
 
 		[JsonProperty("discountable")]
 		public bool Discountable { get; set; }
@@ -72,8 +72,7 @@ namespace Invoiced
 		// Conditional Serialisation
 
 		public bool ShouldSerializeId() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 		
 		public bool ShouldSerializeObj() {
@@ -81,38 +80,31 @@ namespace Invoiced
 		}
 
 		public bool ShouldSerializeCurrency() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeUnitCost() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeTaxable() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeTaxes() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeAvalaraTaxCode() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
-		public bool ShouldSerializeGLAccount() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+		public bool ShouldSerializeGlAccount() {
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeDiscountable() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
+			return this.CurrentOperation == "Create";
 		}
 
 		public bool ShouldSerializeCreatedAt() {
