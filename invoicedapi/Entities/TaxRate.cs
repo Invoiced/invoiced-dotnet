@@ -54,6 +54,39 @@ namespace Invoiced
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }
 
+		public bool ShouldSerializeId() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeObj() {
+			return false;
+		}
+
+		public bool ShouldSerializeCurrency() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeValue() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeIsPercent() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeInclusive() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeCreatedAt() {
+			return false;
+		}
+
 	}
 
 }
