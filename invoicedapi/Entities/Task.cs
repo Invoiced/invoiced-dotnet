@@ -61,6 +61,35 @@ namespace Invoiced
 		[JsonProperty("created_at")]
 		public long CreatedAt { get; set; }
 
+		public bool ShouldSerializeId() {
+			return false;
+		}
+
+		public bool ShouldSerializeCustomerId() {
+			if (this.currentOperation != "Create") return false;
+			return true;
+		}
+
+		public bool ShouldSerializeComplete() {
+			return false;
+		}
+
+		public bool ShouldSerializeCompletedDate() {
+			return false;
+		}
+
+		public bool ShouldSerializeCompletedByUserId() {
+			return false;
+		}
+
+		public bool ShouldSerializeChaseStepId() {
+			return false;
+		}
+
+		public bool ShouldSerializeCreatedAt() {
+			return false;
+		}
+
 	}
 
 }
