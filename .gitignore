@@ -14,3 +14,6 @@ project.lock.json
 
 invoicedapi.tests/Integration/
 .travis.yml
+
+# macos
+.DS_Store
