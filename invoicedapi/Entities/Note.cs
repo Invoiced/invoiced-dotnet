@@ -60,7 +60,7 @@ namespace Invoiced
 				return null;
 			}
 
-			ListResponse response = this.Connection.GetList(url,null);
+			ListResponse response = this.Connection.GetList(url);
 
 			EntityList<Note> entities;
 			

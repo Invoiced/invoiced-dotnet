@@ -173,9 +173,9 @@ namespace Invoiced
 
 		public Balance GetBalance() {
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/balance";
+			var url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/balance";
 
-			string responseText = this.Connection.Get(url,null);
+			var responseText = this.Connection.Get(url,null);
 			Balance serializedObject;
 			
 			try {

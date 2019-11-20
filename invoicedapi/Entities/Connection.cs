@@ -83,18 +83,20 @@ namespace Invoiced
             return responseText;
         }
 
-        internal ListResponse GetList(string url, Dictionary<string,Object> queryParams) {
+        internal ListResponse GetList(string url, Dictionary<string,Object> queryParams = null) {
 
             string uri = addQueryParmsToURI(url,queryParams);
             var response = executeRequest(HttpMethod.Get,uri, null);
             var responseText = processResponse(response);
             var linkString = HttpUtil.GetHeaderFirstValue(response,"Link");
-            int totalCount = Int32.Parse(HttpUtil.GetHeaderFirstValue(response,"X-Total-Count"));
+            var totalCount = Int32.Parse(HttpUtil.GetHeaderFirstValue(response, "X-Total-Count"));
+
             var links = CommonUtil.parseLinks(linkString);
 
-            var listReponse =  new ListResponse(responseText,links,totalCount);
+            var listResponse =  new ListResponse(responseText,links,totalCount);
 
-            return listReponse;
+            return listResponse;
+            
         }
 
         internal void Delete(string url) {

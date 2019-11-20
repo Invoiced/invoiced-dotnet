@@ -586,6 +586,68 @@ namespace InvoicedTest
             Assert.True(response.Count == 1);
 
         }
+        
+        [Fact]
+        public void TestGetBalance()
+        {
+
+            const string jsonResponse = @"{
+                'available_credits':50,
+                'history': [
+                    {
+                        'timestamp':1464041624,
+                        'balance': 50
+                    },
+                    {
+                        'timestamp': 1464040550,
+                        'balance': 100
+                    }
+                ],
+                'past_due': false,
+                'total_outstanding': 470
+            }";
+
+            var mockHttp = new MockHttpMessageHandler();
+
+            mockHttp.When(HttpMethod.Get,"https://testmode/customers/1234/balance").Respond("application/json",jsonResponse);
+     
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo",Invoiced.Environment.test);
+           
+            conn.TestClient(client);
+
+            var customer = CreateDefaultCustomer(client);
+            var response = customer.GetBalance();
+
+            Assert.True(response.AvailableCredits == 50);
+            Assert.True(response.History.Count == 2);
+
+        }
+        
+        [Fact]
+        public void TestConsolidateInvoices()
+        {
+
+            const string jsonResponse = @"{'id': 46226,'customer': 1234}";
+
+            var mockHttp = new MockHttpMessageHandler();
+
+            mockHttp.When(HttpMethod.Post,"https://testmode/customers/1234/consolidate_invoices").Respond("application/json",jsonResponse);
+     
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo",Invoiced.Environment.test);
+           
+            conn.TestClient(client);
+
+            var customer = CreateDefaultCustomer(client);
+            var response = customer.ConsolidateInvoices();
+
+            Assert.True(response.Id == 46226);
+            Assert.True(response.Customer == 1234);
+
+        }
     
     }
     
