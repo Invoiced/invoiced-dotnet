@@ -55,6 +55,16 @@ namespace Invoiced
             return subscription;
         }
 
+        public CatalogItem NewCatalogItem() {
+            CatalogItem catalogItem = new CatalogItem(this);
+            return catalogItem;
+        }
+
+        public Plan NewPlan() {
+            Plan plan = new Plan(this);
+            return plan;
+        }
+
         internal string Post(string url, Dictionary<string,Object> queryParams, string jsonBody) {
 
             string uri = addQueryParmsToURI(url,queryParams);

@@ -8,6 +8,11 @@ namespace Invoiced
 	public class Plan : AbstractEntity<Plan> {
 
 
+		internal Plan() : base() 
+		{
+			
+		}
+		
 		internal Plan(Connection conn) : base(conn) {
 		}
 

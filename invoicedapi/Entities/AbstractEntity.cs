@@ -201,7 +201,7 @@ namespace Invoiced
 				return entities;
 		}
 
-		public EntityList<T> ListAll(string nextUrl,Dictionary<string,Object> queryParams) {
+		public EntityList<T> ListAll(string nextUrl = "",Dictionary<string,Object> queryParams = null) {
 
 			EntityList<T> entities = null;
 

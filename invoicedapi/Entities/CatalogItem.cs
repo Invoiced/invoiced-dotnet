@@ -8,6 +8,9 @@ namespace Invoiced
 	public class CatalogItem : AbstractEntity<CatalogItem> {
 
 
+		internal CatalogItem() : base() {
+			
+		}
 		internal CatalogItem(Connection conn) : base(conn) {
 		}
 

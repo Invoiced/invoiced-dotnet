@@ -95,7 +95,7 @@ namespace InvoicedTest
                      
                      var mockHeader = new Dictionary<string,string>();
                      mockHeader["X-Total-Count"] = "1";
-                     mockHeader["Link"] = "<https://api.sandbox.invoiced.com/customers/1234/notes&page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/customers/1234/notes&page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/customers/1234/notes&page=1>; rel=\"last\"";
+                     mockHeader["Link"] = "<https://api.sandbox.invoiced.com/customers/1234/notes?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/customers/1234/notes?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/customers/1234/notes?page=1>; rel=\"last\"";
                     
                      mockHttp.When(HttpMethod.Get,"https://testmode/customers/1234/notes").Respond(mockHeader, "application/json", "[{'id' : 1212, 'notes' : 'Test McGee'}]");
             
