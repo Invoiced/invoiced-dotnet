@@ -135,7 +135,7 @@ namespace InvoicedTest
 
                      var invoice = CreateDefaultInvoice(client);
 
-                     var note = invoice.NewNote().Retrieve();
+                     var note = invoice.NewNote().ListAll();
 
                      Assert.True(note[0].Id == 2121);
                      Assert.True(note[0].Notes == "Test McGee");
