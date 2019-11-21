@@ -38,7 +38,7 @@ namespace Invoiced
 		public string Plan { get; set; }
 
 		[JsonProperty("cycles")]
-		public object Cycles { get; set; }
+		public long Cycles { get; set; }
 
 		[JsonProperty("quantity")]
 		public long Quantity { get; set; }
