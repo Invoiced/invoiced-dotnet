@@ -13,7 +13,7 @@ namespace Invoiced
 		}
 
 		[JsonProperty("to")]
-		public IList<TextRecipient> To { get; set; }
+		public TextRecipient[] To { get; set; }
 
 		[JsonProperty("message")]
 		public string Message { get; set; }
