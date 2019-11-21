@@ -65,6 +65,11 @@ namespace Invoiced
             return subscription;
         }
 
+        public Event NewEvent() {
+            Event ev = new Event(this);
+            return ev;
+        }
+
         public CatalogItem NewCatalogItem() {
             CatalogItem catalogItem = new CatalogItem(this);
             return catalogItem;

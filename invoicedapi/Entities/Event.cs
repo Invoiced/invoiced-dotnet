@@ -7,6 +7,9 @@ namespace Invoiced
 
 	public class Event : AbstractEntity<Event> {
 
+		internal Event() : base() {
+			
+		}
 
 		internal Event(Connection conn) : base(conn) {
 		}
