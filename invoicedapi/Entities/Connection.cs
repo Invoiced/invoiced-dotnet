@@ -50,6 +50,11 @@ namespace Invoiced
             return creditNote;
         }
 
+        public Estimate NewEstimate() {
+            Estimate estimate = new Estimate(this);
+            return estimate;
+        }
+
         public Transaction NewTransaction() {
             Transaction transaction = new Transaction(this);
             return transaction;

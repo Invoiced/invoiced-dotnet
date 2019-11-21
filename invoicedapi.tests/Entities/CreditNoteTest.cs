@@ -290,9 +290,9 @@ namespace InvoicedTest
 
 			var client = mockHttp.ToHttpClient();
 
-			var customer = CreateDefaultCreditNote(client);
+			var creditNote = CreateDefaultCreditNote(client);
 
-			customer.Delete();
+			creditNote.Delete();
 
 		}
 

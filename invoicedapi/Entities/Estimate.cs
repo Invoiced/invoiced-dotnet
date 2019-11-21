@@ -8,7 +8,7 @@ namespace Invoiced
 	public class Estimate : AbstractEntity<Estimate>
 	{
 
-		public Estimate() : base(){
+		public Estimate() : base() {
 
 		}
 
@@ -45,7 +45,7 @@ namespace Invoiced
 		public long Customer { get; set; }
 
 		[JsonProperty("invoice")]
-		public long Invoice { get; set; }
+		public long? Invoice { get; set; }
 
 		[JsonProperty("name")]
 		public string Name { get; set; }
@@ -60,7 +60,7 @@ namespace Invoiced
 		public bool Closed { get; set; }
 
 		[JsonProperty("approved")]
-		public bool Approved { get; set; }
+		public bool? Approved { get; set; }
 
 		[JsonProperty("status")]
 		public string Status { get; set; }
