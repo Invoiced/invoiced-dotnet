@@ -107,7 +107,7 @@ namespace InvoicedTest
          
                      var customer = CreateDefaultCustomer(client);
          
-                     var note = customer.NewNote().Retrieve();
+                     var note = customer.NewNote().ListAll();
          
                      Assert.True(note[0].Id == 1212);
                      Assert.True(note[0].Notes == "Test McGee");
