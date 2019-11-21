@@ -358,6 +358,6 @@ namespace Invoiced
 			return false;
 		}
 
-	}
+    }
 
 }

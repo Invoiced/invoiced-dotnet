@@ -11,6 +11,10 @@ namespace Invoiced
 		internal File(Connection conn) : base(conn) {
 		}
 
+		public File() : base(){
+
+		}
+
 		protected override string EntityIdString() {
 			return this.Id.ToString();
 		}
