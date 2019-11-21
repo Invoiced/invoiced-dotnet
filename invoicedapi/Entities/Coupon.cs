@@ -7,6 +7,9 @@ namespace Invoiced
 
 	public class Coupon : AbstractEntity<Coupon> {
 
+		internal Coupon() : base() {
+			
+		}
 
 		internal Coupon(Connection conn) : base(conn) {
 		}
@@ -42,7 +45,7 @@ namespace Invoiced
 		public bool IsPercent { get; set; }
 
         [JsonProperty("exclusive")]
-		public bool Exclusive { get; set; }
+		public bool? Exclusive { get; set; }
 
         [JsonProperty("expiration_date")]
 		public long? ExpirationDate { get; set; }
