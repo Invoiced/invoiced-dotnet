@@ -60,6 +60,12 @@ namespace Invoiced
             return catalogItem;
         }
 
+        public TaxRate NewTaxRate()
+        {
+            TaxRate taxRate = new TaxRate(this);
+            return taxRate;
+        }
+
         public Plan NewPlan() {
             Plan plan = new Plan(this);
             return plan;

@@ -7,6 +7,9 @@ namespace Invoiced
 
 	public class TaxRate : AbstractEntity<TaxRate> {
 
+		internal TaxRate() : base() {
+			
+		} 
 
 		internal TaxRate(Connection conn) : base(conn) {
 		}
