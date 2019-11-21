@@ -105,6 +105,9 @@ namespace Invoiced
 
 		[JsonProperty("calculate_taxes")]
 		public bool CalculateTaxes { get; set; }
+		
+		[JsonProperty("ship_to")]
+		public object ShipTo { get; set; }
 
 		// Conditional Serialisation
 		

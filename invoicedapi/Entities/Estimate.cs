@@ -118,6 +118,9 @@ namespace Invoiced
 
 		[JsonProperty("disabled_payment_methods")]
 		public IList<string> DisabledPaymentMethods { get; set; }
+		
+		[JsonProperty("ship_to")]
+		public object ShipTo { get; set; }
 
 		public Invoice ConvertToInvoice() {
 

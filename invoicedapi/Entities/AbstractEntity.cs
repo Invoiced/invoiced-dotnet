@@ -86,7 +86,7 @@ namespace Invoiced
 
 		}
 
-		// this method does not serialise an existing object
+		// this method does not serialise an existing object and therefore does not use defined create/update safety, i.e. ShouldSerialize functions)
 		public void Save(string partialDataObject) {
 
 			if (!this.HasCRUD()) {
