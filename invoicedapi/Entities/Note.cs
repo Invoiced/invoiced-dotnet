@@ -48,7 +48,7 @@ namespace Invoiced
 		public long CreatedAt { get; set; }
 
 		// Retrieve() for notes must produce a list and also account for two possible endpoints
-		public new IList<Note> ListAll() {
+		public IList<Note> ListAll() {
 
 			string url = null;
 
