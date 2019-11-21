@@ -24,7 +24,7 @@ namespace Invoiced
 		public Coupon Coupon { get; set; }
 
 		[JsonProperty("expires")]
-		public long Expires { get; set; }
+		public long? Expires { get; set; }
 
 		protected override string EntityId() {
 			return this.Id.ToString();
