@@ -7,6 +7,9 @@ namespace Invoiced
 
 	public class CreditNote : AbstractEntity<CreditNote> {
 
+		internal CreditNote() : base() {
+			
+		}
 
 		internal CreditNote(Connection conn) : base(conn) {
 		}

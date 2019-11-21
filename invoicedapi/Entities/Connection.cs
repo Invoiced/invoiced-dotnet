@@ -45,6 +45,11 @@ namespace Invoiced
             return invoice;
         }
 
+        public CreditNote NewCreditNote() {
+            CreditNote creditNote = new CreditNote(this);
+            return creditNote;
+        }
+
         public Transaction NewTransaction() {
             Transaction transaction = new Transaction(this);
             return transaction;
