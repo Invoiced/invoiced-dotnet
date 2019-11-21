@@ -16,7 +16,7 @@ namespace Invoiced
 		public long Customer { get; set; }
 
 		[JsonProperty("method")]
-		public long Method { get; set; }
+		public string Method { get; set; }
 
 		[JsonProperty("currency")]
 		public string Currency { get; set; }

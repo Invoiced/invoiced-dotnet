@@ -102,6 +102,24 @@ namespace Invoiced
 
 		}
 
+		public Transaction Refund(long amount) {
+
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/refunds";
+			string jsonRequestBody = "{'amount': " + amount.ToString() + "}";
+
+			string responseText = this.Connection.Post(url,null,jsonRequestBody);
+			Transaction serializedObject;
+			
+			try {
+				serializedObject = JsonConvert.DeserializeObject<Transaction>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+			} catch(Exception e) {
+				throw new EntityException("",e);
+			}
+
+			return serializedObject;
+
+		}
+
 		// Conditional Serialisation
 
 		public bool ShouldSerializeId() {
