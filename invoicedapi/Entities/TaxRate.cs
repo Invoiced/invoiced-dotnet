@@ -14,7 +14,7 @@ namespace Invoiced
 		internal TaxRate(Connection conn) : base(conn) {
 		}
 
-		protected override string EntityIdString() {
+		protected override string EntityId() {
 			return this.Id;
 		}
 
@@ -22,7 +22,7 @@ namespace Invoiced
 			return "tax_rates";
 		}
 
-		public override bool HasStringId() {
+		public virtual bool HasStringId() {
 			return true;
 		}
 

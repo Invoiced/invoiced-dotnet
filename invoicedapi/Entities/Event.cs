@@ -14,7 +14,7 @@ namespace Invoiced
 		internal Event(Connection conn) : base(conn) {
 		}
 
-		protected override string EntityIdString() {
+		protected override string EntityId() {
 			return this.Id.ToString();
 		}
 
@@ -22,15 +22,15 @@ namespace Invoiced
 			return "events";
 		}
 
-		public override bool HasCRUD() {
+		protected override bool HasCrud() {
 			return false;
 		}
-		
-		public override bool HasList() {
+
+		protected override bool HasList() {
 			return true;
 		}
 
-		public override bool HasStringId() {
+		public virtual bool HasStringId() {
 			return false;
 		}
 

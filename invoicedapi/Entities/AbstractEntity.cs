@@ -19,7 +19,7 @@ namespace Invoiced
 		}
 		
 		public override string ToString() {
-			var s = base.ToString() + "<" + this.EntityIdString() +">";
+			var s = base.ToString() + "<" + this.EntityId() +">";
 			var jsonS =  s + " " + this.ToJsonString();
 
 			return jsonS;
@@ -48,7 +48,7 @@ namespace Invoiced
 				return;
 			}
 
-			if (!this.HasCRUD()) {
+			if (!this.HasCrud()) {
 				return;
 			}
 
@@ -69,11 +69,11 @@ namespace Invoiced
 		// this method serialises the existing object (with respect for defined create/update safety, i.e. ShouldSerialize functions)
 		public void SaveAll() {
 
-			if (!this.HasCRUD()) {
+			if (!this.HasCrud()) {
 				return;
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId();
 			string entityJsonBody = this.ToJsonString();
 			string responseText = this.Connection.Patch(url,entityJsonBody);
 			
@@ -89,11 +89,11 @@ namespace Invoiced
 		// this method does not serialise an existing object and therefore does not use defined create/update safety, i.e. ShouldSerialize functions)
 		public void Save(string partialDataObject) {
 
-			if (!this.HasCRUD()) {
+			if (!this.HasCrud()) {
 				return;
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId();
 			string responseText = this.Connection.Patch(url,partialDataObject);
 			
 			try {
@@ -154,11 +154,11 @@ namespace Invoiced
 
 		public virtual void Delete() {
 
-			if (!HasCRUD()) {
+			if (!HasCrud()) {
 				return;
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId();
 			
 			this.Connection.Delete(url);
 
@@ -243,7 +243,7 @@ namespace Invoiced
 				return;
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/void";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/void";
 
 			string responseText = this.Connection.Post(url,null,null);
 			
@@ -262,7 +262,7 @@ namespace Invoiced
 
 			IList<Attachment> objects = null;
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/attachments";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/attachments";
 
 			string responseText = this.Connection.Get(url,null);
 			objects = JsonConvert.DeserializeObject<IList<Attachment>>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
@@ -278,7 +278,7 @@ namespace Invoiced
 
 			IList<Email> objects = null;
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/emails";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/emails";
 
 			string jsonRequestBody = emailRequest.ToJsonString();
 
@@ -297,7 +297,7 @@ namespace Invoiced
 			Letter letter = null;
 			string responseText = null;
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/letters";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/letters";
 
 			if (letterRequest != null) {
 				string jsonRequestBody = letterRequest.ToJsonString();
@@ -321,7 +321,7 @@ namespace Invoiced
 
 			IList<TextMessage> objects = null;
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/text_messages";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/text_messages";
 
 			string jsonRequestBody = textRequest.ToJsonString();
 
@@ -331,30 +331,26 @@ namespace Invoiced
 			return objects;
 		}
 
-		protected abstract string EntityIdString();
+		protected abstract string EntityId();
 		public abstract string EntityName();
 
-		public virtual bool HasCRUD() {
+		protected virtual bool HasCrud() {
 			return true;
 		}
 
-		public virtual bool HasList() {
+		protected virtual bool HasList() {
 			return true;
 		}
 
-		public virtual bool HasVoid() {
-			return false;
-		}
-		
-		public virtual bool HasStringId() {
+		protected virtual bool HasVoid() {
 			return false;
 		}
 
-		public virtual bool HasAttachments() {
+		protected virtual bool HasAttachments() {
 			return false;
 		}
 
-		public virtual bool HasSends() {
+		protected virtual bool HasSends() {
 			return false;
 		}
 

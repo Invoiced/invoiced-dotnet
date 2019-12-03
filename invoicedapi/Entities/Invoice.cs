@@ -15,7 +15,7 @@ namespace Invoiced
 
 		}
 
-		protected override string EntityIdString() {
+		protected override string EntityId() {
 			return this.Id.ToString();
 		}
 
@@ -23,15 +23,15 @@ namespace Invoiced
 			return "invoices";
 		}
 
-		public override bool HasVoid() {
+		protected override bool HasVoid() {
 			return true;
 		}
 
-		public override bool HasAttachments() {
+		protected override bool HasAttachments() {
 			return true;
 		}
 
-		public override bool HasSends() {
+		protected override bool HasSends() {
 			return true;
 		}
 
@@ -154,7 +154,7 @@ namespace Invoiced
 
 		public void Pay() {
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/pay";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/pay";
 
 			string responseText = this.Connection.Post(url,null,"");
 			

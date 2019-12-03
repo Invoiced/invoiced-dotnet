@@ -14,7 +14,7 @@ namespace Invoiced
 
 		}
 
-		protected override string EntityIdString() {
+		protected override string EntityId() {
 			return this.Id.ToString();
 		}
 
@@ -22,7 +22,7 @@ namespace Invoiced
 			return "customers";
 		}
 
-		public override bool HasSends() {
+		protected override bool HasSends() {
 			return true;
 		}
 
@@ -173,7 +173,7 @@ namespace Invoiced
 
 		public Balance GetBalance() {
 
-			var url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/balance";
+			var url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/balance";
 
 			var responseText = this.Connection.Get(url,null);
 			Balance serializedObject;
@@ -190,7 +190,7 @@ namespace Invoiced
 
 		public Invoice ConsolidateInvoices(long? cutoffDate = null) {
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/consolidate_invoices";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/consolidate_invoices";
 
 			string responseText = this.Connection.Post(url,null,cutoffDate.ToString());
 			Invoice serializedObject;

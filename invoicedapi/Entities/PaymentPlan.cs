@@ -19,7 +19,7 @@ namespace Invoiced
 
 		}
 
-		protected override string EntityIdString() {
+		protected override string EntityId() {
 			return this.Id.ToString();
 		}
 
@@ -27,7 +27,7 @@ namespace Invoiced
 			return "invoices/" + this.InvoiceId.ToString() + "/payment_plan";
 		}
 
-		public override bool HasList() {
+		protected override bool HasList() {
 			return false;
 		}
 
@@ -51,7 +51,7 @@ namespace Invoiced
 
 		// identical to default Delete() but does not append ID to end of URL
 		public void Cancel() {
-			if (!HasCRUD()) {
+			if (!HasCrud()) {
 				return;
 			}
 

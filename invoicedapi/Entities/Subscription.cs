@@ -17,7 +17,7 @@ namespace Invoiced
 
 		}
 
-		protected override string EntityIdString() {
+		protected override string EntityId() {
 			return this.Id.ToString();
 		}
 
@@ -107,7 +107,7 @@ namespace Invoiced
 		public IList<string> PendingLineItems { get; set; }
 
 		public void Cancel() {
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString();
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId();
 			
 			this.Connection.Delete(url);
 		}

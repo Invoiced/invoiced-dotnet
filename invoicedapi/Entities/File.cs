@@ -15,15 +15,15 @@ namespace Invoiced
 
 		}
 
-		protected override string EntityIdString() {
+		protected override string EntityId() {
 			return this.Id.ToString();
 		}
 
 		public override string EntityName() {
 			return "files";
 		}
-		
-		public override bool HasList() {
+
+		protected override bool HasList() {
 			return false;
 		}
 

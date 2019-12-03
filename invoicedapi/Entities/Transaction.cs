@@ -16,7 +16,7 @@ namespace Invoiced
 
 		}
 
-		protected override string EntityIdString() {
+		protected override string EntityId() {
 			return this.Id.ToString();
 		}
 
@@ -104,7 +104,7 @@ namespace Invoiced
 
 		public Transaction Refund(long amount) {
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/refunds";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/refunds";
 			string jsonRequestBody = "{'amount': " + amount.ToString() + "}";
 
 			string responseText = this.Connection.Post(url,null,jsonRequestBody);

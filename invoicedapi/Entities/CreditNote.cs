@@ -14,7 +14,7 @@ namespace Invoiced
 		internal CreditNote(Connection conn) : base(conn) {
 		}
 
-		protected override string EntityIdString() {
+		protected override string EntityId() {
 			return this.Id.ToString();
 		}
 
@@ -22,15 +22,15 @@ namespace Invoiced
 			return "credit_notes";
 		}
 
-		public override bool HasVoid() {
+		protected override bool HasVoid() {
 			return true;
 		}
 
-		public override bool HasAttachments() {
+		protected override bool HasAttachments() {
 			return true;
 		}
 
-		public override bool HasSends() {
+		protected override bool HasSends() {
 			return true;
 		}
 

@@ -16,7 +16,7 @@ namespace Invoiced
 		internal Plan(Connection conn) : base(conn) {
 		}
 
-		protected override string EntityIdString() {
+		protected override string EntityId() {
 			return this.Id;
 		}
 
@@ -24,7 +24,7 @@ namespace Invoiced
 			return "plans";
 		}
 
-		public override bool HasStringId() {
+		public virtual bool HasStringId() {
 			return true;
 		}
 

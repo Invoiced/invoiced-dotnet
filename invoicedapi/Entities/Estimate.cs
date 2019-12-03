@@ -15,7 +15,7 @@ namespace Invoiced
 		internal Estimate(Connection conn) : base(conn) {
 		}
 
-		protected override string EntityIdString() {
+		protected override string EntityId() {
 			return this.Id.ToString();
 		}
 
@@ -23,15 +23,15 @@ namespace Invoiced
 			return "estimates";
 		}
 
-		public override bool HasVoid() {
+		protected override bool HasVoid() {
 			return true;
 		}
 
-		public override bool HasAttachments() {
+		protected override bool HasAttachments() {
 			return true;
 		}
 
-		public override bool HasSends() {
+		protected override bool HasSends() {
 			return true;
 		}
 
@@ -124,7 +124,7 @@ namespace Invoiced
 
 		public Invoice ConvertToInvoice() {
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityIdString() + "/invoice";
+			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/invoice";
 
 			string responseText = this.Connection.Post(url,null,"");
 			Invoice serializedObject;
