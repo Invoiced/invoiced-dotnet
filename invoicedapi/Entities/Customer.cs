@@ -108,7 +108,7 @@ namespace Invoiced
 		public string Phone { get; set; }
 
 		[JsonProperty("credit_hold")]
-		public bool CreditHold { get; set; }
+		public bool? CreditHold { get; set; }
 
 		[JsonProperty("credit_limit")]
 		public long? CreditLimit { get; set; }
