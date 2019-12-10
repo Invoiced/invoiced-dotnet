@@ -4,28 +4,30 @@ using Newtonsoft.Json;
 
 namespace Invoiced
 {
-public class Tax : Item
-{
-    public Tax() : base(){
+
+	public class Tax : AbstractItem
+	{
+
+		public Tax() : base(){
+
+		}
+
+		[JsonProperty("id")]
+		public long Id { get; set; }
+
+		[JsonProperty("object")]
+		public string Obj { get; set; }
+
+		[JsonProperty("amount")]
+		public long Amount { get; set; }
+
+		[JsonProperty("tax_rate")]
+		public TaxRate TaxRate { get; set; }
+
+		protected override string EntityId() {
+			return this.Id.ToString();
+		}
 
 	}
-
-    [JsonProperty("id")]
-	public long Id { get; set; }
-
-	[JsonProperty("object")]
-	public string Object { get; set; }
-
-	[JsonProperty("amount")]
-	public double Amount { get; set; }
-
-	[JsonProperty("tax_rate")]
-	public Rate TaxRate { get; set; }
-
-    override public long EntityID() {
-		return this.Id;
-	}
-
-}
 
 }

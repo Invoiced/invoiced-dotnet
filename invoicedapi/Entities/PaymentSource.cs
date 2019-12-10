@@ -4,35 +4,39 @@ using Newtonsoft.Json;
 
 namespace Invoiced
 {
-public class PaymentSource : Item
-{
-	public PaymentSource() : base(){
+
+	public class PaymentSource : AbstractItem
+	{
+		
+		public PaymentSource() : base() {
+
+		}
+
+		[JsonProperty("id")]
+		public long Id { get; set; }
+
+		[JsonProperty("object")]
+		public string Obj { get; set; }
+
+		[JsonProperty("brand")]
+		public string Brand { get; set; }
+
+		[JsonProperty("last4")]
+		public string Last4 { get; set; }
+
+		[JsonProperty("exp_month")]
+		public long ExpMonth { get; set; }
+
+		[JsonProperty("exp_year")]
+		public long ExpYear { get; set; }
+
+		[JsonProperty("funding")]
+		public string Funding { get; set; }
+
+		protected override string EntityId() {
+			return this.Id.ToString();
+		}
 
 	}
 
-	[JsonProperty("id")]
-	public long Id { get; set; }
-
-	[JsonProperty("object")]
-	public string Object2 { get; set; }
-
-	[JsonProperty("brand")]
-	public string Brand { get; set; }
-
-	[JsonProperty("last4")]
-	public string Last4 { get; set; }
-
-	[JsonProperty("exp_month")]
-	public int ExpMonth { get; set; }
-
-	[JsonProperty("exp_year")]
-	public int ExpYear { get; set; }
-
-	[JsonProperty("funding")]
-	public string Funding { get; set; }
-
-	override public long EntityID() {
-		return this.Id;
-	}
-}
 }

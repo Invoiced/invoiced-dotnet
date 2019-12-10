@@ -8,8 +8,12 @@
 *.userprefs
 .vs
 .vscode
+.idea
 
 project.lock.json
 
 invoicedapi.tests/Integration/
 .travis.yml
+
+# macos
+.DS_Store

@@ -5,28 +5,25 @@ using System.Reflection;
 
 namespace Invoiced
 {
-    public abstract class Item {
-
-
-		public Item() {
+	
+	public abstract class AbstractItem {
+		protected AbstractItem() {
 
 		}
 
-        public override string ToString(){
-				var s = base.ToString() + "<" + this.EntityID().ToString() +">";
-		    	var jsonS =  s + " " + this.ToJsonString();
+		public override string ToString(){
+				var s = base.ToString() + "<" + this.EntityId() +">";
+				var jsonS =  s + " " + this.ToJsonString();
 
 				return jsonS;
-         }
+		}
 
-        public string ToJsonString() {
+		public string ToJsonString() {
 				return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore } );
 		}
 
+		protected abstract string EntityId();
 
-        public abstract long EntityID();
-
-
-    }
+	}
 
 }

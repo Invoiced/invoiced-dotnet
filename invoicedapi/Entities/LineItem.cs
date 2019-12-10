@@ -6,15 +6,18 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-    public class LineItem : Item
+    public class LineItem : AbstractItem
     {
-        public LineItem() : base(){}
+
+        public LineItem() : base() {
+            
+        }
 
         [JsonProperty("id")]
         public long Id { get; set; }
 
         [JsonProperty("object")]
-        public string Object2 { get; set; }
+        public string Obj { get; set; }
 
         [JsonProperty("catalog_item")]
         public string CatalogItem { get; set; }
@@ -26,16 +29,16 @@ namespace Invoiced
         public string Name { get; set; }
 
         [JsonProperty("description")]
-        public object Description { get; set; }
+        public string Description { get; set; }
 
         [JsonProperty("quantity")]
-        public int Quantity { get; set; }
+        public long Quantity { get; set; }
 
         [JsonProperty("unit_cost")]
-        public double UnitCost { get; set; }
+        public long UnitCost { get; set; }
 
         [JsonProperty("amount")]
-        public double Amount { get; set; }
+        public long Amount { get; set; }
 
         [JsonProperty("discountable")]
         public bool Discountable { get; set; }
@@ -49,18 +52,16 @@ namespace Invoiced
         [JsonProperty("taxes")]
         public IList<Tax> Taxes { get; set; }
 
+        [JsonProperty("plan")]
+		public string Plan { get; set; }
+
         [JsonProperty("metadata")]
         public Metadata Metadata { get; set; }
 
-        override public long EntityID() {
-            return this.Id;
-        }
+        protected override string EntityId() {
+			return this.Id.ToString();
+		}
+    
     }
-
-
-
-
-
-
 
 }
