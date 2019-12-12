@@ -52,7 +52,7 @@ namespace Invoiced
 				throw new EntityException("Create operation not supported on object.");
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName();
+			string url = "/" + this.EntityName();
 			string entityJsonBody = this.ToJsonString();
 			string responseText = this.Connection.Post(url,null,entityJsonBody);
 		
@@ -73,7 +73,7 @@ namespace Invoiced
 				throw new EntityException("Save operation not supported on object.");
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId();
+			string url = "/" + this.EntityName() + "/" + this.EntityId();
 			string entityJsonBody = this.ToJsonString();
 			string responseText = this.Connection.Patch(url,entityJsonBody);
 			
@@ -93,7 +93,7 @@ namespace Invoiced
 				throw new EntityException("Save operation not supported on object.");
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId();
+			string url = "/" + this.EntityName() + "/" + this.EntityId();
 			string responseText = this.Connection.Patch(url,partialDataObject);
 			
 			try {
@@ -106,7 +106,7 @@ namespace Invoiced
 
 		public T Retrieve(long id) {
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + id.ToString();
+			string url = "/" + this.EntityName() + "/" + id.ToString();
 			string responseText = this.Connection.Get(url,null);
 			T serializedObject;
 			try {
@@ -122,7 +122,7 @@ namespace Invoiced
 
 		public T Retrieve() {
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName();
+			string url = "/" + this.EntityName();
 			string responseText = this.Connection.Get(url,null);
 			T serializedObject;
 			try {
@@ -138,7 +138,7 @@ namespace Invoiced
 
 		public T Retrieve(string id) {
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + id;
+			string url = "/" + this.EntityName() + "/" + id;
 			string responseText = this.Connection.Get(url,null);
 			T serializedObject;
 			try {
@@ -158,7 +158,7 @@ namespace Invoiced
 				throw new EntityException("Delete operation not supported on object.");
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId();
+			string url = "/" + this.EntityName() + "/" + this.EntityId();
 			
 			this.Connection.Delete(url);
 
@@ -170,7 +170,7 @@ namespace Invoiced
 				throw new EntityException("List operation not supported on object.");
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName();
+			string url = "/" + this.EntityName();
 			
 			if (!string.IsNullOrEmpty(nextUrl)) {
 				url = nextUrl;
@@ -243,7 +243,7 @@ namespace Invoiced
 				throw new EntityException("Void operation not supported on object.");
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/void";
+			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/void";
 
 			string responseText = this.Connection.Post(url,null,null);
 			
@@ -262,7 +262,7 @@ namespace Invoiced
 
 			IList<Attachment> objects = null;
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/attachments";
+			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/attachments";
 
 			string responseText = this.Connection.Get(url,null);
 			objects = JsonConvert.DeserializeObject<IList<Attachment>>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
@@ -278,7 +278,7 @@ namespace Invoiced
 
 			IList<Email> objects = null;
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/emails";
+			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/emails";
 
 			string jsonRequestBody = emailRequest.ToJsonString();
 
@@ -297,7 +297,7 @@ namespace Invoiced
 			Letter letter = null;
 			string responseText = null;
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/letters";
+			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/letters";
 
 			if (letterRequest != null) {
 				string jsonRequestBody = letterRequest.ToJsonString();
@@ -321,7 +321,7 @@ namespace Invoiced
 
 			IList<TextMessage> objects = null;
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/text_messages";
+			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/text_messages";
 
 			string jsonRequestBody = textRequest.ToJsonString();
 

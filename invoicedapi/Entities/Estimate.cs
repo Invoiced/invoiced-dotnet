@@ -124,7 +124,7 @@ namespace Invoiced
 
 		public Invoice ConvertToInvoice() {
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/invoice";
+			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/invoice";
 
 			string responseText = this.Connection.Post(url,null,"");
 			Invoice serializedObject;

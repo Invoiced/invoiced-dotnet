@@ -154,7 +154,7 @@ namespace Invoiced
 
 		public void Pay() {
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/pay";
+			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/pay";
 
 			string responseText = this.Connection.Post(url,null,"");
 			

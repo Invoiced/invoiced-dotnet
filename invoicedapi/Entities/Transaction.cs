@@ -86,7 +86,7 @@ namespace Invoiced
 
 		public Transaction InitiateCharge(ChargeRequest chargeRequest) {
 
-			string url = this.Connection.baseUrl() + "/charges";
+			string url = "/charges";
 			string jsonRequestBody = chargeRequest.ToJsonString();
 
 			string responseText = this.Connection.Post(url,null,jsonRequestBody);
@@ -104,7 +104,7 @@ namespace Invoiced
 
 		public Transaction Refund(long amount) {
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/refunds";
+			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/refunds";
 			string jsonRequestBody = "{'amount': " + amount.ToString() + "}";
 
 			string responseText = this.Connection.Post(url,null,jsonRequestBody);

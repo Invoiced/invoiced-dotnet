@@ -55,7 +55,7 @@ namespace Invoiced
 				return;
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName();
+			string url = "/" + this.EntityName();
 			
 			this.Connection.Delete(url);
 		}

@@ -53,9 +53,9 @@ namespace Invoiced
 			string url = null;
 
 			if(this.CustomerId > 0) {
-				url = this.Connection.baseUrl() + "/customers/" + this.CustomerId + "/notes";
+				url = "/customers/" + this.CustomerId + "/notes";
 			} else if(this.InvoiceId > 0) {
-				url = this.Connection.baseUrl() + "/invoices/" + this.InvoiceId + "/notes";
+				url = "/invoices/" + this.InvoiceId + "/notes";
 			} else {
 				return null;
 			}

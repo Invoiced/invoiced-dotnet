@@ -173,7 +173,7 @@ namespace Invoiced
 
 		public Balance GetBalance() {
 
-			var url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/balance";
+			var url = "/" + this.EntityName() + "/" + this.EntityId() + "/balance";
 
 			var responseText = this.Connection.Get(url,null);
 			Balance serializedObject;
@@ -190,7 +190,7 @@ namespace Invoiced
 
 		public Invoice ConsolidateInvoices(long? cutoffDate = null) {
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/consolidate_invoices";
+			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/consolidate_invoices";
 
 			string responseText = this.Connection.Post(url,null,cutoffDate.ToString());
 			Invoice serializedObject;
