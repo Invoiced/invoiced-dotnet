@@ -104,41 +104,22 @@ namespace Invoiced
 
 		}
 
-		public T Retrieve(long id) {
-
-			string url = "/" + this.EntityName() + "/" + id.ToString();
-			string responseText = this.Connection.Get(url,null);
-			T serializedObject;
-			try {
-					serializedObject = JsonConvert.DeserializeObject<T>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
-					serializedObject.Connection = this.Connection;
-			} catch(Exception e) {
-				throw new EntityException("",e);
-			}
-
-			return serializedObject;
-			
+		public T Retrieve(long id)
+		{
+			return Retrieve(id.ToString());
 		}
 
-		public T Retrieve() {
+		public T Retrieve(string id = null)
+		{
 
-			string url = "/" + this.EntityName();
-			string responseText = this.Connection.Get(url,null);
-			T serializedObject;
-			try {
-					serializedObject = JsonConvert.DeserializeObject<T>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
-					serializedObject.Connection = this.Connection;
-			} catch(Exception e) {
-				throw new EntityException("",e);
+			string url = null;
+
+			if (id == null) {
+				url = "/" + this.EntityName();
+			} else {
+				url = "/" + this.EntityName() + "/" + id;
 			}
 
-			return serializedObject;
-			
-		}
-
-		public T Retrieve(string id) {
-
-			string url = "/" + this.EntityName() + "/" + id;
 			string responseText = this.Connection.Get(url,null);
 			T serializedObject;
 			try {
