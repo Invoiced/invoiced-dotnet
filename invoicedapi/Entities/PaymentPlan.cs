@@ -26,7 +26,7 @@ namespace Invoiced
 		}
 
 		[JsonProperty("id")]
-		public long Id { get; set; }
+		public long? Id { get; set; }
 
 		[JsonProperty("object")]
 		public string Obj { get; set; }
@@ -41,7 +41,7 @@ namespace Invoiced
 		public Approval Approval { get; set; }
 
 		[JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		// identical to default Delete() but does not append ID to end of URL
 		public void Cancel() {

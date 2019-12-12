@@ -14,16 +14,16 @@ namespace Invoiced
 		}
 
 		[JsonProperty("id")]
-		public long Id { get; set; }
+		public long? Id { get; set; }
 
 		[JsonProperty("date")]
-		public long Date { get; set; }
+		public long? Date { get; set; }
 
 		[JsonProperty("amount")]
-		public long Amount { get; set; }
+		public long? Amount { get; set; }
 
 		[JsonProperty("balance")]
-		public long Balance { get; set; }
+		public long? Balance { get; set; }
 
 		protected override string EntityId() {
 			return this.Id.ToString();

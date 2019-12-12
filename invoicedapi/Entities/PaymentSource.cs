@@ -13,7 +13,7 @@ namespace Invoiced
 		}
 
 		[JsonProperty("id")]
-		public long Id { get; set; }
+		public long? Id { get; set; }
 
 		[JsonProperty("object")]
 		public string Obj { get; set; }
@@ -25,10 +25,10 @@ namespace Invoiced
 		public string Last4 { get; set; }
 
 		[JsonProperty("exp_month")]
-		public long ExpMonth { get; set; }
+		public long? ExpMonth { get; set; }
 
 		[JsonProperty("exp_year")]
-		public long ExpYear { get; set; }
+		public long? ExpYear { get; set; }
 
 		[JsonProperty("funding")]
 		public string Funding { get; set; }

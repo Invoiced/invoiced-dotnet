@@ -21,7 +21,7 @@ namespace Invoiced
 		}
 
 		[JsonProperty("id")]
-		public long Id { get; set; }
+		public long? Id { get; set; }
 
 		[JsonProperty("catalog_item")]
 		public string CatalogItem { get; set; }
@@ -36,22 +36,22 @@ namespace Invoiced
 		public string Description { get; set; }
 
         [JsonProperty("quantity")]
-		public long Quantity { get; set; }
+		public long? Quantity { get; set; }
 
         [JsonProperty("amount")]
-		public long Amount { get; set; }
+		public long? Amount { get; set; }
 
         [JsonProperty("unit_cost")]
-		public long UnitCost { get; set; }
+		public long? UnitCost { get; set; }
 
         [JsonProperty("discountable")]
-		public bool Discountable { get; set; }
+		public bool? Discountable { get; set; }
 
         [JsonProperty("discounts")]
 		public IList<Discount> Discounts { get; set; }
 
 		[JsonProperty("taxable")]
-		public bool Taxable { get; set; }
+		public bool? Taxable { get; set; }
 
 		[JsonProperty("taxes")]
 		public IList<Tax> Taxes { get; set; }

@@ -24,7 +24,7 @@ namespace Invoiced
 		}
 
 		[JsonProperty("id")]
-		public long Id { get; set; }
+		public long? Id { get; set; }
 
 		[JsonProperty("object")]
 		public string Obj { get; set; }
@@ -39,7 +39,7 @@ namespace Invoiced
 		public string Email { get; set; }
 
 		[JsonProperty("autopay")]
-		public bool Autopay { get; set; }
+		public bool? Autopay { get; set; }
 
 		[JsonProperty("autopay_delay_days")]
 		public long? AutopayDelayDays { get; set; }
@@ -51,7 +51,7 @@ namespace Invoiced
 		public PaymentSource PaymentSource { get; set; }
 
 		[JsonProperty("taxable")]
-		public bool Taxable { get; set; }
+		public bool? Taxable { get; set; }
 
 		[JsonProperty("taxes")]
 		public IList<Tax> Taxes { get; set; }
@@ -84,7 +84,7 @@ namespace Invoiced
 		public string Language { get; set; }
 
 		[JsonProperty("chase")]
-		public bool Chase { get; set; }
+		public bool? Chase { get; set; }
 
 		[JsonProperty("chasing_cadence")]
 		public long? ChasingCadence { get; set; }
@@ -129,7 +129,7 @@ namespace Invoiced
 		public string StatementPdfUrl { get; set; }
 
 		[JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }

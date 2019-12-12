@@ -25,7 +25,7 @@ namespace Invoiced
 		}
 
 		[JsonProperty("id")]
-		public long Id { get; set; }
+		public long? Id { get; set; }
 
 		[JsonProperty("object")]
 		public string Obj { get; set; }
@@ -34,7 +34,7 @@ namespace Invoiced
 		public string Name { get; set; }
 
 		[JsonProperty("size")]
-		public long Size { get; set; }
+		public long? Size { get; set; }
 
 		[JsonProperty("type")]
 		public string Type { get; set; }
@@ -43,7 +43,7 @@ namespace Invoiced
 		public string Url { get; set; }
 
 		[JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		// Conditional Serialisation
 

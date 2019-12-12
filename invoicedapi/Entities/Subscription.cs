@@ -24,43 +24,43 @@ namespace Invoiced
 		}
 
 		[JsonProperty("id")]
-		public long Id { get; set; }
+		public long? Id { get; set; }
 
 		[JsonProperty("object")]
 		public string Obj { get; set; }
 
 		[JsonProperty("customer")]
-		public long Customer { get; set; }
+		public long? Customer { get; set; }
 
 		[JsonProperty("plan")]
 		public string Plan { get; set; }
 
 		[JsonProperty("cycles")]
-		public long Cycles { get; set; }
+		public long? Cycles { get; set; }
 
 		[JsonProperty("quantity")]
-		public long Quantity { get; set; }
+		public long? Quantity { get; set; }
 
 		[JsonProperty("start_date")]
-		public long StartDate { get; set; }
+		public long? StartDate { get; set; }
 
 		[JsonProperty("bill_in")]
 		public string BillIn { get; set; }
 
 		[JsonProperty("period_start")]
-		public long PeriodStart { get; set; }
+		public long? PeriodStart { get; set; }
 
 		[JsonProperty("period_end")]
-		public long PeriodEnd { get; set; }
+		public long? PeriodEnd { get; set; }
 
 		[JsonProperty("cancel_at_period_end")]
-		public bool CancelAtPeriodEnd { get; set; }
+		public bool? CancelAtPeriodEnd { get; set; }
 
 		[JsonProperty("canceled_at")]
 		public object CanceledAt { get; set; }
 
 		[JsonProperty("paused")]
-		public bool Paused { get; set; }
+		public bool? Paused { get; set; }
 
 		[JsonProperty("status")]
 		public string Status { get; set; }
@@ -87,16 +87,16 @@ namespace Invoiced
 		public IList<object> Taxes { get; set; }
 		
 		[JsonProperty("recurring_total")]
-		public long RecurringTotal { get; set; }
+		public long? RecurringTotal { get; set; }
 
 		[JsonProperty("mrr")]
-		public long Mrr { get; set; }
+		public long? Mrr { get; set; }
 
 		[JsonProperty("url")]
 		public string Url { get; set; }
 
 		[JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }

@@ -22,7 +22,7 @@ namespace Invoiced
 		}
 
 		[JsonProperty("id")]
-		public long Id { get; set; }
+		public long? Id { get; set; }
 
 		[JsonProperty("object")]
 		public string Obj { get; set; }
@@ -31,16 +31,16 @@ namespace Invoiced
 		public string Notes { get; set; }
 
         [JsonProperty("customer")]
-		public long Customer { get; set; }
+		public long? Customer { get; set; }
 
 		[JsonProperty("customer_id")]
-		public long CustomerId { get; set; }
+		public long? CustomerId { get; set; }
 
         [JsonProperty("invoice_id")]
 		public long? InvoiceId { get; set; }
 
 		[JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		public override void Create() {
 			String endpointBase = this.GetEndpointBase();

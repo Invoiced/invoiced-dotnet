@@ -22,13 +22,13 @@ namespace Invoiced
 		}
 
 		[JsonProperty("id")]
-		public long Id { get; set; }
+		public long? Id { get; set; }
 
 		[JsonProperty("object")]
 		public string Obj { get; set; }
 
 		[JsonProperty("customer")]
-		public long Customer { get; set; }
+		public long? Customer { get; set; }
 
 		[JsonProperty("invoice")]
 		public long? Invoice { get; set; }
@@ -37,7 +37,7 @@ namespace Invoiced
 		public long? CreditNote { get; set; }
 
 		[JsonProperty("date")]
-		public long Date { get; set; }
+		public long? Date { get; set; }
 
 		[JsonProperty("type")]
 		public string Type { get; set; }
@@ -61,7 +61,7 @@ namespace Invoiced
 		public string Currency { get; set; }
 
 		[JsonProperty("amount")]
-		public long Amount { get; set; }
+		public long? Amount { get; set; }
 
 		[JsonProperty("notes")]
 		public string Notes { get; set; }
@@ -76,7 +76,7 @@ namespace Invoiced
 		public string PdfUrl { get; set; }
 
 		[JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }

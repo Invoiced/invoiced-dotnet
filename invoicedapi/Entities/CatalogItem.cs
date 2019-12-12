@@ -19,10 +19,6 @@ namespace Invoiced
 			return this.Id;
 		}
 
-		public virtual bool HasStringId() {
-			return true;
-		}
-
 		[JsonProperty("id")]
 		public string Id { get; set; }
 
@@ -36,7 +32,7 @@ namespace Invoiced
 		public string Currency { get; set; }
 
 		[JsonProperty("unit_cost")]
-		public long UnitCost { get; set; }
+		public long? UnitCost { get; set; }
 
 		[JsonProperty("description")]
 		public string Description { get; set; }
@@ -45,7 +41,7 @@ namespace Invoiced
 		public string Type { get; set; }
 
 		[JsonProperty("taxable")]
-		public bool Taxable { get; set; }
+		public bool? Taxable { get; set; }
 
 		[JsonProperty("taxes")]
 		public IList<Tax> Taxes { get; set; }
@@ -57,10 +53,10 @@ namespace Invoiced
 		public string GlAccount { get; set; }
 
 		[JsonProperty("discountable")]
-		public bool Discountable { get; set; }
+		public bool? Discountable { get; set; }
 		
 		[JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }

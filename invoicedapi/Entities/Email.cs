@@ -34,13 +34,13 @@ namespace Invoiced
 		public string Message { get; set; }
 
         [JsonProperty("opens")]
-		public int Opens { get; set; }
+		public int? Opens { get; set; }
 
         [JsonProperty("opens_detail")]
 		public object OpensDetail { get; set; }
 
         [JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		protected override string EntityId() {
 			return this.Id;

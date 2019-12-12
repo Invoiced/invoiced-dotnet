@@ -49,25 +49,25 @@ namespace Invoiced
 		public string Currency { get; set; }
 
 		[JsonProperty("draft")]
-		public bool Draft { get; set; }
+		public bool? Draft { get; set; }
 
 		[JsonProperty("closed")]
-		public bool Closed { get; set; }
+		public bool? Closed { get; set; }
 
 		[JsonProperty("paid")]
-		public bool Paid { get; set; }
+		public bool? Paid { get; set; }
 
 		[JsonProperty("status")]
 		public string Status { get; set; }
 
 		[JsonProperty("chase")]
-		public bool Chase { get; set; }
+		public bool? Chase { get; set; }
 
 		[JsonProperty("next_chase_on")]
 		public long? NextChaseOn { get; set; }
 
 		[JsonProperty("autopay")]
-		public bool Autopay { get; set; }
+		public bool? Autopay { get; set; }
 
 		[JsonProperty("attempt_count")]
 		public long? AttemptCount { get; set; }
@@ -97,7 +97,7 @@ namespace Invoiced
 		public string Notes { get; set; }
 
 		[JsonProperty("subtotal")]
-		public long Subtotal { get; set; }
+		public long? Subtotal { get; set; }
 
 		[JsonProperty("discounts")]
 		public IList<Discount> Discounts { get; set; }
@@ -106,7 +106,7 @@ namespace Invoiced
 		public IList<Tax> Taxes { get; set; }
 
 		[JsonProperty("total")]
-		public long Total { get; set; }
+		public long? Total { get; set; }
 
 		[JsonProperty("balance")]
 		public long? Balance { get; set; }
@@ -133,7 +133,7 @@ namespace Invoiced
 		public IList<long> Attachments { get; set; }
 
 		[JsonProperty("calculate_taxes")]
-		public bool CalculateTaxes { get; set; }
+		public bool? CalculateTaxes { get; set; }
 
 		[JsonProperty("disabled_payment_methods")]
 		public IList<string> DisabledPaymentMethods { get; set; }

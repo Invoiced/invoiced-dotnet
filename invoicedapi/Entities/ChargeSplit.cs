@@ -16,10 +16,10 @@ namespace Invoiced
 		public string Type { get; set; }
 
 		[JsonProperty("invoice")]
-		public long Invoice { get; set; }
+		public long? Invoice { get; set; }
 
 		[JsonProperty("amount")]
-		public long Amount { get; set; }
+		public long? Amount { get; set; }
 
 		protected override string EntityId() {
 			return "ChargeSplit";

@@ -19,13 +19,13 @@ namespace Invoiced
 		public string Message { get; set; }
 
         [JsonProperty("type")]
-		public long Type { get; set; }
+		public long? Type { get; set; }
 
         [JsonProperty("start")]
-		public long Start { get; set; }
+		public long? Start { get; set; }
 
         [JsonProperty("end")]
-		public long end { get; set; }
+		public long? end { get; set; }
 
         [JsonProperty("items")]
 		public string Items { get; set; }
