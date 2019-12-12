@@ -45,11 +45,11 @@ namespace Invoiced
 		public void Create() {
 
 			if (this._entityCreated) {
-				return;
+				throw new EntityException("Object has already been created.");
 			}
 
 			if (!this.HasCrud()) {
-				return;
+				throw new EntityException("Create operation not supported on object.");
 			}
 
 			string url = this.Connection.baseUrl() + "/" + this.EntityName();
@@ -70,7 +70,7 @@ namespace Invoiced
 		public void SaveAll() {
 
 			if (!this.HasCrud()) {
-				return;
+				throw new EntityException("Save operation not supported on object.");
 			}
 
 			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId();
@@ -90,7 +90,7 @@ namespace Invoiced
 		public void Save(string partialDataObject) {
 
 			if (!this.HasCrud()) {
-				return;
+				throw new EntityException("Save operation not supported on object.");
 			}
 
 			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId();
@@ -155,7 +155,7 @@ namespace Invoiced
 		public virtual void Delete() {
 
 			if (!HasCrud()) {
-				return;
+				throw new EntityException("Delete operation not supported on object.");
 			}
 
 			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId();
@@ -167,7 +167,7 @@ namespace Invoiced
 		private EntityList<T> List(string nextUrl,Dictionary<string,Object> queryParams) {
 
 			if (!this.HasList()) {
-				return null;
+				throw new EntityException("List operation not supported on object.");
 			}
 
 			string url = this.Connection.baseUrl() + "/" + this.EntityName();
@@ -206,7 +206,7 @@ namespace Invoiced
 			EntityList<T> entities = null;
 
 			if (!this.HasList()) {
-				return null;
+				throw new EntityException("List operation not supported on object.");
 			}
 
 			var tmpEntities = this.List(nextUrl,queryParams);
@@ -240,7 +240,7 @@ namespace Invoiced
 		public void Void() {
 
 			if (!this.HasVoid()) {
-				return;
+				throw new EntityException("Void operation not supported on object.");
 			}
 
 			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/void";
@@ -257,7 +257,7 @@ namespace Invoiced
 		public IList<Attachment> ListAttachments() {
 
 			if (!this.HasAttachments()) {
-				return null;
+				throw new EntityException("List attachments operation not supported on object.");
 			}
 
 			IList<Attachment> objects = null;
@@ -273,7 +273,7 @@ namespace Invoiced
 		public IList<Email> SendEmail(EmailRequest emailRequest) {
 
 			if (!this.HasSends()) {
-				return null;
+				throw new EntityException("Send email operation not supported on object.");
 			}
 
 			IList<Email> objects = null;
@@ -291,7 +291,7 @@ namespace Invoiced
 		public Letter SendLetter(LetterRequest letterRequest = null) {
 
 			if (!this.HasSends()) {
-				return null;
+				throw new EntityException("Send letter operation not supported on object.");
 			}
 
 			Letter letter = null;
@@ -316,7 +316,7 @@ namespace Invoiced
 		public IList<TextMessage> SendText(TextRequest textRequest) {
 
 			if (!this.HasSends()) {
-				return null;
+				throw new EntityException("Send text message operation not supported on object.");
 			}
 
 			IList<TextMessage> objects = null;
