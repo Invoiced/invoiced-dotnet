@@ -45,7 +45,7 @@ namespace Invoiced
 
 		// identical to default Delete() but does not append ID to end of URL
 		public void Cancel() {
-			this.Connection.Delete(this.GetEndpoint(false));
+			this.GetConnection().Delete(this.GetEndpoint(false));
 		}
 
 		// necessary to override this to avoid appending payment plan ID to DELETE request url

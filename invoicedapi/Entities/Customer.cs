@@ -141,26 +141,26 @@ namespace Invoiced
 		public IList<string> DisabledPaymentMethods { get; set; }
 
 		public Note NewNote() {
-			Note note = new Note(this.Connection);
+			Note note = new Note(this.GetConnection());
 			note.SetEndpointBase(this.GetEndpoint(true));
 			note.CustomerId = this.Id;
 			return note;
 		}
 
 		public Contact NewContact() {
-			Contact contact = new Contact(this.Connection);
+			Contact contact = new Contact(this.GetConnection());
 			contact.SetEndpointBase(this.GetEndpoint(true));
 			return contact;
 		}
 
 		public PendingLineItem NewPendingLineItem() {
-			PendingLineItem pli = new PendingLineItem(this.Connection);
+			PendingLineItem pli = new PendingLineItem(this.GetConnection());
 			pli.SetEndpointBase(this.GetEndpoint(true));
 			return pli;
 		}
 
 		public Task NewTask() {
-			Task task = new Task(this.Connection);
+			Task task = new Task(this.GetConnection());
 			task.CustomerId = this.Id;
 			return task;
 		}
@@ -181,7 +181,7 @@ namespace Invoiced
 
 			var url = this.GetEndpoint(true) + "/balance";
 
-			var responseText = this.Connection.Get(url,null);
+			var responseText = this.GetConnection().Get(url,null);
 			Balance serializedObject;
 			
 			try {
@@ -198,7 +198,7 @@ namespace Invoiced
 
 			string url = this.GetEndpoint(true) + "/consolidate_invoices";
 
-			string responseText = this.Connection.Post(url,null,cutoffDate.ToString());
+			string responseText = this.GetConnection().Post(url,null,cutoffDate.ToString());
 			Invoice serializedObject;
 			
 			try {
@@ -210,6 +210,35 @@ namespace Invoiced
 
 			return serializedObject;
 
+		}
+
+		public PaymentSource CreatePaymentSource(SourceRequest sourceRequest) {
+			string url = this.GetEndpoint(true) + "/payment_sources";
+			PaymentSource output = null;
+
+			try {
+
+				string sourceRequestJson = sourceRequest.ToJsonString();
+				string response = this.GetConnection().Post(url, null, sourceRequestJson);
+				
+				JsonSerializerSettings sourceSettings = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore};
+				sourceSettings.Converters.Add(new PaymentSourceConverter());
+				
+				output = JsonConvert.DeserializeObject<PaymentSource>(response, sourceSettings);
+				output.ChangeConnection(this.GetConnection());
+				output.SetEndpointBase(this.GetEndpoint(true));
+			}
+			catch (Exception e) {
+				throw new EntityException("", e);
+			}
+
+			return output;
+		}
+
+		public EntityList<PaymentSource> ListPaymentSources() {
+			PaymentSource source = new PaymentSource(this.GetConnection());
+			source.SetEndpointBase(this.GetEndpoint(true));
+			return source.ListAll(null, null, new PaymentSourceConverter());
 		}
 
 		// Conditional Serialisation

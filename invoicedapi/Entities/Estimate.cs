@@ -123,7 +123,7 @@ namespace Invoiced
 
 			string url = this.GetEndpoint(true) + "/invoice";
 
-			string responseText = this.Connection.Post(url,null,"");
+			string responseText = this.GetConnection().Post(url,null,"");
 			Invoice serializedObject;
 			
 			try {

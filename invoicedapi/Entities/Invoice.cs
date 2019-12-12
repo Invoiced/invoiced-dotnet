@@ -142,13 +142,13 @@ namespace Invoiced
 		public object ShipTo { get; set; }
 
 		public PaymentPlan NewPaymentPlan() {
-			PaymentPlan paymentPlan = new PaymentPlan(this.Connection);
+			PaymentPlan paymentPlan = new PaymentPlan(this.GetConnection());
 			paymentPlan.SetEndpointBase(this.GetEndpoint(true));
 			return paymentPlan;
 		}
 
 		public Note NewNote() {
-			Note note = new Note(this.Connection);
+			Note note = new Note(this.GetConnection());
 			note.SetEndpointBase(this.GetEndpoint(true));
 			note.InvoiceId = this.Id;
 			return note;
@@ -158,7 +158,7 @@ namespace Invoiced
 
 			string url = this.GetEndpoint(true) + "/pay";
 
-			string responseText = this.Connection.Post(url,null,"");
+			string responseText = this.GetConnection().Post(url,null,"");
 			
 			try {
 				JsonConvert.PopulateObject(responseText,this);

@@ -86,7 +86,7 @@ namespace Invoiced
 			string url = "/charges";
 			string jsonRequestBody = chargeRequest.ToJsonString();
 
-			string responseText = this.Connection.Post(url,null,jsonRequestBody);
+			string responseText = this.GetConnection().Post(url,null,jsonRequestBody);
 			Transaction serializedObject;
 			
 			try {
@@ -104,7 +104,7 @@ namespace Invoiced
 			string url = this.GetEndpoint(true) + "/refunds";
 			string jsonRequestBody = "{'amount': " + amount.ToString() + "}";
 
-			string responseText = this.Connection.Post(url,null,jsonRequestBody);
+			string responseText = this.GetConnection().Post(url,null,jsonRequestBody);
 			Transaction serializedObject;
 			
 			try {

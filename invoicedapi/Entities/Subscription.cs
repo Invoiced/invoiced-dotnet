@@ -106,7 +106,7 @@ namespace Invoiced
 
 		public void Cancel() {
 
-			this.Connection.Delete(this.GetEndpoint(true));
+			this.GetConnection().Delete(this.GetEndpoint(true));
 		}
 
 		public SubscriptionPreview Preview() {
@@ -115,7 +115,7 @@ namespace Invoiced
 
 			string jsonRequestBody = this.ToJsonString();
 
-			string responseText = this.Connection.Post(url,null,jsonRequestBody);
+			string responseText = this.GetConnection().Post(url,null,jsonRequestBody);
 			SubscriptionPreview serializedObject;
 			
 			try {

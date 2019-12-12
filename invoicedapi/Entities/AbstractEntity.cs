@@ -8,7 +8,7 @@ namespace Invoiced
 
     public abstract class AbstractEntity<T> where T : AbstractEntity<T> {
 
-		protected Connection Connection;
+		private Connection Connection;
 		private bool _entityCreated;
 		protected string EndpointBase = "";
 		protected string EntityName;
@@ -164,7 +164,7 @@ namespace Invoiced
 
 		}
 
-		private EntityList<T> List(string nextUrl,Dictionary<string,Object> queryParams) {
+		private EntityList<T> List(string nextUrl,Dictionary<string,Object> queryParams, JsonConverter customConverter = null) {
 
 			if (!this.HasList()) {
 				throw new EntityException("List operation not supported on object.");
@@ -179,11 +179,21 @@ namespace Invoiced
 			ListResponse response = this.Connection.GetList(url,queryParams);
 
 			EntityList<T> entities;
+
+			JsonSerializerSettings config = new JsonSerializerSettings
+			{
+				NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
+			};
 			
 			try {
-					entities = JsonConvert.DeserializeObject<EntityList<T>>(response.Result,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
-					entities.LinkURLS = response.Links;
-					entities.TotalCount = response.TotalCount;
+				if (customConverter != null)
+				{
+					config.Converters.Add(customConverter);
+				}
+				entities = JsonConvert.DeserializeObject<EntityList<T>>(response.Result, config);
+				
+				entities.LinkURLS = response.Links;
+				entities.TotalCount = response.TotalCount;
 			} catch(Exception e) {
 				throw new EntityException("",e);
 			}
@@ -196,12 +206,12 @@ namespace Invoiced
 
 		}
 
-		public EntityList<T> ListAll(Dictionary<string,Object> queryParams) {
-				var entities = ListAll("",queryParams);
+		public EntityList<T> ListAll(Dictionary<string,Object> queryParams, JsonConverter customConverter = null) {
+				var entities = ListAll("",queryParams, customConverter);
 				return entities;
 		}
 
-		public EntityList<T> ListAll(string nextUrl = "",Dictionary<string,Object> queryParams = null) {
+		public EntityList<T> ListAll(string nextUrl = "",Dictionary<string,Object> queryParams = null, JsonConverter customConverter = null) {
 
 			EntityList<T> entities = null;
 
@@ -209,7 +219,7 @@ namespace Invoiced
 				throw new EntityException("List operation not supported on object.");
 			}
 
-			var tmpEntities = this.List(nextUrl,queryParams);
+			var tmpEntities = this.List(nextUrl,queryParams, customConverter);
 
 			do {
 				if (entities == null) {

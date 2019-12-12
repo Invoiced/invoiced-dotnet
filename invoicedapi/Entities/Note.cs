@@ -47,12 +47,9 @@ namespace Invoiced
 			this.SetEndpointBase("");
 			try {
 				base.Create();
-			}
-			catch {
+			} finally {
 				this.SetEndpointBase(endpointBase);
-				throw;
 			}
-			this.SetEndpointBase(endpointBase);
 		}
 		
 		public override void SaveAll() {
@@ -60,12 +57,9 @@ namespace Invoiced
 			this.SetEndpointBase("");
 			try {
 				base.SaveAll();
-			}
-			catch {
+			} finally {
 				this.SetEndpointBase(endpointBase);
-				throw;
 			}
-			this.SetEndpointBase(endpointBase);
 		}
 		
 		public override void Delete() {
@@ -73,12 +67,9 @@ namespace Invoiced
 			this.SetEndpointBase("");
 			try {
 				base.Delete();
-			}
-			catch {
+			} finally {
 				this.SetEndpointBase(endpointBase);
-				throw;
 			}
-			this.SetEndpointBase(endpointBase);
 		}
 
 		// Conditional Serialisation
