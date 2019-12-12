@@ -9,18 +9,15 @@ namespace Invoiced
 
 
 		internal File(Connection conn) : base(conn) {
+			this.EntityName = "/files";
 		}
 
 		public File() : base(){
-
+			this.EntityName = "/files";
 		}
 
 		protected override string EntityId() {
 			return this.Id.ToString();
-		}
-
-		public override string EntityName() {
-			return "files";
 		}
 
 		protected override bool HasList() {

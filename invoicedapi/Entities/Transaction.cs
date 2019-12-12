@@ -10,18 +10,15 @@ namespace Invoiced
 	{
 	
 		internal Transaction(Connection conn) : base(conn) {
+			this.EntityName = "/transactions";
 		}
 
 		public Transaction() : base(){
-
+			this.EntityName = "/transactions";
 		}
 
 		protected override string EntityId() {
 			return this.Id.ToString();
-		}
-
-		public override string EntityName() {
-			return "transactions";
 		}
 
 		[JsonProperty("id")]
@@ -104,7 +101,7 @@ namespace Invoiced
 
 		public Transaction Refund(long amount) {
 
-			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/refunds";
+			string url = this.GetEndpoint(true) + "/refunds";
 			string jsonRequestBody = "{'amount': " + amount.ToString() + "}";
 
 			string responseText = this.Connection.Post(url,null,jsonRequestBody);

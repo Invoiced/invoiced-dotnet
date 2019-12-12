@@ -8,22 +8,15 @@ namespace Invoiced
 	public class Coupon : AbstractEntity<Coupon> {
 
 		internal Coupon() : base() {
-			
+			this.EntityName = "/coupons";
 		}
 
 		internal Coupon(Connection conn) : base(conn) {
+			this.EntityName = "/coupons";
 		}
 
 		protected override string EntityId() {
 			return this.Id;
-		}
-
-		public override string EntityName() {
-			return "coupons";
-		}
-
-		public virtual bool HasStringId() {
-			return true;
 		}
 
 		[JsonProperty("id")]

@@ -8,22 +8,16 @@ namespace Invoiced
 	public class Contact : AbstractEntity<Contact>
 	{
 
-		private long CustomerId;
-
-		public Contact(Connection conn, long customerId) : base(conn) {
-			this.CustomerId = customerId;
+		public Contact(Connection conn) : base(conn) {
+			this.EntityName = "/contacts";
 		}
 
-		public Contact() : base(){
-
+		public Contact() : base() {
+			this.EntityName = "/contacts";
 		}
 
 		protected override string EntityId() {
 			return this.Id.ToString();
-		}
-
-		public override string EntityName() {
-			return "customers/" + CustomerId.ToString() + "/contacts";
 		}
 
 		[JsonProperty("id")]

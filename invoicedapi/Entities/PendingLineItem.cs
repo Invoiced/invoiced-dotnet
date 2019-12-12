@@ -8,22 +8,16 @@ namespace Invoiced
 	public class PendingLineItem : AbstractEntity<PendingLineItem>
 	{
 
-		private long CustomerId;
-
-		public PendingLineItem(Connection conn, long customerId) : base(conn) {
-			this.CustomerId = customerId;
+		public PendingLineItem(Connection conn) : base(conn) {
+			this.EntityName = "/line_items";
 		}
 
 		public PendingLineItem() : base(){
-
+			this.EntityName = "/line_items";
 		}
 
 		protected override string EntityId() {
 			return this.Id.ToString();
-		}
-
-		public override string EntityName() {
-			return "customers/" + this.CustomerId.ToString() + "/line_items";
 		}
 
 		[JsonProperty("id")]

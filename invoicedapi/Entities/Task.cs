@@ -8,20 +8,16 @@ namespace Invoiced
 	public class Task : AbstractEntity<Task>
 	{
 
-		public Task(Connection conn, long customerId) : base(conn) {
-			this.CustomerId = customerId;
+		public Task(Connection conn) : base(conn) {
+			this.EntityName = "/tasks";
 		}
 
-		public Task() : base(){
-
+		public Task() : base() {
+			this.EntityName = "/tasks";
 		}
 
 		protected override string EntityId() {
 			return this.Id.ToString();
-		}
-
-		public override string EntityName() {
-			return "tasks";
 		}
 
 		[JsonProperty("id")]

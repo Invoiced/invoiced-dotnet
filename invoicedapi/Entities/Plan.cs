@@ -8,20 +8,16 @@ namespace Invoiced
 	public class Plan : AbstractEntity<Plan> {
 
 
-		internal Plan() : base() 
-		{
-			
+		internal Plan() : base() {
+			this.EntityName = "/plans";
 		}
 		
 		internal Plan(Connection conn) : base(conn) {
+			this.EntityName = "/plans";
 		}
 
 		protected override string EntityId() {
 			return this.Id;
-		}
-
-		public override string EntityName() {
-			return "plans";
 		}
 
 		public virtual bool HasStringId() {

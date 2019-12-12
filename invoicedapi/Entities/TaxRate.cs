@@ -8,18 +8,15 @@ namespace Invoiced
 	public class TaxRate : AbstractEntity<TaxRate> {
 
 		internal TaxRate() : base() {
-			
+			this.EntityName = "/tax_rates";
 		} 
 
 		internal TaxRate(Connection conn) : base(conn) {
+			this.EntityName = "/tax_rates";
 		}
 
 		protected override string EntityId() {
 			return this.Id;
-		}
-
-		public override string EntityName() {
-			return "tax_rates";
 		}
 
 		public virtual bool HasStringId() {

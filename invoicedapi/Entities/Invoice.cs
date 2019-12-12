@@ -9,18 +9,15 @@ namespace Invoiced
 	{
 
 		public Invoice(Connection conn) : base(conn) {
+			this.EntityName = "/invoices";
 		}
 
 		public Invoice() : base(){
-
+			this.EntityName = "/invoices";
 		}
 
 		protected override string EntityId() {
 			return this.Id.ToString();
-		}
-
-		public override string EntityName() {
-			return "invoices";
 		}
 
 		protected override bool HasVoid() {
@@ -145,16 +142,21 @@ namespace Invoiced
 		public object ShipTo { get; set; }
 
 		public PaymentPlan NewPaymentPlan() {
-			return new PaymentPlan(this.Connection, this.Id ?? default(long));
+			PaymentPlan paymentPlan = new PaymentPlan(this.Connection);
+			paymentPlan.SetEndpointBase(this.GetEndpoint(true));
+			return paymentPlan;
 		}
 
 		public Note NewNote() {
-			return new Note(this.Connection, -1, this.Id ?? default(long));
+			Note note = new Note(this.Connection);
+			note.SetEndpointBase(this.GetEndpoint(true));
+			note.InvoiceId = this.Id;
+			return note;
 		}
 
 		public void Pay() {
 
-			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/pay";
+			string url = this.GetEndpoint(true) + "/pay";
 
 			string responseText = this.Connection.Post(url,null,"");
 			

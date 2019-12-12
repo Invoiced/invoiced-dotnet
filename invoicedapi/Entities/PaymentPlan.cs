@@ -9,22 +9,16 @@ namespace Invoiced
 	public class PaymentPlan : AbstractEntity<PaymentPlan>
 	{
 
-		private long InvoiceId;
-
-		public PaymentPlan(Connection conn, long invoiceId) : base(conn) {
-			this.InvoiceId = invoiceId;
+		public PaymentPlan(Connection conn) : base(conn) {
+			this.EntityName = "/payment_plan";
 		}
 		
 		public PaymentPlan() : base() {
-
+			this.EntityName = "/payment_plan";
 		}
 
 		protected override string EntityId() {
 			return this.Id.ToString();
-		}
-
-		public override string EntityName() {
-			return "invoices/" + this.InvoiceId.ToString() + "/payment_plan";
 		}
 
 		protected override bool HasList() {
@@ -51,13 +45,7 @@ namespace Invoiced
 
 		// identical to default Delete() but does not append ID to end of URL
 		public void Cancel() {
-			if (!HasCrud()) {
-				return;
-			}
-
-			string url = "/" + this.EntityName();
-			
-			this.Connection.Delete(url);
+			this.Connection.Delete(this.GetEndpoint(false));
 		}
 
 		// necessary to override this to avoid appending payment plan ID to DELETE request url

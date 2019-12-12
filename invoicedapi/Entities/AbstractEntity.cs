@@ -10,12 +10,33 @@ namespace Invoiced
 
 		protected Connection Connection;
 		private bool _entityCreated;
+		protected string EndpointBase = "";
+		protected string EntityName;
 
 		// used to determine safe json serialisation. should always be null outside function bodies
 		protected string CurrentOperation;
 
 		public bool ShouldSerializeCurrentOperation() {
 			return false;
+		}
+
+		protected string GetEndpointBase() {
+			return EndpointBase;
+		}
+
+		public void SetEndpointBase(string endpointBase) {
+			this.EndpointBase = endpointBase;
+		}
+
+		public string GetEndpoint(bool includeId)
+		{
+			String url = GetEndpointBase() + this.EntityName;
+
+			if (this.EntityId() != null && includeId) {
+				url += "/" + this.EntityId();
+			}
+
+			return url;
 		}
 		
 		public override string ToString() {
@@ -42,7 +63,7 @@ namespace Invoiced
 			this.Connection = conn;
 		}
 
-		public void Create() {
+		public virtual void Create() {
 
 			if (this._entityCreated) {
 				throw new EntityException("Object has already been created.");
@@ -52,7 +73,7 @@ namespace Invoiced
 				throw new EntityException("Create operation not supported on object.");
 			}
 
-			string url = "/" + this.EntityName();
+			string url = this.GetEndpoint(false);
 			string entityJsonBody = this.ToJsonString();
 			string responseText = this.Connection.Post(url,null,entityJsonBody);
 		
@@ -67,13 +88,13 @@ namespace Invoiced
 		}
 
 		// this method serialises the existing object (with respect for defined create/update safety, i.e. ShouldSerialize functions)
-		public void SaveAll() {
+		public virtual void SaveAll() {
 
 			if (!this.HasCrud()) {
 				throw new EntityException("Save operation not supported on object.");
 			}
 
-			string url = "/" + this.EntityName() + "/" + this.EntityId();
+			string url = this.GetEndpoint(true);
 			string entityJsonBody = this.ToJsonString();
 			string responseText = this.Connection.Patch(url,entityJsonBody);
 			
@@ -93,7 +114,7 @@ namespace Invoiced
 				throw new EntityException("Save operation not supported on object.");
 			}
 
-			string url = "/" + this.EntityName() + "/" + this.EntityId();
+			string url = this.GetEndpoint(true);
 			string responseText = this.Connection.Patch(url,partialDataObject);
 			
 			try {
@@ -112,12 +133,10 @@ namespace Invoiced
 		public T Retrieve(string id = null)
 		{
 
-			string url = null;
+			string url = this.GetEndpoint(false);
 
-			if (id == null) {
-				url = "/" + this.EntityName();
-			} else {
-				url = "/" + this.EntityName() + "/" + id;
+			if (id != null) {
+				url += "/" + id;
 			}
 
 			string responseText = this.Connection.Get(url,null);
@@ -139,7 +158,7 @@ namespace Invoiced
 				throw new EntityException("Delete operation not supported on object.");
 			}
 
-			string url = "/" + this.EntityName() + "/" + this.EntityId();
+			string url = this.GetEndpoint(true);
 			
 			this.Connection.Delete(url);
 
@@ -151,7 +170,7 @@ namespace Invoiced
 				throw new EntityException("List operation not supported on object.");
 			}
 
-			string url = "/" + this.EntityName();
+			string url = this.GetEndpoint(false);
 			
 			if (!string.IsNullOrEmpty(nextUrl)) {
 				url = nextUrl;
@@ -224,7 +243,7 @@ namespace Invoiced
 				throw new EntityException("Void operation not supported on object.");
 			}
 
-			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/void";
+			string url = this.GetEndpoint(true) + "/void";
 
 			string responseText = this.Connection.Post(url,null,null);
 			
@@ -243,7 +262,7 @@ namespace Invoiced
 
 			IList<Attachment> objects = null;
 
-			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/attachments";
+			string url = this.GetEndpoint(true) + "/attachments";
 
 			string responseText = this.Connection.Get(url,null);
 			objects = JsonConvert.DeserializeObject<IList<Attachment>>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
@@ -259,7 +278,7 @@ namespace Invoiced
 
 			IList<Email> objects = null;
 
-			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/emails";
+			string url = this.GetEndpoint(true) + "/emails";
 
 			string jsonRequestBody = emailRequest.ToJsonString();
 
@@ -278,7 +297,7 @@ namespace Invoiced
 			Letter letter = null;
 			string responseText = null;
 
-			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/letters";
+			string url = this.GetEndpoint(true) + "/letters";
 
 			if (letterRequest != null) {
 				string jsonRequestBody = letterRequest.ToJsonString();
@@ -302,7 +321,7 @@ namespace Invoiced
 
 			IList<TextMessage> objects = null;
 
-			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/text_messages";
+			string url = this.GetEndpoint(true) + "/text_messages";
 
 			string jsonRequestBody = textRequest.ToJsonString();
 
@@ -313,7 +332,6 @@ namespace Invoiced
 		}
 
 		protected abstract string EntityId();
-		public abstract string EntityName();
 
 		protected virtual bool HasCrud() {
 			return true;

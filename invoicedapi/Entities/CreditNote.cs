@@ -7,19 +7,17 @@ namespace Invoiced
 
 	public class CreditNote : AbstractEntity<CreditNote> {
 
-		internal CreditNote() : base() {
-			
+		internal CreditNote() : base()
+		{
+			this.EntityName = "/credit_notes";
 		}
 
 		internal CreditNote(Connection conn) : base(conn) {
+			this.EntityName = "/credit_notes";
 		}
 
 		protected override string EntityId() {
 			return this.Id.ToString();
-		}
-
-		public override string EntityName() {
-			return "credit_notes";
 		}
 
 		protected override bool HasVoid() {

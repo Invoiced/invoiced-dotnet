@@ -8,18 +8,15 @@ namespace Invoiced
 	public class Customer : AbstractEntity<Customer>
 	{
 		internal Customer(Connection conn) : base(conn) {
+			this.EntityName = "/customers";
 		}
 
 		public Customer() : base() {
-
+			this.EntityName = "/customers";
 		}
 
 		protected override string EntityId() {
 			return this.Id.ToString();
-		}
-
-		public override string EntityName() {
-			return "customers";
 		}
 
 		protected override bool HasSends() {
@@ -144,19 +141,28 @@ namespace Invoiced
 		public IList<string> DisabledPaymentMethods { get; set; }
 
 		public Note NewNote() {
-			return new Note(this.Connection, this.Id, -1);
+			Note note = new Note(this.Connection);
+			note.SetEndpointBase(this.GetEndpoint(true));
+			note.CustomerId = this.Id;
+			return note;
 		}
 
 		public Contact NewContact() {
-			return new Contact(this.Connection, this.Id);
+			Contact contact = new Contact(this.Connection);
+			contact.SetEndpointBase(this.GetEndpoint(true));
+			return contact;
 		}
 
 		public PendingLineItem NewPendingLineItem() {
-			return new PendingLineItem(this.Connection, this.Id);
+			PendingLineItem pli = new PendingLineItem(this.Connection);
+			pli.SetEndpointBase(this.GetEndpoint(true));
+			return pli;
 		}
 
 		public Task NewTask() {
-			return new Task(this.Connection, this.Id);
+			Task task = new Task(this.Connection);
+			task.CustomerId = this.Id;
+			return task;
 		}
 
 		public IList<Email> SendStatementEmail(EmailRequest emailRequest) {
@@ -173,7 +179,7 @@ namespace Invoiced
 
 		public Balance GetBalance() {
 
-			var url = "/" + this.EntityName() + "/" + this.EntityId() + "/balance";
+			var url = this.GetEndpoint(true) + "/balance";
 
 			var responseText = this.Connection.Get(url,null);
 			Balance serializedObject;
@@ -190,7 +196,7 @@ namespace Invoiced
 
 		public Invoice ConsolidateInvoices(long? cutoffDate = null) {
 
-			string url = "/" + this.EntityName() + "/" + this.EntityId() + "/consolidate_invoices";
+			string url = this.GetEndpoint(true) + "/consolidate_invoices";
 
 			string responseText = this.Connection.Post(url,null,cutoffDate.ToString());
 			Invoice serializedObject;

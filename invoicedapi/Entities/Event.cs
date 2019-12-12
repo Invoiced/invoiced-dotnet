@@ -8,18 +8,15 @@ namespace Invoiced
 	public class Event : AbstractEntity<Event> {
 
 		internal Event() : base() {
-			
+			this.EntityName = "/events";
 		}
 
 		internal Event(Connection conn) : base(conn) {
+			this.EntityName = "/events";
 		}
 
 		protected override string EntityId() {
 			return this.Id.ToString();
-		}
-
-		public override string EntityName() {
-			return "events";
 		}
 
 		protected override bool HasCrud() {

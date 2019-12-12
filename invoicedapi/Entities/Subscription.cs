@@ -10,19 +10,17 @@ namespace Invoiced
 	public class Subscription :AbstractEntity<Subscription>
 	{
 
-		internal Subscription(Connection conn) : base(conn) {
+		internal Subscription(Connection conn) : base(conn)
+		{
+			this.EntityName = "/subscriptions";
 		}
 
 		public Subscription() : base() {
-
+			this.EntityName = "/subscriptions";
 		}
 
 		protected override string EntityId() {
 			return this.Id.ToString();
-		}
-
-		public override string EntityName() {
-			return "subscriptions";
 		}
 
 		[JsonProperty("id")]
@@ -107,14 +105,13 @@ namespace Invoiced
 		public IList<string> PendingLineItems { get; set; }
 
 		public void Cancel() {
-			string url = "/" + this.EntityName() + "/" + this.EntityId();
-			
-			this.Connection.Delete(url);
+
+			this.Connection.Delete(this.GetEndpoint(true));
 		}
 
 		public SubscriptionPreview Preview() {
 
-			string url = "/" + this.EntityName() + "/preview";
+			string url = this.EntityName + "/preview";
 
 			string jsonRequestBody = this.ToJsonString();
 

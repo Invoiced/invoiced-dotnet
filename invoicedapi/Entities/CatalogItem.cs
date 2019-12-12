@@ -9,17 +9,14 @@ namespace Invoiced
 
 
 		internal CatalogItem() : base() {
-			
+			this.EntityName = "/catalog_items";
 		}
 		internal CatalogItem(Connection conn) : base(conn) {
+			this.EntityName = "/catalog_items";
 		}
 
 		protected override string EntityId() {
 			return this.Id;
-		}
-
-		public override string EntityName() {
-			return "catalog_items";
 		}
 
 		public virtual bool HasStringId() {
