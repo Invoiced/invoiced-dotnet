@@ -5,8 +5,9 @@ dotnet: 2.1.302
 script:
 - dotnet restore
 - dotnet test ./invoicedapi.tests/ -l:trx;LogFileName=/temp/coverage.xml
-- dotnet tool install -g coveralls.net --version 1.0.0 --tool-path tools
+- dotnet tool install coveralls.net --version 1.0.0 --tool-path tools
 - export COVERALLS_REPO_TOKEN=MpDRtf16ydBwodhUvQOqvLU1j3GdfMyUKwv50eX5VhXG4pUTIdMGLHC8LIN/NQVL
+- ls ./tools
 - ./tools/csmacnz.Coveralls --monocov -i /temp/coverage.xml
 notifications:
   email: false
