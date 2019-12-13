@@ -5,7 +5,6 @@ dotnet: 2.1.302
 script:
 - dotnet restore
 - dotnet test ./invoicedapi.tests/
-- ls packages
 - packages/coveralls.io.1.3.4/tools/coveralls.net.exe --opencover coverage.xml -r KnX+H6kzkgQhzz8mK+stUmhkH01w6Aq/P2Ih1Zep7NvRyrz4L6onZk+ZQVE2EMfOCB7Lr/8/60DhlJYXwQhV29e7gSGWn4R8ql/FCM7zoJbIq/jOSrJD+gSIwCkqIkV8j+xoGP2MqPqyidrYev2V/kdlJQYiOyzrBrqFcSMVoS2H1dVgH+gVX5mRxw5X+kxag6KcJJ3fFb/HzVY9v6Ei2owPDnScJ6jfKRqIrkXDJwEzA5IgUV+zeAhtxsESbpVBUh5zNtB8xEuM1p0BpzkSOBtWX7XxOek1SAeRq8k1QeP2TMth31rPziidH+6PTS5tUo1qDvJD6rm3CIIJq4qWGD6TiE6D1Rp0zd4Fhbl7E5C2q1mpyTt7+tUMU7ypZPuAfx3V2GQmY+1Rn047Fc8ykCHTmrClJaFwEY4b9twn2DbH47Lz7mxDbtz0UAmNREhA9AnQ8GVczqx4ejzfdLEHgGO9qJUs5SxWNaxeacMU/NeOMh0sCxAeRhuvbyB4HPqOKoMwi03FoucyB87xdMeYFnJcQ8U64eQIploTOQ66rjxULXaarSxaG5+kcVH5XhUj8yPhy9MakDvj79Sd0owICMU8ACCvcDZayYcC5I2MG6MukswIuaSONck0zlPATOddoZ7srAY0VeTO4WNAXo9vwq0vPC2Y4zz7xF+agLzWtRk=
 notifications:
   email: false
