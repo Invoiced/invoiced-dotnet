@@ -2,6 +2,7 @@
 Official Invoiced C# Library
 
 [![Build Status](https://travis-ci.org/Invoiced/invoiced-csharp.svg?branch=master)](https://travis-ci.org/Invoiced/invoiced-csharp) [![NuGet](https://img.shields.io/nuget/v/Invoiced.svg)](https://www.nuget.org/packages/Invoiced/)
+[![Coverage Status](https://coveralls.io/repos/github/Invoiced/invoiced-csharp/badge.svg?branch=master)](https://coveralls.io/github/Invoiced/invoiced-csharp?branch=master)
 
 ## Usage
 

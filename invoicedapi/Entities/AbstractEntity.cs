@@ -180,14 +180,12 @@ namespace Invoiced
 
 			EntityList<T> entities;
 
-			JsonSerializerSettings config = new JsonSerializerSettings
-			{
+			JsonSerializerSettings config = new JsonSerializerSettings {
 				NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
 			};
 			
 			try {
-				if (customConverter != null)
-				{
+				if (customConverter != null) {
 					config.Converters.Add(customConverter);
 				}
 				entities = JsonConvert.DeserializeObject<EntityList<T>>(response.Result, config);
