@@ -1,10 +1,14 @@
 language: csharp
 solution: invoiced-csharp.sln
-mono: none
+mono: latest
 dotnet: 2.1.302
+install:
+- dotnet tool install -g coveralls.net --version 1.0.0
 script:
 - dotnet restore
-- dotnet test ./invoicedapi.tests/
+- dotnet test ./invoicedapi.tests/ -l:trx;LogFileName=/temp/coverage.xml
+- export COVERALLS_REPO_TOKEN=MpDRtf16ydBwodhUvQOqvLU1j3GdfMyUKwv50eX5VhXG4pUTIdMGLHC8LIN/NQVL
+- csmacnz.Coveralls --monocov -i coverage.xml
 notifications:
   email: false
   slack:
