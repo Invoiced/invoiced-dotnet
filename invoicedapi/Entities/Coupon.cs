@@ -8,22 +8,15 @@ namespace Invoiced
 	public class Coupon : AbstractEntity<Coupon> {
 
 		internal Coupon() : base() {
-			
+			this.EntityName = "/coupons";
 		}
 
 		internal Coupon(Connection conn) : base(conn) {
+			this.EntityName = "/coupons";
 		}
 
 		protected override string EntityId() {
 			return this.Id;
-		}
-
-		public override string EntityName() {
-			return "coupons";
-		}
-
-		public virtual bool HasStringId() {
-			return true;
 		}
 
 		[JsonProperty("id")]
@@ -39,10 +32,10 @@ namespace Invoiced
 		public string Currency { get; set; }
 
 		[JsonProperty("value")]
-		public long Value { get; set; }
+		public long? Value { get; set; }
 
         [JsonProperty("is_percent")]
-		public bool IsPercent { get; set; }
+		public bool? IsPercent { get; set; }
 
         [JsonProperty("exclusive")]
 		public bool? Exclusive { get; set; }
@@ -54,7 +47,7 @@ namespace Invoiced
 		public long? MaxRedemptions { get; set; }
 
 		[JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }

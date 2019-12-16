@@ -14,10 +14,10 @@ namespace Invoiced
         public Invoice FirstInvoice { get; set; }
 
         [JsonProperty("mrr")]
-        public long Mrr { get; set; }
+        public long? Mrr { get; set; }
 
         [JsonProperty("recurring_total")]
-        public long RecurringTotal { get; set; }
+        public long? RecurringTotal { get; set; }
 
         protected override string EntityId() {
 			return "SubscriptionPreview";

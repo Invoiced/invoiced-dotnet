@@ -8,18 +8,15 @@ namespace Invoiced
 	public class TaxRate : AbstractEntity<TaxRate> {
 
 		internal TaxRate() : base() {
-			
+			this.EntityName = "/tax_rates";
 		} 
 
 		internal TaxRate(Connection conn) : base(conn) {
+			this.EntityName = "/tax_rates";
 		}
 
 		protected override string EntityId() {
 			return this.Id;
-		}
-
-		public override string EntityName() {
-			return "tax_rates";
 		}
 
 		public virtual bool HasStringId() {
@@ -39,16 +36,16 @@ namespace Invoiced
 		public string Currency { get; set; }
 
 		[JsonProperty("value")]
-		public long Value { get; set; }
+		public long? Value { get; set; }
 
         [JsonProperty("is_percent")]
-		public bool IsPercent { get; set; }
+		public bool? IsPercent { get; set; }
 
         [JsonProperty("inclusive")]
-		public bool Inclusive { get; set; }
+		public bool? Inclusive { get; set; }
 
 		[JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }

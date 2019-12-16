@@ -13,7 +13,7 @@ namespace Invoiced
 		}
 
 		[JsonProperty("customer")]
-		public long Customer { get; set; }
+		public long? Customer { get; set; }
 
 		[JsonProperty("method")]
 		public string Method { get; set; }
@@ -22,7 +22,7 @@ namespace Invoiced
 		public string Currency { get; set; }
 
 		[JsonProperty("amount")]
-		public long Amount { get; set; }
+		public long? Amount { get; set; }
 
 		[JsonProperty("invoiced_token")]
 		public string InvoicedToken { get; set; }
@@ -34,13 +34,13 @@ namespace Invoiced
 		public string PaymentSourceType { get; set; }
 
 		[JsonProperty("payment_source_id")]
-		public long PaymentSourceId { get; set; }
+		public long? PaymentSourceId { get; set; }
 
 		[JsonProperty("vault_method")]
-		public bool VaultMethod { get; set; }
+		public bool? VaultMethod { get; set; }
 
 		[JsonProperty("make_default")]
-		public bool MakeDefault { get; set; }
+		public bool? MakeDefault { get; set; }
 
 		[JsonProperty("receipt_email")]
 		public string ReceiptEmail { get; set; }

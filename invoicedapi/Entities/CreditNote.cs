@@ -7,19 +7,17 @@ namespace Invoiced
 
 	public class CreditNote : AbstractEntity<CreditNote> {
 
-		internal CreditNote() : base() {
-			
+		internal CreditNote() : base()
+		{
+			this.EntityName = "/credit_notes";
 		}
 
 		internal CreditNote(Connection conn) : base(conn) {
+			this.EntityName = "/credit_notes";
 		}
 
 		protected override string EntityId() {
 			return this.Id.ToString();
-		}
-
-		public override string EntityName() {
-			return "credit_notes";
 		}
 
 		protected override bool HasVoid() {
@@ -35,16 +33,16 @@ namespace Invoiced
 		}
 
 		[JsonProperty("id")]
-		public long Id { get; set; }
+		public long? Id { get; set; }
 
 		[JsonProperty("object")]
 		public string Obj { get; set; }
 
 		[JsonProperty("customer")]
-		public long Customer { get; set; }
+		public long? Customer { get; set; }
 
 		[JsonProperty("invoice")]
-		public long Invoice { get; set; }
+		public long? Invoice { get; set; }
 
 		[JsonProperty("name")]
 		public string Name { get; set; }
@@ -53,13 +51,13 @@ namespace Invoiced
 		public string Currency { get; set; }
 
 		[JsonProperty("draft")]
-		public bool Draft { get; set; }
+		public bool? Draft { get; set; }
 
 		[JsonProperty("closed")]
-		public bool Closed { get; set; }
+		public bool? Closed { get; set; }
 
 		[JsonProperty("paid")]
-		public bool Paid { get; set; }
+		public bool? Paid { get; set; }
 
 		[JsonProperty("status")]
 		public string Status { get; set; }
@@ -68,7 +66,7 @@ namespace Invoiced
 		public string Number { get; set; }
 
 		[JsonProperty("date")]
-		public long Date { get; set; }
+		public long? Date { get; set; }
 
 		[JsonProperty("items")]
 		public IList<LineItem> Items { get; set; }
@@ -77,7 +75,7 @@ namespace Invoiced
 		public string Notes { get; set; }
 
 		[JsonProperty("subtotal")]
-		public long Subtotal { get; set; }
+		public long? Subtotal { get; set; }
 
 		[JsonProperty("discounts")]
 		public IList<Discount> Discounts { get; set; }
@@ -86,10 +84,10 @@ namespace Invoiced
 		public IList<Tax> Taxes { get; set; }
 
 		[JsonProperty("total")]
-		public long Total { get; set; }
+		public long? Total { get; set; }
 
 		[JsonProperty("balance")]
-		public long Balance { get; set; }
+		public long? Balance { get; set; }
 
 		[JsonProperty("url")]
 		public string Url { get; set; }
@@ -98,7 +96,7 @@ namespace Invoiced
 		public string PdfUrl { get; set; }
 
 		[JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }
@@ -107,7 +105,7 @@ namespace Invoiced
 		public IList<long> Attachments { get; set; }
 
 		[JsonProperty("calculate_taxes")]
-		public bool CalculateTaxes { get; set; }
+		public bool? CalculateTaxes { get; set; }
 		
 		[JsonProperty("ship_to")]
 		public object ShipTo { get; set; }

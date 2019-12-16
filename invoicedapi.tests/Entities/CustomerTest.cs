@@ -383,7 +383,7 @@ namespace InvoicedTest
             testContact.Name = "John Smith";
             testContact.Create();
 
-            Assert.True(testContact.EntityName() == "customers/1234/contacts");
+            Assert.True(testContact.GetEndpoint(false) == "/customers/1234/contacts");
             Assert.True(testContact.Name == "John Smith");
     
         }
@@ -436,7 +436,7 @@ namespace InvoicedTest
             testPli.UnitCost = 100;
             testPli.Create();
 
-            Assert.True(testPli.EntityName() == "customers/1234/line_items");
+            Assert.True(testPli.GetEndpoint(false) == "/customers/1234/line_items");
             Assert.True(testPli.Id == 22904406);
     
         }
@@ -483,7 +483,7 @@ namespace InvoicedTest
             testTask.Action = "review";
             testTask.Create();
 
-            Assert.True(testTask.EntityName() == "tasks");
+            Assert.True(testTask.GetEndpoint(false) == "/tasks");
             Assert.True(testTask.Id == 788);
     
         }

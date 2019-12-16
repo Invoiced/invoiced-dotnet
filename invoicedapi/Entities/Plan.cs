@@ -8,20 +8,16 @@ namespace Invoiced
 	public class Plan : AbstractEntity<Plan> {
 
 
-		internal Plan() : base() 
-		{
-			
+		internal Plan() : base() {
+			this.EntityName = "/plans";
 		}
 		
 		internal Plan(Connection conn) : base(conn) {
+			this.EntityName = "/plans";
 		}
 
 		protected override string EntityId() {
 			return this.Id;
-		}
-
-		public override string EntityName() {
-			return "plans";
 		}
 
 		public virtual bool HasStringId() {
@@ -44,7 +40,7 @@ namespace Invoiced
 		public string Currency { get; set; }
 
 		[JsonProperty("amount")]
-		public long Amount { get; set; }
+		public long? Amount { get; set; }
 
         [JsonProperty("pricing_mode")]
 		public string PricingMode { get; set; }
@@ -56,13 +52,13 @@ namespace Invoiced
 		public string Interval { get; set; }
 
         [JsonProperty("interval_count")]
-		public long IntervalCount { get; set; }
+		public long? IntervalCount { get; set; }
 
         [JsonProperty("tiers")]
 		public object Tiers { get; set; }
 
 		[JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }

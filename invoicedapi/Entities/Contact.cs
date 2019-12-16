@@ -8,26 +8,20 @@ namespace Invoiced
 	public class Contact : AbstractEntity<Contact>
 	{
 
-		private long CustomerId;
-
-		public Contact(Connection conn, long customerId) : base(conn) {
-			this.CustomerId = customerId;
+		public Contact(Connection conn) : base(conn) {
+			this.EntityName = "/contacts";
 		}
 
-		public Contact() : base(){
-
+		public Contact() : base() {
+			this.EntityName = "/contacts";
 		}
 
 		protected override string EntityId() {
 			return this.Id.ToString();
 		}
 
-		public override string EntityName() {
-			return "customers/" + CustomerId.ToString() + "/contacts";
-		}
-
 		[JsonProperty("id")]
-		public long Id { get; set; }
+		public long? Id { get; set; }
 
 		[JsonProperty("object")]
 		public string Obj { get; set; }
@@ -39,7 +33,7 @@ namespace Invoiced
 		public string Email { get; set; }
 
 		[JsonProperty("primary")]
-		public bool Primary { get; set; }
+		public bool? Primary { get; set; }
 
         [JsonProperty("address1")]
 		public string Address1 { get; set; }
@@ -60,7 +54,7 @@ namespace Invoiced
 		public string Country { get; set; }
 
 		[JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		[JsonProperty("title")]
 		public string Title { get; set; }
@@ -69,7 +63,7 @@ namespace Invoiced
 		public string Phone { get; set; }
 
 		[JsonProperty("sms_enabled")]
-		public bool SmsEnabled { get; set; }
+		public bool? SmsEnabled { get; set; }
 
 		[JsonProperty("department")]
 		public string Department { get; set; }

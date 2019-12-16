@@ -8,24 +8,20 @@ namespace Invoiced
 	public class Task : AbstractEntity<Task>
 	{
 
-		public Task(Connection conn, long customerId) : base(conn) {
-			this.CustomerId = customerId;
+		public Task(Connection conn) : base(conn) {
+			this.EntityName = "/tasks";
 		}
 
-		public Task() : base(){
-
+		public Task() : base() {
+			this.EntityName = "/tasks";
 		}
 
 		protected override string EntityId() {
 			return this.Id.ToString();
 		}
 
-		public override string EntityName() {
-			return "tasks";
-		}
-
 		[JsonProperty("id")]
-		public long Id { get; set; }
+		public long? Id { get; set; }
 
 		[JsonProperty("name")]
 		public string Name { get; set; }
@@ -34,7 +30,7 @@ namespace Invoiced
 		public string Action { get; set; }
 
 		[JsonProperty("customer_id")]
-		public long CustomerId { get; set; }
+		public long? CustomerId { get; set; }
 
         [JsonProperty("user_id")]
 		public long? UserId { get; set; }
@@ -43,7 +39,7 @@ namespace Invoiced
 		public long? DueDate { get; set; }
 
         [JsonProperty("complete")]
-		public bool Complete { get; set; }
+		public bool? Complete { get; set; }
 
         [JsonProperty("completed_date")]
 		public long? CompletedDate { get; set; }
@@ -55,7 +51,7 @@ namespace Invoiced
 		public long? ChaseStepId { get; set; }
 
 		[JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		// Conditional Serialisation
 

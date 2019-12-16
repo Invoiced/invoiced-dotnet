@@ -8,14 +8,35 @@ namespace Invoiced
 
     public abstract class AbstractEntity<T> where T : AbstractEntity<T> {
 
-		protected Connection Connection;
+		private Connection Connection;
 		private bool _entityCreated;
+		protected string EndpointBase = "";
+		protected string EntityName;
 
 		// used to determine safe json serialisation. should always be null outside function bodies
 		protected string CurrentOperation;
 
 		public bool ShouldSerializeCurrentOperation() {
 			return false;
+		}
+
+		protected string GetEndpointBase() {
+			return EndpointBase;
+		}
+
+		public void SetEndpointBase(string endpointBase) {
+			this.EndpointBase = endpointBase;
+		}
+
+		public string GetEndpoint(bool includeId)
+		{
+			String url = GetEndpointBase() + this.EntityName;
+
+			if (this.EntityId() != null && includeId) {
+				url += "/" + this.EntityId();
+			}
+
+			return url;
 		}
 		
 		public override string ToString() {
@@ -42,17 +63,17 @@ namespace Invoiced
 			this.Connection = conn;
 		}
 
-		public void Create() {
+		public virtual void Create() {
 
 			if (this._entityCreated) {
-				return;
+				throw new EntityException("Object has already been created.");
 			}
 
 			if (!this.HasCrud()) {
-				return;
+				throw new EntityException("Create operation not supported on object.");
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName();
+			string url = this.GetEndpoint(false);
 			string entityJsonBody = this.ToJsonString();
 			string responseText = this.Connection.Post(url,null,entityJsonBody);
 		
@@ -67,13 +88,13 @@ namespace Invoiced
 		}
 
 		// this method serialises the existing object (with respect for defined create/update safety, i.e. ShouldSerialize functions)
-		public void SaveAll() {
+		public virtual void SaveAll() {
 
 			if (!this.HasCrud()) {
-				return;
+				throw new EntityException("Save operation not supported on object.");
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId();
+			string url = this.GetEndpoint(true);
 			string entityJsonBody = this.ToJsonString();
 			string responseText = this.Connection.Patch(url,entityJsonBody);
 			
@@ -90,10 +111,10 @@ namespace Invoiced
 		public void Save(string partialDataObject) {
 
 			if (!this.HasCrud()) {
-				return;
+				throw new EntityException("Save operation not supported on object.");
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId();
+			string url = this.GetEndpoint(true);
 			string responseText = this.Connection.Patch(url,partialDataObject);
 			
 			try {
@@ -104,41 +125,20 @@ namespace Invoiced
 
 		}
 
-		public T Retrieve(long id) {
-
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + id.ToString();
-			string responseText = this.Connection.Get(url,null);
-			T serializedObject;
-			try {
-					serializedObject = JsonConvert.DeserializeObject<T>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
-					serializedObject.Connection = this.Connection;
-			} catch(Exception e) {
-				throw new EntityException("",e);
-			}
-
-			return serializedObject;
-			
+		public T Retrieve(long id)
+		{
+			return Retrieve(id.ToString());
 		}
 
-		public T Retrieve() {
+		public T Retrieve(string id = null)
+		{
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName();
-			string responseText = this.Connection.Get(url,null);
-			T serializedObject;
-			try {
-					serializedObject = JsonConvert.DeserializeObject<T>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
-					serializedObject.Connection = this.Connection;
-			} catch(Exception e) {
-				throw new EntityException("",e);
+			string url = this.GetEndpoint(false);
+
+			if (id != null) {
+				url += "/" + id;
 			}
 
-			return serializedObject;
-			
-		}
-
-		public T Retrieve(string id) {
-
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + id;
 			string responseText = this.Connection.Get(url,null);
 			T serializedObject;
 			try {
@@ -155,22 +155,22 @@ namespace Invoiced
 		public virtual void Delete() {
 
 			if (!HasCrud()) {
-				return;
+				throw new EntityException("Delete operation not supported on object.");
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId();
+			string url = this.GetEndpoint(true);
 			
 			this.Connection.Delete(url);
 
 		}
 
-		private EntityList<T> List(string nextUrl,Dictionary<string,Object> queryParams) {
+		private EntityList<T> List(string nextUrl,Dictionary<string,Object> queryParams, JsonConverter customConverter = null) {
 
 			if (!this.HasList()) {
-				return null;
+				throw new EntityException("List operation not supported on object.");
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName();
+			string url = this.GetEndpoint(false);
 			
 			if (!string.IsNullOrEmpty(nextUrl)) {
 				url = nextUrl;
@@ -179,11 +179,19 @@ namespace Invoiced
 			ListResponse response = this.Connection.GetList(url,queryParams);
 
 			EntityList<T> entities;
+
+			JsonSerializerSettings config = new JsonSerializerSettings {
+				NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
+			};
 			
 			try {
-					entities = JsonConvert.DeserializeObject<EntityList<T>>(response.Result,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
-					entities.LinkURLS = response.Links;
-					entities.TotalCount = response.TotalCount;
+				if (customConverter != null) {
+					config.Converters.Add(customConverter);
+				}
+				entities = JsonConvert.DeserializeObject<EntityList<T>>(response.Result, config);
+				
+				entities.LinkURLS = response.Links;
+				entities.TotalCount = response.TotalCount;
 			} catch(Exception e) {
 				throw new EntityException("",e);
 			}
@@ -196,20 +204,20 @@ namespace Invoiced
 
 		}
 
-		public EntityList<T> ListAll(Dictionary<string,Object> queryParams) {
-				var entities = ListAll("",queryParams);
+		public EntityList<T> ListAll(Dictionary<string,Object> queryParams, JsonConverter customConverter = null) {
+				var entities = ListAll("",queryParams, customConverter);
 				return entities;
 		}
 
-		public EntityList<T> ListAll(string nextUrl = "",Dictionary<string,Object> queryParams = null) {
+		public EntityList<T> ListAll(string nextUrl = "",Dictionary<string,Object> queryParams = null, JsonConverter customConverter = null) {
 
 			EntityList<T> entities = null;
 
 			if (!this.HasList()) {
-				return null;
+				throw new EntityException("List operation not supported on object.");
 			}
 
-			var tmpEntities = this.List(nextUrl,queryParams);
+			var tmpEntities = this.List(nextUrl,queryParams, customConverter);
 
 			do {
 				if (entities == null) {
@@ -240,10 +248,10 @@ namespace Invoiced
 		public void Void() {
 
 			if (!this.HasVoid()) {
-				return;
+				throw new EntityException("Void operation not supported on object.");
 			}
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/void";
+			string url = this.GetEndpoint(true) + "/void";
 
 			string responseText = this.Connection.Post(url,null,null);
 			
@@ -257,12 +265,12 @@ namespace Invoiced
 		public IList<Attachment> ListAttachments() {
 
 			if (!this.HasAttachments()) {
-				return null;
+				throw new EntityException("List attachments operation not supported on object.");
 			}
 
 			IList<Attachment> objects = null;
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/attachments";
+			string url = this.GetEndpoint(true) + "/attachments";
 
 			string responseText = this.Connection.Get(url,null);
 			objects = JsonConvert.DeserializeObject<IList<Attachment>>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
@@ -273,12 +281,12 @@ namespace Invoiced
 		public IList<Email> SendEmail(EmailRequest emailRequest) {
 
 			if (!this.HasSends()) {
-				return null;
+				throw new EntityException("Send email operation not supported on object.");
 			}
 
 			IList<Email> objects = null;
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/emails";
+			string url = this.GetEndpoint(true) + "/emails";
 
 			string jsonRequestBody = emailRequest.ToJsonString();
 
@@ -291,13 +299,13 @@ namespace Invoiced
 		public Letter SendLetter(LetterRequest letterRequest = null) {
 
 			if (!this.HasSends()) {
-				return null;
+				throw new EntityException("Send letter operation not supported on object.");
 			}
 
 			Letter letter = null;
 			string responseText = null;
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/letters";
+			string url = this.GetEndpoint(true) + "/letters";
 
 			if (letterRequest != null) {
 				string jsonRequestBody = letterRequest.ToJsonString();
@@ -316,12 +324,12 @@ namespace Invoiced
 		public IList<TextMessage> SendText(TextRequest textRequest) {
 
 			if (!this.HasSends()) {
-				return null;
+				throw new EntityException("Send text message operation not supported on object.");
 			}
 
 			IList<TextMessage> objects = null;
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/text_messages";
+			string url = this.GetEndpoint(true) + "/text_messages";
 
 			string jsonRequestBody = textRequest.ToJsonString();
 
@@ -332,7 +340,6 @@ namespace Invoiced
 		}
 
 		protected abstract string EntityId();
-		public abstract string EntityName();
 
 		protected virtual bool HasCrud() {
 			return true;

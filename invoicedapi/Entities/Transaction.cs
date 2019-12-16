@@ -10,28 +10,25 @@ namespace Invoiced
 	{
 	
 		internal Transaction(Connection conn) : base(conn) {
+			this.EntityName = "/transactions";
 		}
 
 		public Transaction() : base(){
-
+			this.EntityName = "/transactions";
 		}
 
 		protected override string EntityId() {
 			return this.Id.ToString();
 		}
 
-		public override string EntityName() {
-			return "transactions";
-		}
-
 		[JsonProperty("id")]
-		public long Id { get; set; }
+		public long? Id { get; set; }
 
 		[JsonProperty("object")]
 		public string Obj { get; set; }
 
 		[JsonProperty("customer")]
-		public long Customer { get; set; }
+		public long? Customer { get; set; }
 
 		[JsonProperty("invoice")]
 		public long? Invoice { get; set; }
@@ -40,7 +37,7 @@ namespace Invoiced
 		public long? CreditNote { get; set; }
 
 		[JsonProperty("date")]
-		public long Date { get; set; }
+		public long? Date { get; set; }
 
 		[JsonProperty("type")]
 		public string Type { get; set; }
@@ -64,7 +61,7 @@ namespace Invoiced
 		public string Currency { get; set; }
 
 		[JsonProperty("amount")]
-		public long Amount { get; set; }
+		public long? Amount { get; set; }
 
 		[JsonProperty("notes")]
 		public string Notes { get; set; }
@@ -79,17 +76,17 @@ namespace Invoiced
 		public string PdfUrl { get; set; }
 
 		[JsonProperty("created_at")]
-		public long CreatedAt { get; set; }
+		public long? CreatedAt { get; set; }
 
 		[JsonProperty("metadata")]
 		public Metadata Metadata { get; set; }
 
 		public Transaction InitiateCharge(ChargeRequest chargeRequest) {
 
-			string url = this.Connection.baseUrl() + "/charges";
+			string url = "/charges";
 			string jsonRequestBody = chargeRequest.ToJsonString();
 
-			string responseText = this.Connection.Post(url,null,jsonRequestBody);
+			string responseText = this.GetConnection().Post(url,null,jsonRequestBody);
 			Transaction serializedObject;
 			
 			try {
@@ -104,10 +101,10 @@ namespace Invoiced
 
 		public Transaction Refund(long amount) {
 
-			string url = this.Connection.baseUrl() + "/" + this.EntityName() + "/" + this.EntityId() + "/refunds";
+			string url = this.GetEndpoint(true) + "/refunds";
 			string jsonRequestBody = "{'amount': " + amount.ToString() + "}";
 
-			string responseText = this.Connection.Post(url,null,jsonRequestBody);
+			string responseText = this.GetConnection().Post(url,null,jsonRequestBody);
 			Transaction serializedObject;
 			
 			try {
