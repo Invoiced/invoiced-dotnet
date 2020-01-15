@@ -267,6 +267,10 @@ namespace Invoiced
 			return false;
 		}
 
+		public bool ShouldSerializeCreatedAt() {
+			return false;
+		}
+
 	}
 
 }
