@@ -19,7 +19,7 @@ namespace Invoiced
 		public string Obj { get; set; }
 
 		[JsonProperty("amount")]
-		public long? Amount { get; set; }
+		public double? Amount { get; set; }
 
 		[JsonProperty("tax_rate")]
 		public TaxRate TaxRate { get; set; }

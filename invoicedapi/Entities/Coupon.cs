@@ -32,7 +32,7 @@ namespace Invoiced
 		public string Currency { get; set; }
 
 		[JsonProperty("value")]
-		public long? Value { get; set; }
+		public double? Value { get; set; }
 
         [JsonProperty("is_percent")]
 		public bool? IsPercent { get; set; }

@@ -13,7 +13,7 @@ namespace Invoiced
 		}
 
 		[JsonProperty("available_credits")]
-		public long? AvailableCredits { get; set; }
+		public double? AvailableCredits { get; set; }
 
 		[JsonProperty("history")]
 		public IList<BalanceHistory> History { get; set; }
@@ -22,7 +22,7 @@ namespace Invoiced
 		public bool? PastDue { get; set; }
 
 		[JsonProperty("total_outstanding")]
-		public long? TotalOutstanding { get; set; }
+		public double? TotalOutstanding { get; set; }
 
 		protected override string EntityId() {
 			return "Balance";

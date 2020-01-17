@@ -22,7 +22,7 @@ namespace Invoiced
 		public string Currency { get; set; }
 
 		[JsonProperty("amount")]
-		public long? Amount { get; set; }
+		public double? Amount { get; set; }
 
 		[JsonProperty("invoiced_token")]
 		public string InvoicedToken { get; set; }

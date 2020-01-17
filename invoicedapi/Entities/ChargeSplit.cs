@@ -19,7 +19,7 @@ namespace Invoiced
 		public long? Invoice { get; set; }
 
 		[JsonProperty("amount")]
-		public long? Amount { get; set; }
+		public double? Amount { get; set; }
 
 		protected override string EntityId() {
 			return "ChargeSplit";

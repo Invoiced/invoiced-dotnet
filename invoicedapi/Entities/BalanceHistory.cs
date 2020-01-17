@@ -16,7 +16,7 @@ namespace Invoiced
 		public long? Timestamp { get; set; }
 
 		[JsonProperty("balance")]
-		public long? Balance { get; set; }
+		public double? Balance { get; set; }
 
 		protected override string EntityId() {
 			return "BalanceHistory";

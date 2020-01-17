@@ -75,7 +75,7 @@ namespace Invoiced
 		public string Notes { get; set; }
 
 		[JsonProperty("subtotal")]
-		public long? Subtotal { get; set; }
+		public double? Subtotal { get; set; }
 
 		[JsonProperty("discounts")]
 		public IList<Discount> Discounts { get; set; }
@@ -84,10 +84,10 @@ namespace Invoiced
 		public IList<Tax> Taxes { get; set; }
 
 		[JsonProperty("total")]
-		public long? Total { get; set; }
+		public double? Total { get; set; }
 
 		[JsonProperty("balance")]
-		public long? Balance { get; set; }
+		public double? Balance { get; set; }
 
 		[JsonProperty("url")]
 		public string Url { get; set; }

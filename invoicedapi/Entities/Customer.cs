@@ -108,7 +108,7 @@ namespace Invoiced
 		public bool? CreditHold { get; set; }
 
 		[JsonProperty("credit_limit")]
-		public long? CreditLimit { get; set; }
+		public double? CreditLimit { get; set; }
 
 		[JsonProperty("owner")]
 		public long? Owner { get; set; }

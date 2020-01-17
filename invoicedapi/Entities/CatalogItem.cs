@@ -32,7 +32,7 @@ namespace Invoiced
 		public string Currency { get; set; }
 
 		[JsonProperty("unit_cost")]
-		public long? UnitCost { get; set; }
+		public double? UnitCost { get; set; }
 
 		[JsonProperty("description")]
 		public string Description { get; set; }

@@ -36,13 +36,13 @@ namespace Invoiced
 		public string Description { get; set; }
 
         [JsonProperty("quantity")]
-		public long? Quantity { get; set; }
+		public double? Quantity { get; set; }
 
         [JsonProperty("amount")]
-		public long? Amount { get; set; }
+		public double? Amount { get; set; }
 
         [JsonProperty("unit_cost")]
-		public long? UnitCost { get; set; }
+		public double? UnitCost { get; set; }
 
         [JsonProperty("discountable")]
 		public bool? Discountable { get; set; }

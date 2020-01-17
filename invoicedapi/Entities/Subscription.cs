@@ -87,10 +87,10 @@ namespace Invoiced
 		public IList<object> Taxes { get; set; }
 		
 		[JsonProperty("recurring_total")]
-		public long? RecurringTotal { get; set; }
+		public double? RecurringTotal { get; set; }
 
 		[JsonProperty("mrr")]
-		public long? Mrr { get; set; }
+		public double? Mrr { get; set; }
 
 		[JsonProperty("url")]
 		public string Url { get; set; }

@@ -414,8 +414,8 @@ namespace InvoicedTest
 
             const string jsonRequest = @"{
                 'name': 'Paper',
-                'quantity': 1,
-                'unit_cost': 100
+                'quantity': 1.0,
+                'unit_cost': 100.0
                 }";
 
             var mockHttp = new MockHttpMessageHandler();
