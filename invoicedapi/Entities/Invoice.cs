@@ -141,6 +141,9 @@ namespace Invoiced
 		[JsonProperty("ship_to")]
 		public object ShipTo { get; set; }
 
+		[JsonProperty("updated_at")]
+		public long? UpdatedAt { get; set; }
+
 		public PaymentPlan NewPaymentPlan() {
 			PaymentPlan paymentPlan = new PaymentPlan(this.GetConnection());
 			paymentPlan.SetEndpointBase(this.GetEndpoint(true));
@@ -233,6 +236,11 @@ namespace Invoiced
 		public bool ShouldSerializeCreatedAt() {
 			return false;
 		}
+
+		public bool ShouldSerializeUpdatedAt() {
+			return false;
+		}
+
 
 	}
 
