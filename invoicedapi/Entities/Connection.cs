@@ -199,17 +199,17 @@ namespace Invoiced
         private string AddQueryParamsToUri(string uri, Dictionary<string,Object> queryParams ) {
 
             var builder = new UriBuilder(uri);
-            var query = HttpUtility.ParseQueryString(builder.Query);
 
             if (queryParams != null) {
-                foreach (var param in queryParams) {
-                    query.Add(param.Key.ToString(),param.Value.ToString());
+               var querySegments = new List<string>{};
+                foreach (var param in queryParams)
+                {
+                    querySegments.Add(WebUtility.UrlEncode(param.Key.ToString())+"="+WebUtility.UrlEncode(param.Value.ToString()));
                 }
-
-                builder.Query = query.ToString();
+			    builder.Query = string.Join("&", querySegments);
             }
         
-            return Uri.EscapeUriString(builder.ToString());
+            return builder.ToString();
         }
 
         private InvoicedException HandleApiError(int responseCode, String responseBody) {
