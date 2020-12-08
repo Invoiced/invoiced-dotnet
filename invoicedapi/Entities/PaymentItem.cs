@@ -4,12 +4,9 @@ using Newtonsoft.Json;
 
 namespace Invoiced
 {
-
-	public class ChargeSplit : AbstractItem
+	public class PaymentItem : AbstractItem
 	{
-		
-		public ChargeSplit() : base() {
-
+		public PaymentItem() : base() {
 		}
 
 		[JsonProperty("type")]
@@ -24,8 +21,6 @@ namespace Invoiced
 		protected override string EntityId() {
 			return "ChargeSplit";
             // this is only used for json heading in ToString()
-		}
-		
+		}	
 	}
-
 }

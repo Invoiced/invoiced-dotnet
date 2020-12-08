@@ -365,7 +365,7 @@ namespace InvoicedTest
 			conn.TestClient(client);
 
 			var chargeRequest = new ChargeRequest {Customer = 594287, Amount = 9999, Method = "credit_card"};
-			var split = new ChargeSplit {Type = "invoice", Amount = 9999, Invoice = 123456789};
+			var split = new PaymentItem {Type = "invoice", Amount = 9999, Invoice = 123456789};
 
 			var charge = conn.NewTransaction().InitiateCharge(chargeRequest);
 
