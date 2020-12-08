@@ -45,7 +45,7 @@ namespace Invoiced
 		public string PaymentUrl { get; set; }
 
 		[JsonProperty("ship_to")]
-		public object ShipTo { get; set; }
+		public ShippingDetail ShipTo { get; set; }
 
 		public PaymentPlan NewPaymentPlan() {
 			PaymentPlan paymentPlan = new PaymentPlan(this.GetConnection());

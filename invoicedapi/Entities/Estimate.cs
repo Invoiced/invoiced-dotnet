@@ -33,7 +33,7 @@ namespace Invoiced
 		public bool? DepositPaid { get; set; }
 
 		[JsonProperty("ship_to")]
-		public object ShipTo { get; set; }
+		public ShippingDetail ShipTo { get; set; }
 
 		public Invoice ConvertToInvoice() {
 			string url = this.GetEndpoint(true) + "/invoice";

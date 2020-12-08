@@ -85,6 +85,9 @@ namespace Invoiced
 
 		[JsonProperty("taxes")]
 		public IList<object> Taxes { get; set; }
+
+		[JsonProperty("ship_to")]
+		public ShippingDetail ShipTo { get; set; }
 		
 		[JsonProperty("recurring_total")]
 		public double? RecurringTotal { get; set; }
