@@ -35,7 +35,7 @@ namespace Invoiced
 		public string Status { get; set; }
 
 		[JsonProperty("installments")]
-		public IList<Installment> Installments { get; set; }
+		public IList<PaymentPlanInstallment> Installments { get; set; }
 
 		[JsonProperty("approval")]
 		public Approval Approval { get; set; }

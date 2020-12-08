@@ -5,12 +5,9 @@ using Newtonsoft.Json;
 
 namespace Invoiced
 {
-
-	public class Installment : AbstractItem
+	public class PaymentPlanInstallment : AbstractItem
 	{
-		
-		public Installment() : base() {
-
+		public PaymentPlanInstallment() : base() {
 		}
 
 		[JsonProperty("id")]
@@ -27,8 +24,6 @@ namespace Invoiced
 
 		protected override string EntityId() {
 			return this.Id.ToString();
-		}
-		
+		}	
 	}
-
 }
