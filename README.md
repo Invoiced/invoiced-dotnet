@@ -1,7 +1,10 @@
-# invoiced-csharp
-Official Invoiced C# Library
+# invoiced-dotnet
 
-[![Build Status](https://travis-ci.com/Invoiced/invoiced-csharp.svg?branch=master)](https://travis-ci.com/Invoiced/invoiced-csharp) [![NuGet](https://img.shields.io/nuget/v/Invoiced.svg)](https://www.nuget.org/packages/Invoiced/)
+This repository contains the .NET client library for the [Invoiced](https://invoiced.com) API.
+
+You can find detailed API documentation along with .NET code snippets [here](https://www.invoiced.com/resources/docs/api/?dotnet).
+
+[![Build Status](https://travis-ci.com/Invoiced/invoiced-dotnet.svg?branch=master)](https://travis-ci.com/Invoiced/invoiced-dotnet) [![NuGet](https://img.shields.io/nuget/v/Invoiced.svg)](https://www.nuget.org/packages/Invoiced/)
 
 ## Usage
 
@@ -28,6 +31,5 @@ transaction.Create();
 ```
 
 ## Developing
-
 
 The test suite can be ran with `dotnet test`

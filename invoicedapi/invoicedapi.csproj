@@ -10,10 +10,10 @@
     <AssemblyName>Invoiced</AssemblyName>
     <PackageId>Invoiced</PackageId>
     <PackageTags>invoice;accounts receivable;automation;payment processing; chasing</PackageTags>
-    <PackageProjectUrl>https://github.com/invoiced/invoiced-csharp</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/Invoiced/invoiced-csharp/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/invoiced/invoiced-dotnet</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/Invoiced/invoiced-dotnet/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/stripe/stripe-dotnet</RepositoryUrl>
+    <RepositoryUrl>https://github.com/invoiced/invoiced-dotnet</RepositoryUrl>
     <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
     <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.2' ">$(PackageTargetFallback);netcoreapp1.0</PackageTargetFallback>
     <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.2' ">1.6.1</NetStandardImplicitPackageVersion>
