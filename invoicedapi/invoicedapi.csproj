@@ -9,7 +9,7 @@
     <TargetFrameworks>;netstandard2.0</TargetFrameworks>
     <AssemblyName>Invoiced</AssemblyName>
     <PackageId>Invoiced</PackageId>
-    <PackageTags>invoice;accounts receivable;automation;payment processing; chasing</PackageTags>
+    <PackageTags>invoiced;accounts receivable;automation;payment processing; chasing</PackageTags>
     <PackageProjectUrl>https://github.com/invoiced/invoiced-dotnet</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/Invoiced/invoiced-dotnet/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
