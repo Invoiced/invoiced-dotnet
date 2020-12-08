@@ -24,7 +24,7 @@ namespace Invoiced
 		public long? Id { get; set; }
 
 		[JsonProperty("catalog_item")]
-		public string CatalogItem { get; set; }
+		public string Item { get; set; }
 
 		[JsonProperty("type")]
 		public string Type { get; set; }
@@ -68,7 +68,7 @@ namespace Invoiced
 			return false;
 		}
 
-		public bool ShouldSerializeCatalogItem() {
+		public bool ShouldSerializeItem() {
 			return this.CurrentOperation == "Create";
 		}
 

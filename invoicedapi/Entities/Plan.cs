@@ -31,7 +31,7 @@ namespace Invoiced
 		public string Obj { get; set; }
 
         [JsonProperty("catalog_item")]
-		public string CatalogItem { get; set; }
+		public string Item { get; set; }
 
 		[JsonProperty("name")]
 		public string Name { get; set; }
@@ -73,7 +73,7 @@ namespace Invoiced
 			return false;
 		}
 
-		public bool ShouldSerializeCatalogItem() {
+		public bool ShouldSerializeItem() {
 			return this.CurrentOperation == "Create";
 		}
 

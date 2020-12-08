@@ -35,59 +35,48 @@ namespace Invoiced
             }
         }
 
-        public Customer NewCustomer() {
-            Customer customer = new Customer(this);
-            return customer;
-        }
-
-        public Invoice NewInvoice() {
-            Invoice invoice = new Invoice(this);
-            return invoice;
+        public Coupon NewCoupon() {
+            return new Coupon(this);
         }
 
         public CreditNote NewCreditNote() {
-            CreditNote creditNote = new CreditNote(this);
-            return creditNote;
+            return new CreditNote(this);
+        }
+
+        public Customer NewCustomer() {
+            return new Customer(this);
         }
 
         public Estimate NewEstimate() {
-            Estimate estimate = new Estimate(this);
-            return estimate;
-        }
-
-        public Transaction NewTransaction() {
-            Transaction transaction = new Transaction(this);
-            return transaction;
-        }
-
-        public Subscription NewSubscription() {
-            Subscription subscription = new Subscription(this);
-            return subscription;
+            return new Estimate(this);
         }
 
         public Event NewEvent() {
-            Event ev = new Event(this);
-            return ev;
+            return new Event(this);
         }
 
-        public CatalogItem NewCatalogItem() {
-            CatalogItem catalogItem = new CatalogItem(this);
-            return catalogItem;
+        public Invoice NewInvoice() {
+            return new Invoice(this);
         }
 
-        public TaxRate NewTaxRate() {
-            TaxRate taxRate = new TaxRate(this);
-            return taxRate;
-        }
-
-        public Coupon NewCoupon() {
-            Coupon coupon = new Coupon(this);
-            return coupon;
+        public Item NewItem() {
+            return new Item(this);
         }
 
         public Plan NewPlan() {
-            Plan plan = new Plan(this);
-            return plan;
+            return new Plan(this);
+        }
+
+        public Subscription NewSubscription() {
+            return new Subscription(this);
+        }
+
+        public TaxRate NewTaxRate() {
+            return new TaxRate(this);
+        }
+
+        public Transaction NewTransaction() {
+            return new Transaction(this);
         }
 
         internal string Post(string url, Dictionary<string,Object> queryParams, string jsonBody)

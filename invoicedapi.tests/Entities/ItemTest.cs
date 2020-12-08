@@ -11,24 +11,24 @@ using Newtonsoft.Json;
 namespace InvoicedTest
 {
 
-    public class CatalogItemTest
+    public class ItemTest
     {
-        private static CatalogItem CreateDefaultCatalogItem(HttpClient client)
+        private static Item CreateDefaultItem(HttpClient client)
         {
             var json = @"{'id': 'alpha',
                 'unit_cost': 100,
                 'name': 'Alpha'
                 }";
 
-            var catalogItem = JsonConvert.DeserializeObject<CatalogItem>(json);
+            var item = JsonConvert.DeserializeObject<Item>(json);
 
             var connection = new Connection("voodoo", Invoiced.Environment.test);
 
             connection.TestClient(client);
 
-            catalogItem.ChangeConnection(connection);
+            item.ChangeConnection(connection);
 
-            return catalogItem;
+            return item;
 
         }
 
@@ -45,17 +45,17 @@ namespace InvoicedTest
 	            'id': 'alpha',
 	            'metadata': {},
 	            'name': 'Alpha',
-	            'object': 'catalog_item',
+	            'object': 'item',
 	            'taxable': true,
 	            'taxes': [],
 	            'type': null,
 	            'unit_cost': 100
             }";
 
-            var catalogItem = JsonConvert.DeserializeObject<CatalogItem>(json);
+            var item = JsonConvert.DeserializeObject<Item>(json);
 
-            Assert.True(catalogItem.Name == "Alpha");
-            Assert.True(catalogItem.CreatedAt == 1574368157);
+            Assert.True(item.Name == "Alpha");
+            Assert.True(item.CreatedAt == 1574368157);
         }
 
 
@@ -65,7 +65,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When("https://testmode/catalog_items/alpha")
+            mockHttp.When("https://testmode/items/alpha")
                 .Respond("application/json", "{'id' : 'alpha', 'name' : 'Alpha'}");
 
             var client = mockHttp.ToHttpClient();
@@ -74,11 +74,11 @@ namespace InvoicedTest
 
             conn.TestClient(client);
 
-            var catalogItemConn = conn.NewCatalogItem();
+            var itemConn = conn.NewItem();
 
-            var catalogItem = catalogItemConn.Retrieve("alpha");
+            var item = itemConn.Retrieve("alpha");
 
-            Assert.True(catalogItem.Id == "alpha");
+            Assert.True(item.Id == "alpha");
 
         }
 
@@ -97,7 +97,7 @@ namespace InvoicedTest
 	            'id': 'alpha',
 	            'metadata': {},
 	            'name': 'Alpha',
-	            'object': 'catalog_item',
+	            'object': 'item',
 	            'taxable': true,
 	            'taxes': [],
 	            'type': null,
@@ -106,7 +106,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/catalog_items")
+            mockHttp.When(HttpMethod.Post, "https://testmode/items")
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -115,11 +115,11 @@ namespace InvoicedTest
 
             conn.TestClient(client);
 
-            var catalogItem = conn.NewCatalogItem();
+            var item = conn.NewItem();
 
-            catalogItem.Create();
+            item.Create();
 
-            Assert.True(catalogItem.Id == "alpha");
+            Assert.True(item.Id == "alpha");
 
         }
 
@@ -137,7 +137,7 @@ namespace InvoicedTest
 	            'id': 'alpha',
 	            'metadata': {},
 	            'name': 'Updated',
-	            'object': 'catalog_item',
+	            'object': 'item',
 	            'taxable': true,
 	            'taxes': [],
 	            'type': null,
@@ -151,19 +151,19 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
             var httpPatch = new HttpMethod("PATCH");
-            var request = mockHttp.When(httpPatch, "https://testmode/catalog_items/alpha").WithJson(JsonRequest)
+            var request = mockHttp.When(httpPatch, "https://testmode/items/alpha").WithJson(JsonRequest)
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
 
-            var catalogItem = CreateDefaultCatalogItem(client);
+            var item = CreateDefaultItem(client);
 
-            catalogItem.Name = "Updated";
+            item.Name = "Updated";
 
-            catalogItem.SaveAll();
+            item.SaveAll();
 
-            Assert.True(catalogItem.Id == "alpha");
-            Assert.True(catalogItem.Name == "Updated");
+            Assert.True(item.Id == "alpha");
+            Assert.True(item.Name == "Updated");
 
         }
 
@@ -173,14 +173,14 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            var request = mockHttp.When(HttpMethod.Delete, "https://testmode/catalog_items/alpha")
+            var request = mockHttp.When(HttpMethod.Delete, "https://testmode/items/alpha")
                 .Respond(HttpStatusCode.NoContent);
 
             var client = mockHttp.ToHttpClient();
 
-            var catalogItem = CreateDefaultCatalogItem(client);
+            var item = CreateDefaultItem(client);
 
-            catalogItem.Delete();
+            item.Delete();
 
         }
 
@@ -199,7 +199,7 @@ namespace InvoicedTest
 	            'id': 'alpha',
 	            'metadata': {},
 	            'name': 'Updated',
-	            'object': 'catalog_item',
+	            'object': 'item',
 	            'taxable': true,
 	            'taxes': [],
 	            'type': null,
@@ -211,9 +211,9 @@ namespace InvoicedTest
             var mockHeader = new Dictionary<string, string>();
             mockHeader["X-Total-Count"] = "1";
             mockHeader["Link"] =
-                "<https://api.sandbox.invoiced.com/catalog_items?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/catalog_items?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/catalog_items?page=1>; rel=\"last\"";
+                "<https://api.sandbox.invoiced.com/items?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/items?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/items?page=1>; rel=\"last\"";
 
-            var request = mockHttp.When(HttpMethod.Get, "https://testmode/catalog_items")
+            var request = mockHttp.When(HttpMethod.Get, "https://testmode/items")
 	            .Respond(mockHeader, "application/json", jsonResponseListAll);
 
             var client = mockHttp.ToHttpClient();
@@ -222,11 +222,11 @@ namespace InvoicedTest
 
             conn.TestClient(client);
 
-            var catalogItem = conn.NewCatalogItem();
+            var item = conn.NewItem();
 
-            var catalogItems = catalogItem.ListAll();
+            var items = item.ListAll();
 
-            Assert.True(catalogItems[0].Id == "alpha");
+            Assert.True(items[0].Id == "alpha");
 
         }
 

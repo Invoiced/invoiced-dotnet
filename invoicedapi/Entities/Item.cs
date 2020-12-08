@@ -5,14 +5,14 @@ using Newtonsoft.Json;
 namespace Invoiced
 {
 
-	public class CatalogItem : AbstractEntity<CatalogItem> {
+	public class Item : AbstractEntity<Item> {
 
 
-		internal CatalogItem() : base() {
-			this.EntityName = "/catalog_items";
+		internal Item() : base() {
+			this.EntityName = "/items";
 		}
-		internal CatalogItem(Connection conn) : base(conn) {
-			this.EntityName = "/catalog_items";
+		internal Item(Connection conn) : base(conn) {
+			this.EntityName = "/items";
 		}
 
 		protected override string EntityId() {
