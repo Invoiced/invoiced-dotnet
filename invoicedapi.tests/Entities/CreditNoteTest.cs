@@ -209,7 +209,7 @@ namespace InvoicedTest
 			creditNote.Create();
 
 			Assert.True(creditNote.Id == 8441);
-			Assert.True(creditNote.Invoice == 2356205);
+			Assert.True(creditNote.Number == "CN-00003");
 
 		}
 
@@ -367,7 +367,7 @@ namespace InvoicedTest
 			var creditNotes = creditNote.ListAll();
 
 			Assert.True(creditNotes[0].Id == 8441);
-			Assert.True(creditNotes[0].Invoice == 2356205);
+			Assert.True(creditNotes[0].Number == "CN-00003");
 
 		}
 
