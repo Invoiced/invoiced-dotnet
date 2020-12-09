@@ -38,16 +38,10 @@ The test suite can be ran with `dotnet test`
 
 ## Deployment
 
-Build a NuGet package:
+Follow these steps to publish a package to NuGet:
 
 ```
 dotnet pack
 cd invoicedapi/bin/Debug/
 nuget push Invoiced.X.X.X.nupkg -Source https://api.nuget.org/v3/index.json
-```
-
-The package will go into `./Invoiced.X.X.X.nupkg`.
-
-```
-
 ```
