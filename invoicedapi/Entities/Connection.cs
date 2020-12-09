@@ -36,6 +36,11 @@ namespace Invoiced
             return new Coupon(this);
         }
 
+        public CreditBalanceAdjustment NewCreditBalanceAdjustment()
+        {
+            return new CreditBalanceAdjustment(this);
+        }
+
         public CreditNote NewCreditNote()
         {
             return new CreditNote(this);
