@@ -3,8 +3,8 @@
   <PropertyGroup>
    <Description>Official .NET client library for the Invoiced API.</Description>
     <AssemblyTitle>Invoiced</AssemblyTitle>
-    <VersionPrefix>3.0.0</VersionPrefix>
-    <Version>3.0.0</Version>
+    <VersionPrefix>3.1.0</VersionPrefix>
+    <Version>3.1.0</Version>
     <Authors>Invoiced</Authors>
     <TargetFrameworks>;netstandard2.0</TargetFrameworks>
     <AssemblyName>Invoiced</AssemblyName>
