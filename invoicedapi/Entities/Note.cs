@@ -1,103 +1,109 @@
-using System;
-using System.Collections.Generic;
-using System.Transactions;
 using Newtonsoft.Json;
 
 namespace Invoiced
 {
+    public class Note : AbstractEntity<Note>
+    {
+        public Note(Connection conn) : base(conn)
+        {
+            EntityName = "/notes";
+        }
 
-	public class Note : AbstractEntity<Note>
-	{
+        public Note()
+        {
+            EntityName = "/notes";
+        }
 
-		public Note(Connection conn) : base(conn) {
-			this.EntityName = "/notes";
-		}
+        [JsonProperty("id")] public long? Id { get; set; }
 
-		public Note() : base(){
-			this.EntityName = "/notes";
-		}
+        [JsonProperty("object")] public string Object { get; set; }
 
-		protected override string EntityId() {
-			return this.Id.ToString();
-		}
+        [JsonProperty("notes")] public string Notes { get; set; }
 
-		[JsonProperty("id")]
-		public long? Id { get; set; }
+        [JsonProperty("customer")] public long? Customer { get; set; }
 
-		[JsonProperty("object")]
-		public string Obj { get; set; }
+        [JsonProperty("user")] public object User { get; set; }
 
-		[JsonProperty("notes")]
-		public string Notes { get; set; }
+        [JsonProperty("metadata")] public Metadata Metadata { get; set; }
 
-        [JsonProperty("customer")]
-		public long? Customer { get; set; }
+        [JsonProperty("created_at")] public long? CreatedAt { get; set; }
 
-		[JsonProperty("customer_id")]
-		public long? CustomerId { get; set; }
+        protected override string EntityId()
+        {
+            return Id.ToString();
+        }
 
-        [JsonProperty("invoice_id")]
-		public long? InvoiceId { get; set; }
+        public override void Create()
+        {
+            var endpointBase = GetEndpointBase();
+            SetEndpointBase("");
+            try
+            {
+                base.Create();
+            }
+            finally
+            {
+                SetEndpointBase(endpointBase);
+            }
+        }
 
-		[JsonProperty("created_at")]
-		public long? CreatedAt { get; set; }
+        public override void SaveAll()
+        {
+            var endpointBase = GetEndpointBase();
+            SetEndpointBase("");
+            try
+            {
+                base.SaveAll();
+            }
+            finally
+            {
+                SetEndpointBase(endpointBase);
+            }
+        }
 
-		public override void Create() {
-			String endpointBase = this.GetEndpointBase();
-			this.SetEndpointBase("");
-			try {
-				base.Create();
-			} finally {
-				this.SetEndpointBase(endpointBase);
-			}
-		}
-		
-		public override void SaveAll() {
-			String endpointBase = this.GetEndpointBase();
-			this.SetEndpointBase("");
-			try {
-				base.SaveAll();
-			} finally {
-				this.SetEndpointBase(endpointBase);
-			}
-		}
-		
-		public override void Delete() {
-			String endpointBase = this.GetEndpointBase();
-			this.SetEndpointBase("");
-			try {
-				base.Delete();
-			} finally {
-				this.SetEndpointBase(endpointBase);
-			}
-		}
+        public override void Delete()
+        {
+            var endpointBase = GetEndpointBase();
+            SetEndpointBase("");
+            try
+            {
+                base.Delete();
+            }
+            finally
+            {
+                SetEndpointBase(endpointBase);
+            }
+        }
 
-		// Conditional Serialisation
+        // Conditional Serialisation
+        public bool ShouldSerializeId()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeId() {
-			return false;
-		}
+        public bool ShouldSerializeObject()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeObj() {
-			return false;
-		}
+        public bool ShouldSerializeCustomer()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeCustomer() {
-			return false;
-		}
+        public bool ShouldSerializeCustomerId()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeCustomerId() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeInvoiceId()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeInvoiceId() {
-			return this.CurrentOperation == "Create";
-		}
-
-		public bool ShouldSerializeCreatedAt() {
-			return false;
-		}
-			
-	}
-
+        public bool ShouldSerializeCreatedAt()
+        {
+            return false;
+        }
+    }
 }

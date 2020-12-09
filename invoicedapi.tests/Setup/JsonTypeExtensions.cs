@@ -1,6 +1,4 @@
-using System;
 using RichardSzalay.MockHttp;
-
 
 namespace InvoicedTest
 {
@@ -10,7 +8,6 @@ namespace InvoicedTest
             this MockedRequest handler,
             string jsonObject)
         {
-  
             handler.With(new JsonMatcher(jsonObject));
 
             return handler;

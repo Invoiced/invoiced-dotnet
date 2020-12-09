@@ -1,16 +1,13 @@
-using System;
-using Xunit;
-using Invoiced;
-using System.Net.Http;
-using System.Net;
 using System.Collections.Generic;
-using RichardSzalay.MockHttp;
+using System.Net;
+using System.Net.Http;
+using Invoiced;
 using Newtonsoft.Json;
-
+using RichardSzalay.MockHttp;
+using Xunit;
 
 namespace InvoicedTest
 {
-
     public class TaxRateTest
     {
         private static TaxRate CreateDefaultTaxRate(HttpClient client)
@@ -19,14 +16,13 @@ namespace InvoicedTest
 
             var taxRate = JsonConvert.DeserializeObject<TaxRate>(json);
 
-            var connection = new Connection("voodoo", Invoiced.Environment.test);
+            var connection = new Connection("voodoo", Environment.test);
 
             connection.TestClient(client);
 
             taxRate.ChangeConnection(connection);
 
             return taxRate;
-
         }
 
         [Fact]
@@ -54,7 +50,6 @@ namespace InvoicedTest
         [Fact]
         public void TestRetrieve()
         {
-
             var mockHttp = new MockHttpMessageHandler();
 
             mockHttp.When("https://testmode/tax_rates/alpha")
@@ -62,7 +57,7 @@ namespace InvoicedTest
 
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo", Invoiced.Environment.test);
+            var conn = new Connection("voodoo", Environment.test);
 
             conn.TestClient(client);
 
@@ -71,14 +66,12 @@ namespace InvoicedTest
             var taxRate = taxRateConn.Retrieve("alpha");
 
             Assert.True(taxRate.Id == "alpha");
-
         }
 
 
         [Fact]
         public void TestCreate()
         {
-
             var jsonResponse = @"{
 				'created_at': 1574369950,
 				'currency': null,
@@ -98,7 +91,7 @@ namespace InvoicedTest
 
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo", Invoiced.Environment.test);
+            var conn = new Connection("voodoo", Environment.test);
 
             conn.TestClient(client);
 
@@ -108,13 +101,11 @@ namespace InvoicedTest
 
             Assert.True(taxRate.Id == "alpha");
             Assert.True(taxRate.Value == 10);
-
         }
 
         [Fact]
         public void TestSave()
         {
-
             var jsonResponse = @"{
 				'created_at': 1574369950,
 				'currency': null,
@@ -147,13 +138,11 @@ namespace InvoicedTest
 
             Assert.True(taxRate.Id == "alpha");
             Assert.True(taxRate.Name == "Updated");
-
         }
 
         [Fact]
         public void TestDelete()
         {
-
             var mockHttp = new MockHttpMessageHandler();
 
             var request = mockHttp.When(HttpMethod.Delete, "https://testmode/tax_rates/alpha")
@@ -164,14 +153,12 @@ namespace InvoicedTest
             var taxRate = CreateDefaultTaxRate(client);
 
             taxRate.Delete();
-
         }
 
 
         [Fact]
         public void TestListAll()
         {
-
             var jsonResponseListAll = @"[{
 				'created_at': 1574369950,
 				'currency': null,
@@ -192,11 +179,11 @@ namespace InvoicedTest
                 "<https://api.sandbox.invoiced.com/tax_rates?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/tax_rates?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/tax_rates?page=1>; rel=\"last\"";
 
             var request = mockHttp.When(HttpMethod.Get, "https://testmode/tax_rates")
-	            .Respond(mockHeader, "application/json", jsonResponseListAll);
+                .Respond(mockHeader, "application/json", jsonResponseListAll);
 
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo", Invoiced.Environment.test);
+            var conn = new Connection("voodoo", Environment.test);
 
             conn.TestClient(client);
 
@@ -205,9 +192,6 @@ namespace InvoicedTest
             var taxRates = taxRate.ListAll();
 
             Assert.True(taxRates[0].Id == "alpha");
-
         }
-
     }
-
 }

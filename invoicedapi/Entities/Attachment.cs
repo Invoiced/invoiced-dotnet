@@ -1,31 +1,22 @@
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Invoiced
 {
+    public class Attachment : AbstractItem
+    {
+        [JsonProperty("id")] public long? Id { get; set; }
 
-	public class Attachment : AbstractItem
-	{
-		
-		public Attachment() : base() {
+        [JsonProperty("object")] public string Object { get; set; }
 
-		}
+        [JsonProperty("file")] public File File { get; set; }
 
-		[JsonProperty("id")]
-		public long? Id { get; set; }
+        [JsonProperty("location")] public string Location { get; set; }
 
-		[JsonProperty("file")]
-		public File File { get; set; }
+        [JsonProperty("created_at")] public long? CreatedAt { get; set; }
 
-        [JsonProperty("created_at")]
-		public long? CreatedAt { get; set; }
-
-
-		protected override string EntityId() {
-			return this.Id.ToString();
-		}
-		
-	}
-
+        protected override string EntityId()
+        {
+            return Id.ToString();
+        }
+    }
 }

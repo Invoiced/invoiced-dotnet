@@ -1,48 +1,47 @@
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Invoiced
 {
+    public class Event : AbstractEntity<Event>
+    {
+        internal Event()
+        {
+            EntityName = "/events";
+        }
 
-	public class Event : AbstractEntity<Event> {
+        internal Event(Connection conn) : base(conn)
+        {
+            EntityName = "/events";
+        }
 
-		internal Event() : base() {
-			this.EntityName = "/events";
-		}
+        [JsonProperty("id")] public long? Id { get; set; }
 
-		internal Event(Connection conn) : base(conn) {
-			this.EntityName = "/events";
-		}
+        [JsonProperty("object")] public string Object { get; set; }
 
-		protected override string EntityId() {
-			return this.Id.ToString();
-		}
+        [JsonProperty("type")] public string Type { get; set; }
 
-		protected override bool HasCrud() {
-			return false;
-		}
+        [JsonProperty("timestamp")] public long? Timestamp { get; set; }
 
-		protected override bool HasList() {
-			return true;
-		}
+        [JsonProperty("data")] public object Data { get; set; }
 
-		public virtual bool HasStringId() {
-			return false;
-		}
+        protected override string EntityId()
+        {
+            return Id.ToString();
+        }
 
-		[JsonProperty("id")]
-		public long? Id { get; set; }
+        protected override bool HasCrud()
+        {
+            return false;
+        }
 
-		[JsonProperty("type")]
-		public string Type { get; set; }
+        protected override bool HasList()
+        {
+            return true;
+        }
 
-		[JsonProperty("timestamp")]
-		public long? Timestamp { get; set; }
-
-		[JsonProperty("data")]
-		public object Data { get; set; }
-
-	}
-
+        public virtual bool HasStringId()
+        {
+            return false;
+        }
+    }
 }

@@ -1,95 +1,92 @@
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Invoiced
 {
+    public class Coupon : AbstractEntity<Coupon>
+    {
+        internal Coupon()
+        {
+            EntityName = "/coupons";
+        }
 
-	public class Coupon : AbstractEntity<Coupon> {
+        internal Coupon(Connection conn) : base(conn)
+        {
+            EntityName = "/coupons";
+        }
 
-		internal Coupon() : base() {
-			this.EntityName = "/coupons";
-		}
+        [JsonProperty("id")] public string Id { get; set; }
 
-		internal Coupon(Connection conn) : base(conn) {
-			this.EntityName = "/coupons";
-		}
+        [JsonProperty("object")] public string Object { get; set; }
 
-		protected override string EntityId() {
-			return this.Id;
-		}
+        [JsonProperty("name")] public string Name { get; set; }
 
-		[JsonProperty("id")]
-		public string Id { get; set; }
+        [JsonProperty("currency")] public string Currency { get; set; }
 
-		[JsonProperty("object")]
-		public string Obj { get; set; }
+        [JsonProperty("value")] public double? Value { get; set; }
 
-		[JsonProperty("name")]
-		public string Name { get; set; }
+        [JsonProperty("is_percent")] public bool? IsPercent { get; set; }
 
-		[JsonProperty("currency")]
-		public string Currency { get; set; }
+        [JsonProperty("exclusive")] public bool? Exclusive { get; set; }
 
-		[JsonProperty("value")]
-		public double? Value { get; set; }
+        [JsonProperty("durationo")] public long? Duration { get; set; }
 
-        [JsonProperty("is_percent")]
-		public bool? IsPercent { get; set; }
+        [JsonProperty("expiration_date")] public long? ExpirationDate { get; set; }
 
-        [JsonProperty("exclusive")]
-		public bool? Exclusive { get; set; }
+        [JsonProperty("max_redemptions")] public long? MaxRedemptions { get; set; }
 
-        [JsonProperty("expiration_date")]
-		public long? ExpirationDate { get; set; }
+        [JsonProperty("created_at")] public long? CreatedAt { get; set; }
 
-        [JsonProperty("max_redemptions")]
-		public long? MaxRedemptions { get; set; }
+        [JsonProperty("metadata")] public Metadata Metadata { get; set; }
 
-		[JsonProperty("created_at")]
-		public long? CreatedAt { get; set; }
+        protected override string EntityId()
+        {
+            return Id;
+        }
 
-		[JsonProperty("metadata")]
-		public Metadata Metadata { get; set; }
+        // Conditional Serialisation
+        public bool ShouldSerializeId()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		// Conditional Serialisation
+        public bool ShouldSerializeObject()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeId() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeCurrency()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeObj() {
-			return false;
-		}
+        public bool ShouldSerializeValue()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeCurrency() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeIsPercent()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeValue() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeExclusive()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeIsPercent() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeExpirationDate()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeExclusive() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeMaxRedemptions()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeExpirationDate() {
-			return this.CurrentOperation == "Create";
-		}
-
-		public bool ShouldSerializeMaxRedemptions() {
-			return this.CurrentOperation == "Create";
-		}
-
-		public bool ShouldSerializeCreatedAt() {
-			return false;
-		}
-
-	}
-
+        public bool ShouldSerializeCreatedAt()
+        {
+            return false;
+        }
+    }
 }

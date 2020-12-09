@@ -1,16 +1,13 @@
-using System;
-using Xunit;
-using Invoiced;
-using System.Net.Http;
-using System.Net;
 using System.Collections.Generic;
-using RichardSzalay.MockHttp;
+using System.Net;
+using System.Net.Http;
+using Invoiced;
 using Newtonsoft.Json;
-
+using RichardSzalay.MockHttp;
+using Xunit;
 
 namespace InvoicedTest
 {
-
     public class ItemTest
     {
         private static Item CreateDefaultItem(HttpClient client)
@@ -22,14 +19,13 @@ namespace InvoicedTest
 
             var item = JsonConvert.DeserializeObject<Item>(json);
 
-            var connection = new Connection("voodoo", Invoiced.Environment.test);
+            var connection = new Connection("voodoo", Environment.test);
 
             connection.TestClient(client);
 
             item.ChangeConnection(connection);
 
             return item;
-
         }
 
         [Fact]
@@ -62,7 +58,6 @@ namespace InvoicedTest
         [Fact]
         public void TestRetrieve()
         {
-
             var mockHttp = new MockHttpMessageHandler();
 
             mockHttp.When("https://testmode/items/alpha")
@@ -70,7 +65,7 @@ namespace InvoicedTest
 
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo", Invoiced.Environment.test);
+            var conn = new Connection("voodoo", Environment.test);
 
             conn.TestClient(client);
 
@@ -79,14 +74,12 @@ namespace InvoicedTest
             var item = itemConn.Retrieve("alpha");
 
             Assert.True(item.Id == "alpha");
-
         }
 
 
         [Fact]
         public void TestCreate()
         {
-
             var jsonResponse = @"{
 	            'avalara_tax_code': null,
 	            'created_at': 1574368157,
@@ -111,7 +104,7 @@ namespace InvoicedTest
 
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo", Invoiced.Environment.test);
+            var conn = new Connection("voodoo", Environment.test);
 
             conn.TestClient(client);
 
@@ -120,13 +113,11 @@ namespace InvoicedTest
             item.Create();
 
             Assert.True(item.Id == "alpha");
-
         }
 
         [Fact]
         public void TestSave()
         {
-
             var jsonResponse = @"{
 	            'avalara_tax_code': null,
 	            'created_at': 1574368157,
@@ -164,13 +155,11 @@ namespace InvoicedTest
 
             Assert.True(item.Id == "alpha");
             Assert.True(item.Name == "Updated");
-
         }
 
         [Fact]
         public void TestDelete()
         {
-
             var mockHttp = new MockHttpMessageHandler();
 
             var request = mockHttp.When(HttpMethod.Delete, "https://testmode/items/alpha")
@@ -181,14 +170,12 @@ namespace InvoicedTest
             var item = CreateDefaultItem(client);
 
             item.Delete();
-
         }
 
 
         [Fact]
         public void TestListAll()
         {
-
             var jsonResponseListAll = @"[{
 	            'avalara_tax_code': null,
 	            'created_at': 1574368157,
@@ -214,11 +201,11 @@ namespace InvoicedTest
                 "<https://api.sandbox.invoiced.com/items?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/items?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/items?page=1>; rel=\"last\"";
 
             var request = mockHttp.When(HttpMethod.Get, "https://testmode/items")
-	            .Respond(mockHeader, "application/json", jsonResponseListAll);
+                .Respond(mockHeader, "application/json", jsonResponseListAll);
 
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo", Invoiced.Environment.test);
+            var conn = new Connection("voodoo", Environment.test);
 
             conn.TestClient(client);
 
@@ -227,9 +214,6 @@ namespace InvoicedTest
             var items = item.ListAll();
 
             Assert.True(items[0].Id == "alpha");
-
         }
-
     }
-
 }

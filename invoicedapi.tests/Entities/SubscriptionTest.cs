@@ -1,39 +1,35 @@
-using System;
-using Xunit;
-using Invoiced;
-using System.Net.Http;
-using System.Net;
 using System.Collections.Generic;
-using RichardSzalay.MockHttp;
+using System.Net;
+using System.Net.Http;
+using Invoiced;
 using Newtonsoft.Json;
-
+using RichardSzalay.MockHttp;
+using Xunit;
 
 namespace InvoicedTest
 {
-
-	public class SubscriptionTest
-	{
-
-		public static Subscription CreateDefaultSubscription(HttpClient client)
-		{
-			var json = @"{'id': 13117
+    public class SubscriptionTest
+    {
+        public static Subscription CreateDefaultSubscription(HttpClient client)
+        {
+            var json = @"{'id': 13117
                 }";
 
-			var subscription = JsonConvert.DeserializeObject<Subscription>(json);
+            var subscription = JsonConvert.DeserializeObject<Subscription>(json);
 
-			var connection = new Connection("voodoo", Invoiced.Environment.test);
+            var connection = new Connection("voodoo", Environment.test);
 
-			connection.TestClient(client);
+            connection.TestClient(client);
 
-			subscription.ChangeConnection(connection);
+            subscription.ChangeConnection(connection);
 
-			return subscription;
-		}
+            return subscription;
+        }
 
-		[Fact]
-		public void TestDeserialize()
-		{
-			var json = @"{
+        [Fact]
+        public void TestDeserialize()
+        {
+            var json = @"{
 				'addons': [{
 					'catalog_item': null,
 					'created_at': 1574374281,
@@ -78,41 +74,38 @@ namespace InvoicedTest
 				'url': 'https://ajwt.sandbox.invoiced.com/subscriptions/odtQWtUJ8VVaFbicpJ57AER9'
 			}";
 
-			var testEvent = JsonConvert.DeserializeObject<Subscription>(json);
+            var testEvent = JsonConvert.DeserializeObject<Subscription>(json);
 
-			Assert.True(testEvent.Id == 13117);
-			Assert.True(testEvent.Status == "active");
-		}
+            Assert.True(testEvent.Id == 13117);
+            Assert.True(testEvent.Status == "active");
+        }
 
-		[Fact]
-		public void TestRetrieve()
-		{
+        [Fact]
+        public void TestRetrieve()
+        {
+            var mockHttp = new MockHttpMessageHandler();
 
-			var mockHttp = new MockHttpMessageHandler();
+            mockHttp.When("https://testmode/subscriptions/13117")
+                .Respond("application/json", "{'id' : 13117, 'cycles': 1}");
 
-			mockHttp.When("https://testmode/subscriptions/13117")
-				.Respond("application/json", "{'id' : 13117, 'cycles': 1}");
+            var client = mockHttp.ToHttpClient();
 
-			var client = mockHttp.ToHttpClient();
+            var conn = new Connection("voodoo", Environment.test);
 
-			var conn = new Connection("voodoo", Invoiced.Environment.test);
+            conn.TestClient(client);
 
-			conn.TestClient(client);
+            var subscriptionConn = conn.NewSubscription();
 
-			var subscriptionConn = conn.NewSubscription();
+            var subscription = subscriptionConn.Retrieve(13117);
 
-			var subscription = subscriptionConn.Retrieve(13117);
-
-			Assert.True(subscription.Cycles == 1);
-
-		}
+            Assert.True(subscription.Cycles == 1);
+        }
 
 
-		[Fact]
-		public void TestCreate()
-		{
-
-			var jsonResponse = @"{
+        [Fact]
+        public void TestCreate()
+        {
+            var jsonResponse = @"{
 				'addons': [],
 				'approval': null,
 				'bill_in': 'advance',
@@ -149,31 +142,29 @@ namespace InvoicedTest
 				'url': 'https://ajwt.sandbox.invoiced.com/subscriptions/odtQWtUJ8VVaFbicpJ57AER9'
 			}";
 
-			var mockHttp = new MockHttpMessageHandler();
+            var mockHttp = new MockHttpMessageHandler();
 
-			mockHttp.When(HttpMethod.Post, "https://testmode/subscriptions")
-				.Respond("application/json", jsonResponse);
+            mockHttp.When(HttpMethod.Post, "https://testmode/subscriptions")
+                .Respond("application/json", jsonResponse);
 
-			var client = mockHttp.ToHttpClient();
+            var client = mockHttp.ToHttpClient();
 
-			var conn = new Connection("voodoo", Invoiced.Environment.test);
+            var conn = new Connection("voodoo", Environment.test);
 
-			conn.TestClient(client);
+            conn.TestClient(client);
 
-			var subscription = conn.NewSubscription();
+            var subscription = conn.NewSubscription();
 
-			subscription.Create();
+            subscription.Create();
 
-			Assert.True(subscription.Id == 13117);
-			Assert.True(subscription.StartDate == 1574316000);
+            Assert.True(subscription.Id == 13117);
+            Assert.True(subscription.StartDate == 1574316000);
+        }
 
-		}
-
-		[Fact]
-		public void TestSave()
-		{
-
-			var jsonResponse = @"{
+        [Fact]
+        public void TestSave()
+        {
+            var jsonResponse = @"{
 				'addons': [],
 				'approval': null,
 				'bill_in': 'advance',
@@ -211,68 +202,62 @@ namespace InvoicedTest
 			}";
 
 
-			var JsonRequest = @"{
+            var JsonRequest = @"{
                 'cancel_at_period_end': true
                 }";
 
-			var mockHttp = new MockHttpMessageHandler();
-			var httpPatch = new HttpMethod("PATCH");
-			var request = mockHttp.When(httpPatch, "https://testmode/subscriptions/13117").WithJson(JsonRequest)
-				.Respond("application/json", jsonResponse);
+            var mockHttp = new MockHttpMessageHandler();
+            var httpPatch = new HttpMethod("PATCH");
+            var request = mockHttp.When(httpPatch, "https://testmode/subscriptions/13117").WithJson(JsonRequest)
+                .Respond("application/json", jsonResponse);
 
-			var client = mockHttp.ToHttpClient();
+            var client = mockHttp.ToHttpClient();
 
-			var subscription = CreateDefaultSubscription(client);
+            var subscription = CreateDefaultSubscription(client);
 
-			subscription.CancelAtPeriodEnd = true;
+            subscription.CancelAtPeriodEnd = true;
 
-			subscription.SaveAll();
+            subscription.SaveAll();
 
-			Assert.True(subscription.Id == 13117);
-			Assert.True(subscription.CancelAtPeriodEnd == true);
+            Assert.True(subscription.Id == 13117);
+            Assert.True(subscription.CancelAtPeriodEnd == true);
+        }
 
-		}
+        [Fact]
+        public void TestDelete()
+        {
+            var mockHttp = new MockHttpMessageHandler();
 
-		[Fact]
-		public void TestDelete()
-		{
+            var request = mockHttp.When(HttpMethod.Delete, "https://testmode/subscriptions/13117")
+                .Respond(HttpStatusCode.NoContent);
 
-			var mockHttp = new MockHttpMessageHandler();
+            var client = mockHttp.ToHttpClient();
 
-			var request = mockHttp.When(HttpMethod.Delete, "https://testmode/subscriptions/13117")
-				.Respond(HttpStatusCode.NoContent);
+            var subscription = CreateDefaultSubscription(client);
 
-			var client = mockHttp.ToHttpClient();
+            subscription.Delete();
+        }
 
-			var subscription = CreateDefaultSubscription(client);
+        [Fact]
+        public void TestCancel()
+        {
+            var mockHttp = new MockHttpMessageHandler();
 
-			subscription.Delete();
+            var request = mockHttp.When(HttpMethod.Delete, "https://testmode/subscriptions/13117")
+                .Respond(HttpStatusCode.NoContent);
 
-		}
-		
-		[Fact]
-		public void TestCancel()
-		{
+            var client = mockHttp.ToHttpClient();
 
-			var mockHttp = new MockHttpMessageHandler();
+            var subscription = CreateDefaultSubscription(client);
 
-			var request = mockHttp.When(HttpMethod.Delete, "https://testmode/subscriptions/13117")
-				.Respond(HttpStatusCode.NoContent);
-
-			var client = mockHttp.ToHttpClient();
-
-			var subscription = CreateDefaultSubscription(client);
-
-			subscription.Cancel();
-
-		}
+            subscription.Cancel();
+        }
 
 
-		[Fact]
-		public void TestListAll()
-		{
-
-			var jsonResponseListAll = @"[{
+        [Fact]
+        public void TestListAll()
+        {
+            var jsonResponseListAll = @"[{
                 'addons': [],
                 'approval': null,
                 'bill_in': 'advance',
@@ -309,35 +294,33 @@ namespace InvoicedTest
                 'url': 'https://ajwt.sandbox.invoiced.com/subscriptions/odtQWtUJ8VVaFbicpJ57AER9'
             }]";
 
-			var mockHttp = new MockHttpMessageHandler();
+            var mockHttp = new MockHttpMessageHandler();
 
-			var mockHeader = new Dictionary<string, string>();
-			mockHeader["X-Total-Count"] = "1";
-			mockHeader["Link"] =
-				"<https://api.sandbox.invoiced.com/subscriptions?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/subscriptions?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/subscriptions?page=1>; rel=\"last\"";
+            var mockHeader = new Dictionary<string, string>();
+            mockHeader["X-Total-Count"] = "1";
+            mockHeader["Link"] =
+                "<https://api.sandbox.invoiced.com/subscriptions?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/subscriptions?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/subscriptions?page=1>; rel=\"last\"";
 
-			var request = mockHttp.When(HttpMethod.Get, "https://testmode/subscriptions")
-				.Respond(mockHeader, "application/json", jsonResponseListAll);
+            var request = mockHttp.When(HttpMethod.Get, "https://testmode/subscriptions")
+                .Respond(mockHeader, "application/json", jsonResponseListAll);
 
-			var client = mockHttp.ToHttpClient();
+            var client = mockHttp.ToHttpClient();
 
-			var conn = new Connection("voodoo", Invoiced.Environment.test);
+            var conn = new Connection("voodoo", Environment.test);
 
-			conn.TestClient(client);
+            conn.TestClient(client);
 
-			var subscription = conn.NewSubscription();
+            var subscription = conn.NewSubscription();
 
-			var subscriptions = subscription.ListAll();
+            var subscriptions = subscription.ListAll();
 
-			Assert.True(subscriptions[0].Id == 13117);
+            Assert.True(subscriptions[0].Id == 13117);
+        }
 
-		}
-		
-		[Fact]
-		public void TestPreview()
-		{
-
-			var jsonResponse = @"{
+        [Fact]
+        public void TestPreview()
+        {
+            var jsonResponse = @"{
 				'first_invoice': {
 					'attempt_count': null,
 					'autopay': null,
@@ -399,26 +382,23 @@ namespace InvoicedTest
 				'recurring_total': 49
 			}";
 
-			var mockHttp = new MockHttpMessageHandler();
+            var mockHttp = new MockHttpMessageHandler();
 
-			mockHttp.When(HttpMethod.Post, "https://testmode/subscriptions/preview")
-				.Respond("application/json", jsonResponse);
+            mockHttp.When(HttpMethod.Post, "https://testmode/subscriptions/preview")
+                .Respond("application/json", jsonResponse);
 
-			var client = mockHttp.ToHttpClient();
+            var client = mockHttp.ToHttpClient();
 
-			var conn = new Connection("voodoo", Invoiced.Environment.test);
+            var conn = new Connection("voodoo", Environment.test);
 
-			conn.TestClient(client);
+            conn.TestClient(client);
 
-			var subscription = conn.NewSubscription();
+            var subscription = conn.NewSubscription();
 
-			var preview = subscription.Preview();
+            var preview = subscription.Preview();
 
-			Assert.True(preview.Mrr == 49);
-			Assert.True(preview.RecurringTotal == 49);
-
-		}
-		
-	}
-
+            Assert.True(preview.Mrr == 49);
+            Assert.True(preview.RecurringTotal == 49);
+        }
+    }
 }

@@ -1,64 +1,57 @@
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Invoiced
 {
+    public class File : AbstractEntity<File>
+    {
+        internal File(Connection conn) : base(conn)
+        {
+            EntityName = "/files";
+        }
 
-	public class File : AbstractEntity<File> {
+        public File()
+        {
+            EntityName = "/files";
+        }
 
+        [JsonProperty("id")] public long? Id { get; set; }
 
-		internal File(Connection conn) : base(conn) {
-			this.EntityName = "/files";
-		}
+        [JsonProperty("object")] public string Object { get; set; }
 
-		public File() : base(){
-			this.EntityName = "/files";
-		}
+        [JsonProperty("name")] public string Name { get; set; }
 
-		protected override string EntityId() {
-			return this.Id.ToString();
-		}
+        [JsonProperty("size")] public long? Size { get; set; }
 
-		protected override bool HasList() {
-			return false;
-		}
+        [JsonProperty("type")] public string Type { get; set; }
 
-		[JsonProperty("id")]
-		public long? Id { get; set; }
+        [JsonProperty("url")] public string Url { get; set; }
 
-		[JsonProperty("object")]
-		public string Obj { get; set; }
+        [JsonProperty("created_at")] public long? CreatedAt { get; set; }
 
-		[JsonProperty("name")]
-		public string Name { get; set; }
+        protected override string EntityId()
+        {
+            return Id.ToString();
+        }
 
-		[JsonProperty("size")]
-		public long? Size { get; set; }
+        protected override bool HasList()
+        {
+            return false;
+        }
 
-		[JsonProperty("type")]
-		public string Type { get; set; }
+        // Conditional Serialisation
+        public bool ShouldSerializeId()
+        {
+            return false;
+        }
 
-        [JsonProperty("url")]
-		public string Url { get; set; }
+        public bool ShouldSerializeObject()
+        {
+            return false;
+        }
 
-		[JsonProperty("created_at")]
-		public long? CreatedAt { get; set; }
-
-		// Conditional Serialisation
-
-		public bool ShouldSerializeId() {
-			return false;
-		}
-
-		public bool ShouldSerializeObj() {
-			return false;
-		}
-
-		public bool ShouldSerializeCreatedAt() {
-			return false;
-		}
-
-	}
-
+        public bool ShouldSerializeCreatedAt()
+        {
+            return false;
+        }
+    }
 }

@@ -1,74 +1,68 @@
-using System;
-using Xunit;
-using Invoiced;
-using System.Net.Http;
-using System.Net;
 using System.Collections.Generic;
-using RichardSzalay.MockHttp;
+using System.Net;
+using System.Net.Http;
+using Invoiced;
 using Newtonsoft.Json;
-
+using RichardSzalay.MockHttp;
+using Xunit;
 
 namespace InvoicedTest
 {
-
-	public class CreditNoteTest
-	{
-		private static Customer CreateDefaultCustomer(HttpClient client)
-		{
-			var json = @"{'id': 1234
+    public class CreditNoteTest
+    {
+        private static Customer CreateDefaultCustomer(HttpClient client)
+        {
+            var json = @"{'id': 1234
                 }";
 
-			var customer = JsonConvert.DeserializeObject<Customer>(json);
+            var customer = JsonConvert.DeserializeObject<Customer>(json);
 
-			var connection = new Connection("voodoo", Invoiced.Environment.test);
+            var connection = new Connection("voodoo", Environment.test);
 
-			connection.TestClient(client);
+            connection.TestClient(client);
 
-			customer.ChangeConnection(connection);
+            customer.ChangeConnection(connection);
 
-			return customer;
+            return customer;
+        }
 
-		}
-
-		private static Invoice CreateDefaultInvoice(HttpClient client)
-		{
-			var json = @"{'id': 2334745
+        private static Invoice CreateDefaultInvoice(HttpClient client)
+        {
+            var json = @"{'id': 2334745
                 }";
 
-			var invoice = JsonConvert.DeserializeObject<Invoice>(json);
+            var invoice = JsonConvert.DeserializeObject<Invoice>(json);
 
-			var connection = new Connection("voodoo", Invoiced.Environment.test);
+            var connection = new Connection("voodoo", Environment.test);
 
-			connection.TestClient(client);
+            connection.TestClient(client);
 
-			invoice.ChangeConnection(connection);
+            invoice.ChangeConnection(connection);
 
-			return invoice;
+            return invoice;
+        }
 
-		}
-
-		private static CreditNote CreateDefaultCreditNote(HttpClient client)
-		{
-			var json = @"{'id': 8441,
+        private static CreditNote CreateDefaultCreditNote(HttpClient client)
+        {
+            var json = @"{'id': 8441,
 				'invoice': 2334745
                 }";
 
-			var creditNote = JsonConvert.DeserializeObject<CreditNote>(json);
+            var creditNote = JsonConvert.DeserializeObject<CreditNote>(json);
 
-			var connection = new Connection("voodoo", Invoiced.Environment.test);
+            var connection = new Connection("voodoo", Environment.test);
 
-			connection.TestClient(client);
+            connection.TestClient(client);
 
-			creditNote.ChangeConnection(connection);
+            creditNote.ChangeConnection(connection);
 
-			return creditNote;
+            return creditNote;
+        }
 
-		}
-
-		[Fact]
-		public void TestDeserialize()
-		{
-			var json = @"{
+        [Fact]
+        public void TestDeserialize()
+        {
+            var json = @"{
 				'balance': 0,
 				'closed': true,
 				'created_at': 1574371071,
@@ -113,43 +107,40 @@ namespace InvoicedTest
 				'url': 'https://ajwt.sandbox.invoiced.com/credit_notes/Oh08vH0WUnVauNfmz4SRrXqj'
 			}";
 
-			var creditNote = JsonConvert.DeserializeObject<CreditNote>(json);
+            var creditNote = JsonConvert.DeserializeObject<CreditNote>(json);
 
-			Assert.True(creditNote.Id == 8441);
-			Assert.True(creditNote.Name == "Credit Note");
-			Assert.True(creditNote.Subtotal == 123);
-		}
-
-
-		[Fact]
-		public void TestRetrieve()
-		{
-
-			var mockHttp = new MockHttpMessageHandler();
-
-			mockHttp.When("https://testmode/credit_notes/4")
-				.Respond("application/json", "{'id' : 4, 'number' : 'CN-0001'}");
-
-			var client = mockHttp.ToHttpClient();
-
-			var conn = new Connection("voodoo", Invoiced.Environment.test);
-
-			conn.TestClient(client);
-
-			var creditNoteConn = conn.NewCreditNote();
-
-			var creditNote = creditNoteConn.Retrieve(4);
-
-			Assert.True(creditNote.Number == "CN-0001");
-
-		}
+            Assert.True(creditNote.Id == 8441);
+            Assert.True(creditNote.Name == "Credit Note");
+            Assert.True(creditNote.Subtotal == 123);
+        }
 
 
-		[Fact]
-		public void TestCreate()
-		{
+        [Fact]
+        public void TestRetrieve()
+        {
+            var mockHttp = new MockHttpMessageHandler();
 
-			var jsonResponse = @"{
+            mockHttp.When("https://testmode/credit_notes/4")
+                .Respond("application/json", "{'id' : 4, 'number' : 'CN-0001'}");
+
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo", Environment.test);
+
+            conn.TestClient(client);
+
+            var creditNoteConn = conn.NewCreditNote();
+
+            var creditNote = creditNoteConn.Retrieve(4);
+
+            Assert.True(creditNote.Number == "CN-0001");
+        }
+
+
+        [Fact]
+        public void TestCreate()
+        {
+            var jsonResponse = @"{
 				'balance': 0,
 				'closed': true,
 				'created_at': 1574371071,
@@ -194,30 +185,28 @@ namespace InvoicedTest
 				'url': 'https://ajwt.sandbox.invoiced.com/credit_notes/Oh08vH0WUnVauNfmz4SRrXqj'
 			}";
 
-			var mockHttp = new MockHttpMessageHandler();
+            var mockHttp = new MockHttpMessageHandler();
 
-			mockHttp.When(HttpMethod.Post, "https://testmode/credit_notes").Respond("application/json", jsonResponse);
+            mockHttp.When(HttpMethod.Post, "https://testmode/credit_notes").Respond("application/json", jsonResponse);
 
-			var client = mockHttp.ToHttpClient();
+            var client = mockHttp.ToHttpClient();
 
-			var conn = new Connection("voodoo", Invoiced.Environment.test);
+            var conn = new Connection("voodoo", Environment.test);
 
-			conn.TestClient(client);
+            conn.TestClient(client);
 
-			var creditNote = conn.NewCreditNote();
+            var creditNote = conn.NewCreditNote();
 
-			creditNote.Create();
+            creditNote.Create();
 
-			Assert.True(creditNote.Id == 8441);
-			Assert.True(creditNote.Number == "CN-00003");
+            Assert.True(creditNote.Id == 8441);
+            Assert.True(creditNote.Number == "CN-00003");
+        }
 
-		}
-
-		[Fact]
-		public void TestSave()
-		{
-
-			var jsonResponse = @"{
+        [Fact]
+        public void TestSave()
+        {
+            var jsonResponse = @"{
 				'balance': 0,
 				'closed': true,
 				'created_at': 1574371071,
@@ -262,46 +251,42 @@ namespace InvoicedTest
 				'url': 'https://ajwt.sandbox.invoiced.com/credit_notes/Oh08vH0WUnVauNfmz4SRrXqj'
 			}";
 
-			var mockHttp = new MockHttpMessageHandler();
-			var httpPatch = new HttpMethod("PATCH");
-			var request = mockHttp.When(httpPatch, "https://testmode/credit_notes/8441")
-				.Respond("application/json", jsonResponse);
+            var mockHttp = new MockHttpMessageHandler();
+            var httpPatch = new HttpMethod("PATCH");
+            var request = mockHttp.When(httpPatch, "https://testmode/credit_notes/8441")
+                .Respond("application/json", jsonResponse);
 
-			var client = mockHttp.ToHttpClient();
+            var client = mockHttp.ToHttpClient();
 
-			var creditNote = CreateDefaultCreditNote(client);
+            var creditNote = CreateDefaultCreditNote(client);
 
-			creditNote.Name = "Updated";
+            creditNote.Name = "Updated";
 
-			creditNote.SaveAll();
+            creditNote.SaveAll();
 
-			Assert.True(creditNote.Name == "Updated");
+            Assert.True(creditNote.Name == "Updated");
+        }
 
-		}
+        [Fact]
+        public void TestDelete()
+        {
+            var mockHttp = new MockHttpMessageHandler();
 
-		[Fact]
-		public void TestDelete()
-		{
+            var request = mockHttp.When(HttpMethod.Delete, "https://testmode/credit_notes/8441")
+                .Respond(HttpStatusCode.NoContent);
 
-			var mockHttp = new MockHttpMessageHandler();
+            var client = mockHttp.ToHttpClient();
 
-			var request = mockHttp.When(HttpMethod.Delete, "https://testmode/credit_notes/8441")
-				.Respond(HttpStatusCode.NoContent);
+            var creditNote = CreateDefaultCreditNote(client);
 
-			var client = mockHttp.ToHttpClient();
-
-			var creditNote = CreateDefaultCreditNote(client);
-
-			creditNote.Delete();
-
-		}
+            creditNote.Delete();
+        }
 
 
-		[Fact]
-		public void TestListAll()
-		{
-
-			var jsonResponseListAll = @"[{
+        [Fact]
+        public void TestListAll()
+        {
+            var jsonResponseListAll = @"[{
 				'balance': 0,
 				'closed': true,
 				'created_at': 1574371071,
@@ -346,31 +331,28 @@ namespace InvoicedTest
 				'url': 'https://ajwt.sandbox.invoiced.com/credit_notes/Oh08vH0WUnVauNfmz4SRrXqj'
 			}]";
 
-			var mockHttp = new MockHttpMessageHandler();
+            var mockHttp = new MockHttpMessageHandler();
 
-			var mockHeader = new Dictionary<string, string>();
-			mockHeader["X-Total-Count"] = "1";
-			mockHeader["Link"] =
-				"<https://api.sandbox.invoiced.com/credit_notes?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/credit_notes?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/credit_notes?page=1>; rel=\"last\"";
+            var mockHeader = new Dictionary<string, string>();
+            mockHeader["X-Total-Count"] = "1";
+            mockHeader["Link"] =
+                "<https://api.sandbox.invoiced.com/credit_notes?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/credit_notes?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/credit_notes?page=1>; rel=\"last\"";
 
-			var request = mockHttp.When(HttpMethod.Get, "https://testmode/credit_notes")
-				.Respond(mockHeader, "application/json", jsonResponseListAll);
+            var request = mockHttp.When(HttpMethod.Get, "https://testmode/credit_notes")
+                .Respond(mockHeader, "application/json", jsonResponseListAll);
 
-			var client = mockHttp.ToHttpClient();
+            var client = mockHttp.ToHttpClient();
 
-			var conn = new Connection("voodoo", Invoiced.Environment.test);
+            var conn = new Connection("voodoo", Environment.test);
 
-			conn.TestClient(client);
+            conn.TestClient(client);
 
-			var creditNote = conn.NewCreditNote();
+            var creditNote = conn.NewCreditNote();
 
-			var creditNotes = creditNote.ListAll();
+            var creditNotes = creditNote.ListAll();
 
-			Assert.True(creditNotes[0].Id == 8441);
-			Assert.True(creditNotes[0].Number == "CN-00003");
-
-		}
-
-	}
-
+            Assert.True(creditNotes[0].Id == 8441);
+            Assert.True(creditNotes[0].Number == "CN-00003");
+        }
+    }
 }

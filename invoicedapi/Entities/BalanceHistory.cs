@@ -1,28 +1,19 @@
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Invoiced
 {
+    public class BalanceHistory : AbstractItem
+    {
+        [JsonProperty("timestamp")] public long? Timestamp { get; set; }
 
-	public class BalanceHistory : AbstractItem
-	{
-		
-		public BalanceHistory() : base() {
+        [JsonProperty("currency")] public string Currency { get; set; }
 
-		}
+        [JsonProperty("balance")] public double? Balance { get; set; }
 
-		[JsonProperty("timestamp")]
-		public long? Timestamp { get; set; }
-
-		[JsonProperty("balance")]
-		public double? Balance { get; set; }
-
-		protected override string EntityId() {
-			return "BalanceHistory";
+        protected override string EntityId()
+        {
+            return "BalanceHistory";
             // this is only used for json heading in ToString()
-		}
-		
-	}
-
+        }
+    }
 }

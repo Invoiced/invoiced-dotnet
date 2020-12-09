@@ -1,77 +1,63 @@
-using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Invoiced
 {
+    public class PendingLineItem : AbstractEntity<PendingLineItem>
+    {
+        public PendingLineItem(Connection conn) : base(conn)
+        {
+            EntityName = "/line_items";
+        }
 
-	public class PendingLineItem : AbstractEntity<PendingLineItem>
-	{
+        public PendingLineItem()
+        {
+            EntityName = "/line_items";
+        }
 
-		public PendingLineItem(Connection conn) : base(conn) {
-			this.EntityName = "/line_items";
-		}
+        [JsonProperty("id")] public long? Id { get; set; }
 
-		public PendingLineItem() : base(){
-			this.EntityName = "/line_items";
-		}
+        [JsonProperty("object")] public string Object { get; set; }
 
-		protected override string EntityId() {
-			return this.Id.ToString();
-		}
+        [JsonProperty("catalog_item")] public string Item { get; set; }
 
-		[JsonProperty("id")]
-		public long? Id { get; set; }
+        [JsonProperty("type")] public string Type { get; set; }
 
-		[JsonProperty("catalog_item")]
-		public string Item { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
 
-		[JsonProperty("type")]
-		public string Type { get; set; }
+        [JsonProperty("description")] public string Description { get; set; }
 
-		[JsonProperty("name")]
-		public string Name { get; set; }
+        [JsonProperty("quantity")] public double? Quantity { get; set; }
 
-        [JsonProperty("description")]
-		public string Description { get; set; }
+        [JsonProperty("amount")] public double? Amount { get; set; }
 
-        [JsonProperty("quantity")]
-		public double? Quantity { get; set; }
+        [JsonProperty("unit_cost")] public double? UnitCost { get; set; }
 
-        [JsonProperty("amount")]
-		public double? Amount { get; set; }
+        [JsonProperty("discountable")] public bool? Discountable { get; set; }
 
-        [JsonProperty("unit_cost")]
-		public double? UnitCost { get; set; }
+        [JsonProperty("discounts")] public IList<Discount> Discounts { get; set; }
 
-        [JsonProperty("discountable")]
-		public bool? Discountable { get; set; }
+        [JsonProperty("taxable")] public bool? Taxable { get; set; }
 
-        [JsonProperty("discounts")]
-		public IList<Discount> Discounts { get; set; }
+        [JsonProperty("taxes")] public IList<Tax> Taxes { get; set; }
 
-		[JsonProperty("taxable")]
-		public bool? Taxable { get; set; }
+        [JsonProperty("metadata")] public Metadata Metadata { get; set; }
 
-		[JsonProperty("taxes")]
-		public IList<Tax> Taxes { get; set; }
+        protected override string EntityId()
+        {
+            return Id.ToString();
+        }
 
-		[JsonProperty("plan")]
-		public string Plan { get; set; }
+        // Conditional Serialisation
 
-		[JsonProperty("metadata")]
-		public Metadata Metadata { get; set; }
+        public bool ShouldSerializeId()
+        {
+            return false;
+        }
 
-		// Conditional Serialisation
-
-		public bool ShouldSerializeId() {
-			return false;
-		}
-
-		public bool ShouldSerializeItem() {
-			return this.CurrentOperation == "Create";
-		}
-
-	}
-
+        public bool ShouldSerializeItem()
+        {
+            return CurrentOperation == "Create";
+        }
+    }
 }

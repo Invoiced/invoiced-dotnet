@@ -1,37 +1,35 @@
-using System;
-using Xunit;
-using Invoiced;
-using System.Net.Http;
-using System.Net;
 using System.Collections.Generic;
-using RichardSzalay.MockHttp;
+using System.Net;
+using System.Net.Http;
+using Invoiced;
 using Newtonsoft.Json;
-
+using RichardSzalay.MockHttp;
+using Xunit;
 
 namespace InvoicedTest
 {
-
     public class CustomerTest
     {
-      private static Customer CreateDefaultCustomer(HttpClient client) {
-           var json =  @"{'id': 1234
+        private static Customer CreateDefaultCustomer(HttpClient client)
+        {
+            var json = @"{'id': 1234
                 }";
 
             var customer = JsonConvert.DeserializeObject<Customer>(json);
 
-            var connection  = new Connection("voodoo",Invoiced.Environment.test);
+            var connection = new Connection("voodoo", Environment.test);
 
             connection.TestClient(client);
 
             customer.ChangeConnection(connection);
 
             return customer;
-
-      }
+        }
 
         [Fact]
-        public void TestDeserialize() {
-           var json =  @"{'id': 1234,
+        public void TestDeserialize()
+        {
+            var json = @"{'id': 1234,
                 'object': 'customer',
                 'name': 'Acme',
                 'number': 'CUST-0001',
@@ -66,7 +64,7 @@ namespace InvoicedTest
                 'metadata': {}
                 }";
 
-           var customer = JsonConvert.DeserializeObject<Customer>(json);
+            var customer = JsonConvert.DeserializeObject<Customer>(json);
 
             Assert.True(customer.Number == "CUST-0001");
             Assert.True(customer.Name == "Acme");
@@ -77,15 +75,15 @@ namespace InvoicedTest
         [Fact]
         public void TestRetrieve()
         {
-
             var mockHttp = new MockHttpMessageHandler();
-           
-            mockHttp.When("https://testmode/customers/4").Respond("application/json", "{'id' : 4, 'name' : 'Test McGee'}");
-   
+
+            mockHttp.When("https://testmode/customers/4")
+                .Respond("application/json", "{'id' : 4, 'name' : 'Test McGee'}");
+
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo",Invoiced.Environment.test);
-           
+            var conn = new Connection("voodoo", Environment.test);
+
             conn.TestClient(client);
 
             var customerConn = conn.NewCustomer();
@@ -93,15 +91,13 @@ namespace InvoicedTest
             var customer = customerConn.Retrieve(4);
 
             Assert.True(customer.Id == 4);
-    
         }
 
 
         [Fact]
         public void TestCreate()
         {
-
-             var  jsonResponse = @"{
+            var jsonResponse = @"{
             'address1': '123 Main St',
             'address2': null,
             'attention_to': null,
@@ -153,12 +149,13 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post,"https://testmode/customers").WithJson(jsonRequest).Respond("application/json",jsonResponse);
-     
+            mockHttp.When(HttpMethod.Post, "https://testmode/customers").WithJson(jsonRequest)
+                .Respond("application/json", jsonResponse);
+
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo",Invoiced.Environment.test);
-           
+            var conn = new Connection("voodoo", Environment.test);
+
             conn.TestClient(client);
 
             var customer = conn.NewCustomer();
@@ -170,14 +167,12 @@ namespace InvoicedTest
             customer.Create();
 
             Assert.True(customer.Id == 1234);
-    
         }
 
         [Fact]
         public void TestSave()
         {
-
-        var  jsonResponse = @"{
+            var jsonResponse = @"{
             'address1': '123 Main St',
             'address2': null,
             'attention_to': 'Sarah Fisher',
@@ -226,42 +221,42 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
             var httpPatch = new HttpMethod("PATCH");
-            var request = mockHttp.When(httpPatch,"https://testmode/customers/1234").WithJson(JsonRequest).Respond("application/json",jsonResponse);
+            var request = mockHttp.When(httpPatch, "https://testmode/customers/1234").WithJson(JsonRequest)
+                .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
 
             var customer = CreateDefaultCustomer(client);
 
             customer.AttentionTo = "Sarah Fisher";
- 
+
             customer.SaveAll();
-          
+
             Assert.True(customer.Id == 1234);
             Assert.True(customer.Number == "CUST-00006");
             Assert.True(customer.AttentionTo == "Sarah Fisher");
-
-        } 
+        }
 
         [Fact]
-        public void TestDelete() {
-
+        public void TestDelete()
+        {
             var mockHttp = new MockHttpMessageHandler();
-  
-            var request = mockHttp.When(HttpMethod.Delete,"https://testmode/customers/1234").Respond(HttpStatusCode.NoContent);
+
+            var request = mockHttp.When(HttpMethod.Delete, "https://testmode/customers/1234")
+                .Respond(HttpStatusCode.NoContent);
 
             var client = mockHttp.ToHttpClient();
 
             var customer = CreateDefaultCustomer(client);
 
             customer.Delete();
-
-        } 
+        }
 
 
         [Fact]
-        public void TestListAll() {
-
-            var  jsonResponseListAll = @"[{
+        public void TestListAll()
+        {
+            var jsonResponseListAll = @"[{
             'id': 15444,
             'object': 'customer',
             'number': 'CUST-0001',
@@ -291,20 +286,22 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            var filterByNameQ = new Dictionary<string, string>{ {"filter[name]", "Abraham Lincoln"}};
+            var filterByNameQ = new Dictionary<string, string> {{"filter[name]", "Abraham Lincoln"}};
 
-            var filterByName = new Dictionary<string, Object>{ {"filter[name]", "Abraham Lincoln"}};
+            var filterByName = new Dictionary<string, object> {{"filter[name]", "Abraham Lincoln"}};
 
-            var mockHeader = new Dictionary<string,string>();
+            var mockHeader = new Dictionary<string, string>();
             mockHeader["X-Total-Count"] = "1";
-            mockHeader["Link"] = "<https://api.sandbox.invoiced.com/customers?filter%5Bname%5D=Abraham+Lincoln&page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/customers?filter%5Bname%5D=Abraham+Lincoln&page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/customers?filter%5Bname%5D=Abraham+Lincoln&page=1>; rel=\"last\"";
-   
-            var request = mockHttp.When(HttpMethod.Get,"https://testmode/customers").WithExactQueryString(filterByNameQ).Respond(mockHeader,"application/json",jsonResponseListAll);
+            mockHeader["Link"] =
+                "<https://api.sandbox.invoiced.com/customers?filter%5Bname%5D=Abraham+Lincoln&page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/customers?filter%5Bname%5D=Abraham+Lincoln&page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/customers?filter%5Bname%5D=Abraham+Lincoln&page=1>; rel=\"last\"";
+
+            var request = mockHttp.When(HttpMethod.Get, "https://testmode/customers")
+                .WithExactQueryString(filterByNameQ).Respond(mockHeader, "application/json", jsonResponseListAll);
 
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo",Invoiced.Environment.test);
-           
+            var conn = new Connection("voodoo", Environment.test);
+
             conn.TestClient(client);
 
             var customer = conn.NewCustomer();
@@ -312,31 +309,31 @@ namespace InvoicedTest
             var customers = customer.ListAll(filterByName);
 
             Assert.True(customers[0].Id == 15444);
-
-        }   
+        }
 
         [Fact]
         public void TestNewNote()
         {
-
-            var jsonResponse = @"{'customer_id':1234,'id':1212,'notes':'example note',
-            'object': 'note'
+            var jsonRequest = @"{
+                'notes': 'example note'
             }";
 
-
-            var jsonRequest = @"{
-                'customer_id': 1234,
-                'notes': 'example note'
-                }";
+            var jsonResponse = @"{
+                'customer': 1234,
+                'id': 1212,
+                'notes': 'example note',
+                'object': 'note'
+            }";
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post,"https://testmode/notes").WithJson(jsonRequest).Respond("application/json",jsonResponse);
-     
+            mockHttp.When(HttpMethod.Post, "https://testmode/notes").WithJson(jsonRequest)
+                .Respond("application/json", jsonResponse);
+
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo",Invoiced.Environment.test);
-           
+            var conn = new Connection("voodoo", Environment.test);
+
             conn.TestClient(client);
 
             var customer = CreateDefaultCustomer(client);
@@ -345,15 +342,13 @@ namespace InvoicedTest
             testNote.Notes = "example note";
             testNote.Create();
 
-            Assert.True(testNote.Obj == "note");
+            Assert.True(testNote.Object == "note");
             Assert.True(testNote.Id == 1212);
-    
         }
-        
+
         [Fact]
         public void TestNewContact()
         {
-
             const string jsonResponse = @"{
 	            'name': 'John Smith',
 	            'email': 'john@example.com',
@@ -369,12 +364,13 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post,"https://testmode/customers/1234/contacts").WithJson(jsonRequest).Respond("application/json",jsonResponse);
-     
+            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/contacts").WithJson(jsonRequest)
+                .Respond("application/json", jsonResponse);
+
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo",Invoiced.Environment.test);
-           
+            var conn = new Connection("voodoo", Environment.test);
+
             conn.TestClient(client);
 
             var customer = CreateDefaultCustomer(client);
@@ -385,13 +381,11 @@ namespace InvoicedTest
 
             Assert.True(testContact.GetEndpoint(false) == "/customers/1234/contacts");
             Assert.True(testContact.Name == "John Smith");
-    
         }
-        
+
         [Fact]
         public void TestNewPli()
         {
-
             const string jsonResponse = @"{
 	            'amount': 100,
 	            'catalog_item': null,
@@ -420,12 +414,13 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post,"https://testmode/customers/1234/line_items").WithJson(jsonRequest).Respond("application/json",jsonResponse);
-     
+            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/line_items").WithJson(jsonRequest)
+                .Respond("application/json", jsonResponse);
+
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo",Invoiced.Environment.test);
-           
+            var conn = new Connection("voodoo", Environment.test);
+
             conn.TestClient(client);
 
             var customer = CreateDefaultCustomer(client);
@@ -438,13 +433,11 @@ namespace InvoicedTest
 
             Assert.True(testPli.GetEndpoint(false) == "/customers/1234/line_items");
             Assert.True(testPli.Id == 22904406);
-    
         }
-        
+
         [Fact]
         public void TestNewTask()
         {
-
             const string jsonResponse = @"{
               'action': 'review',
               'chase_step_id': null,
@@ -468,12 +461,13 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post,"https://testmode/tasks").WithJson(jsonRequest).Respond("application/json",jsonResponse);
-     
+            mockHttp.When(HttpMethod.Post, "https://testmode/tasks").WithJson(jsonRequest)
+                .Respond("application/json", jsonResponse);
+
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo",Invoiced.Environment.test);
-           
+            var conn = new Connection("voodoo", Environment.test);
+
             conn.TestClient(client);
 
             var customer = CreateDefaultCustomer(client);
@@ -485,12 +479,11 @@ namespace InvoicedTest
 
             Assert.True(testTask.GetEndpoint(false) == "/tasks");
             Assert.True(testTask.Id == 788);
-    
         }
+
         [Fact]
         public void TestSendEmail()
         {
-
             const string jsonResponse = @"[{'id':'f45382c6fbc44d44aa7f9a55eb2ce731',
             'state':'sent',
             'reject_reason':null,
@@ -506,12 +499,13 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post,"https://testmode/customers/1234/emails").Respond("application/json",jsonResponse);
-     
+            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/emails")
+                .Respond("application/json", jsonResponse);
+
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo",Invoiced.Environment.test);
-           
+            var conn = new Connection("voodoo", Environment.test);
+
             conn.TestClient(client);
 
             var customer = CreateDefaultCustomer(client);
@@ -520,13 +514,11 @@ namespace InvoicedTest
 
             Assert.True(response[0].State == "sent");
             Assert.True(response.Count == 1);
-
         }
-        
+
         [Fact]
         public void TestSendLetter()
         {
-
             const string jsonResponse = @"{
               'created_at': 1570826337,
               'expected_delivery_date': 1571776737,
@@ -538,12 +530,13 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post,"https://testmode/customers/1234/letters").Respond("application/json",jsonResponse);
-     
+            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/letters")
+                .Respond("application/json", jsonResponse);
+
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo",Invoiced.Environment.test);
-           
+            var conn = new Connection("voodoo", Environment.test);
+
             conn.TestClient(client);
 
             var customer = CreateDefaultCustomer(client);
@@ -551,13 +544,11 @@ namespace InvoicedTest
             var response = customer.SendStatementLetter(testRequest);
 
             Assert.True(response.State == "queued");
-
         }
-        
+
         [Fact]
         public void TestSendText()
         {
-
             const string jsonResponse = @"[{
                 'created_at': 1571086718,
                 'id': 'c05c9cae8c5799da1e5723a0fff355b3',
@@ -569,12 +560,13 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post,"https://testmode/customers/1234/text_messages").Respond("application/json",jsonResponse);
-     
+            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/text_messages")
+                .Respond("application/json", jsonResponse);
+
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo",Invoiced.Environment.test);
-           
+            var conn = new Connection("voodoo", Environment.test);
+
             conn.TestClient(client);
 
             var customer = CreateDefaultCustomer(client);
@@ -584,13 +576,11 @@ namespace InvoicedTest
             Assert.True(response[0].State == "sent");
             Assert.True(response[0].To == "+15125551212");
             Assert.True(response.Count == 1);
-
         }
-        
+
         [Fact]
         public void TestGetBalance()
         {
-
             const string jsonResponse = @"{
                 'available_credits':50,
                 'history': [
@@ -609,12 +599,13 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Get,"https://testmode/customers/1234/balance").Respond("application/json",jsonResponse);
-     
+            mockHttp.When(HttpMethod.Get, "https://testmode/customers/1234/balance")
+                .Respond("application/json", jsonResponse);
+
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo",Invoiced.Environment.test);
-           
+            var conn = new Connection("voodoo", Environment.test);
+
             conn.TestClient(client);
 
             var customer = CreateDefaultCustomer(client);
@@ -622,23 +613,22 @@ namespace InvoicedTest
 
             Assert.True(response.AvailableCredits == 50);
             Assert.True(response.History.Count == 2);
-
         }
-        
+
         [Fact]
         public void TestConsolidateInvoices()
         {
-
             const string jsonResponse = @"{'id': 46226,'customer': 1234}";
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post,"https://testmode/customers/1234/consolidate_invoices").Respond("application/json",jsonResponse);
-     
+            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/consolidate_invoices")
+                .Respond("application/json", jsonResponse);
+
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo",Invoiced.Environment.test);
-           
+            var conn = new Connection("voodoo", Environment.test);
+
             conn.TestClient(client);
 
             var customer = CreateDefaultCustomer(client);
@@ -646,9 +636,6 @@ namespace InvoicedTest
 
             Assert.True(response.Id == 46226);
             Assert.True(response.Customer == 1234);
-
         }
-    
     }
-    
 }

@@ -1,20 +1,15 @@
-using System;
-using Xunit;
-using Invoiced;
-using System.Net.Http;
-using System.Net;
 using System.Collections.Generic;
-using RichardSzalay.MockHttp;
+using System.Net.Http;
+using Invoiced;
 using Newtonsoft.Json;
-
+using RichardSzalay.MockHttp;
+using Xunit;
 
 namespace InvoicedTest
 {
-
     public class EventTest
     {
-
-	    [Fact]
+        [Fact]
         public void TestDeserialize()
         {
             var json = @"{
@@ -141,7 +136,6 @@ namespace InvoicedTest
         [Fact]
         public void TestListAll()
         {
-
             var jsonResponseListAll = @"[{
 			    'data': {
 			      'object': {
@@ -265,11 +259,11 @@ namespace InvoicedTest
                 "<https://api.sandbox.invoiced.com/events?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/events?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/events?page=1>; rel=\"last\"";
 
             var request = mockHttp.When(HttpMethod.Get, "https://testmode/events")
-	            .Respond(mockHeader, "application/json", jsonResponseListAll);
+                .Respond(mockHeader, "application/json", jsonResponseListAll);
 
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo", Invoiced.Environment.test);
+            var conn = new Connection("voodoo", Environment.test);
 
             conn.TestClient(client);
 
@@ -278,9 +272,6 @@ namespace InvoicedTest
             var events = ev.ListAll();
 
             Assert.True(events[0].Id == 5309873);
-
         }
-
     }
-
 }

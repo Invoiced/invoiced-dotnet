@@ -1,88 +1,80 @@
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Invoiced
 {
+    public class Task : AbstractEntity<Task>
+    {
+        public Task(Connection conn) : base(conn)
+        {
+            EntityName = "/tasks";
+        }
 
-	public class Task : AbstractEntity<Task>
-	{
+        public Task()
+        {
+            EntityName = "/tasks";
+        }
 
-		public Task(Connection conn) : base(conn) {
-			this.EntityName = "/tasks";
-		}
+        [JsonProperty("id")] public long? Id { get; set; }
 
-		public Task() : base() {
-			this.EntityName = "/tasks";
-		}
+        [JsonProperty("name")] public string Name { get; set; }
 
-		protected override string EntityId() {
-			return this.Id.ToString();
-		}
+        [JsonProperty("action")] public string Action { get; set; }
 
-		[JsonProperty("id")]
-		public long? Id { get; set; }
+        [JsonProperty("customer_id")] public long? CustomerId { get; set; }
 
-		[JsonProperty("name")]
-		public string Name { get; set; }
+        [JsonProperty("user_id")] public long? UserId { get; set; }
 
-		[JsonProperty("action")]
-		public string Action { get; set; }
+        [JsonProperty("due_date")] public long? DueDate { get; set; }
 
-		[JsonProperty("customer_id")]
-		public long? CustomerId { get; set; }
+        [JsonProperty("complete")] public bool? Complete { get; set; }
 
-        [JsonProperty("user_id")]
-		public long? UserId { get; set; }
+        [JsonProperty("completed_date")] public long? CompletedDate { get; set; }
 
-        [JsonProperty("due_date")]
-		public long? DueDate { get; set; }
+        [JsonProperty("completed_by_user_id")] public long? CompletedByUserId { get; set; }
 
-        [JsonProperty("complete")]
-		public bool? Complete { get; set; }
+        [JsonProperty("chase_step_id")] public long? ChaseStepId { get; set; }
 
-        [JsonProperty("completed_date")]
-		public long? CompletedDate { get; set; }
+        [JsonProperty("created_at")] public long? CreatedAt { get; set; }
 
-        [JsonProperty("completed_by_user_id")]
-		public long? CompletedByUserId { get; set; }
+        protected override string EntityId()
+        {
+            return Id.ToString();
+        }
 
-        [JsonProperty("chase_step_id")]
-		public long? ChaseStepId { get; set; }
+        // Conditional Serialisation
+        public bool ShouldSerializeId()
+        {
+            return false;
+        }
 
-		[JsonProperty("created_at")]
-		public long? CreatedAt { get; set; }
+        public bool ShouldSerializeCustomerId()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		// Conditional Serialisation
+        public bool ShouldSerializeComplete()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeId() {
-			return false;
-		}
+        public bool ShouldSerializeCompletedDate()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeCustomerId() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeCompletedByUserId()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeComplete() {
-			return false;
-		}
+        public bool ShouldSerializeChaseStepId()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeCompletedDate() {
-			return false;
-		}
-
-		public bool ShouldSerializeCompletedByUserId() {
-			return false;
-		}
-
-		public bool ShouldSerializeChaseStepId() {
-			return false;
-		}
-
-		public bool ShouldSerializeCreatedAt() {
-			return false;
-		}
-
-	}
-
+        public bool ShouldSerializeCreatedAt()
+        {
+            return false;
+        }
+    }
 }

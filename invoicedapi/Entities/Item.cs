@@ -1,108 +1,105 @@
-using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Invoiced
 {
+    public class Item : AbstractEntity<Item>
+    {
+        internal Item()
+        {
+            EntityName = "/items";
+        }
 
-	public class Item : AbstractEntity<Item> {
+        internal Item(Connection conn) : base(conn)
+        {
+            EntityName = "/items";
+        }
 
+        [JsonProperty("id")] public string Id { get; set; }
 
-		internal Item() : base() {
-			this.EntityName = "/items";
-		}
-		internal Item(Connection conn) : base(conn) {
-			this.EntityName = "/items";
-		}
+        [JsonProperty("object")] public string Object { get; set; }
 
-		protected override string EntityId() {
-			return this.Id;
-		}
+        [JsonProperty("name")] public string Name { get; set; }
 
-		[JsonProperty("id")]
-		public string Id { get; set; }
+        [JsonProperty("currency")] public string Currency { get; set; }
 
-		[JsonProperty("object")]
-		public string Obj { get; set; }
+        [JsonProperty("unit_cost")] public double? UnitCost { get; set; }
 
-		[JsonProperty("name")]
-		public string Name { get; set; }
+        [JsonProperty("description")] public string Description { get; set; }
 
-		[JsonProperty("currency")]
-		public string Currency { get; set; }
+        [JsonProperty("type")] public string Type { get; set; }
 
-		[JsonProperty("unit_cost")]
-		public double? UnitCost { get; set; }
+        [JsonProperty("taxable")] public bool? Taxable { get; set; }
 
-		[JsonProperty("description")]
-		public string Description { get; set; }
+        [JsonProperty("taxes")] public IList<Tax> Taxes { get; set; }
 
-		[JsonProperty("type")]
-		public string Type { get; set; }
+        [JsonProperty("avalara_tax_code")] public string AvalaraTaxCode { get; set; }
 
-		[JsonProperty("taxable")]
-		public bool? Taxable { get; set; }
+        [JsonProperty("avalara_location_code")]
+        public string AvalaraLocationCode { get; set; }
 
-		[JsonProperty("taxes")]
-		public IList<Tax> Taxes { get; set; }
+        [JsonProperty("gl_account")] public string GlAccount { get; set; }
 
-		[JsonProperty("avalara_tax_code")]
-		public string AvalaraTaxCode { get; set; }
+        [JsonProperty("discountable")] public bool? Discountable { get; set; }
 
-		[JsonProperty("gl_account")]
-		public string GlAccount { get; set; }
+        [JsonProperty("created_at")] public long? CreatedAt { get; set; }
 
-		[JsonProperty("discountable")]
-		public bool? Discountable { get; set; }
-		
-		[JsonProperty("created_at")]
-		public long? CreatedAt { get; set; }
+        [JsonProperty("metadata")] public Metadata Metadata { get; set; }
 
-		[JsonProperty("metadata")]
-		public Metadata Metadata { get; set; }
+        protected override string EntityId()
+        {
+            return Id;
+        }
 
-		// Conditional Serialisation
+        // Conditional Serialisation
+        public bool ShouldSerializeId()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeId() {
-			return this.CurrentOperation == "Create";
-		}
-		
-		public bool ShouldSerializeObj() {
-			return false;
-		}
+        public bool ShouldSerializeObject()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeCurrency() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeCurrency()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeUnitCost() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeUnitCost()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeTaxable() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeTaxable()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeTaxes() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeTaxes()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeAvalaraTaxCode() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeAvalaraTaxCode()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeGlAccount() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeGlAccount()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeDiscountable() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeDiscountable()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeCreatedAt() {
-			return false;
-		}
-
-	}
-
+        public bool ShouldSerializeCreatedAt()
+        {
+            return false;
+        }
+    }
 }

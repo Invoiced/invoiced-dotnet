@@ -1,34 +1,26 @@
-using System;
-using Xunit;
 using Invoiced;
-using System.Net.Http;
-using System.Collections.Generic;
-
+using Xunit;
 
 namespace InvoicedTest
 {
     public class CommonUtilTest
     {
-
         [Fact]
-        public void TestParseLinks() {
+        public void TestParseLinks()
+        {
+            var link =
+                "<https://api.invoiced.com/customers?page=3&per_page=10>; rel=\"self\", <https://api.invoiced.com/customers?page=1&per_page=10>; rel=\"first\",<https://api.invoiced.com/customers?page=2&per_page=10>; rel=\"previous\",<https://api.invoiced.com/customers?page=4&per_page=10>; rel=\"next\",<https://api.invoiced.com/customers?page=5&per_page=10>; rel=\"last\"";
 
-           var link = "<https://api.invoiced.com/customers?page=3&per_page=10>; rel=\"self\", <https://api.invoiced.com/customers?page=1&per_page=10>; rel=\"first\",<https://api.invoiced.com/customers?page=2&per_page=10>; rel=\"previous\",<https://api.invoiced.com/customers?page=4&per_page=10>; rel=\"next\",<https://api.invoiced.com/customers?page=5&per_page=10>; rel=\"last\"";
-        
-           var dict = CommonUtil.parseLinks(link);
+            var dict = CommonUtil.parseLinks(link);
 
-           var self = dict["self"];
-           var first = dict["first"];
-           var previous = dict["previous"];
+            var self = dict["self"];
+            var first = dict["first"];
+            var previous = dict["previous"];
 
 
-           Assert.True(self == "https://api.invoiced.com/customers?page=3&per_page=10");
-           Assert.True(first == "https://api.invoiced.com/customers?page=1&per_page=10");
-           Assert.True(previous == "https://api.invoiced.com/customers?page=2&per_page=10");
-
+            Assert.True(self == "https://api.invoiced.com/customers?page=3&per_page=10");
+            Assert.True(first == "https://api.invoiced.com/customers?page=1&per_page=10");
+            Assert.True(previous == "https://api.invoiced.com/customers?page=2&per_page=10");
         }
-
-
-
     }
 }

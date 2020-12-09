@@ -1,16 +1,12 @@
-using System;
-using Xunit;
-using Invoiced;
-using System.Net.Http;
-using System.Net;
 using System.Collections.Generic;
-using RichardSzalay.MockHttp;
+using System.Net.Http;
+using Invoiced;
 using Newtonsoft.Json;
-
+using RichardSzalay.MockHttp;
+using Xunit;
 
 namespace InvoicedTest
 {
-
     public class PaymentSourceTest
     {
         private static Customer CreateDefaultCustomer(HttpClient client)
@@ -20,14 +16,13 @@ namespace InvoicedTest
 
             var customer = JsonConvert.DeserializeObject<Customer>(json);
 
-            var connection = new Connection("voodoo", Invoiced.Environment.test);
+            var connection = new Connection("voodoo", Environment.test);
 
             connection.TestClient(client);
 
             customer.ChangeConnection(connection);
 
             return customer;
-
         }
 
         [Fact]
@@ -37,12 +32,13 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post,"https://testmode/customers/1234/payment_sources").Respond("application/json",jsonResponse);
-     
+            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/payment_sources")
+                .Respond("application/json", jsonResponse);
+
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo",Invoiced.Environment.test);
-           
+            var conn = new Connection("voodoo", Environment.test);
+
             conn.TestClient(client);
 
             var customer = CreateDefaultCustomer(client);
@@ -59,12 +55,13 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post,"https://testmode/customers/1234/payment_sources").Respond("application/json",jsonResponse);
-     
+            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/payment_sources")
+                .Respond("application/json", jsonResponse);
+
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo",Invoiced.Environment.test);
-           
+            var conn = new Connection("voodoo", Environment.test);
+
             conn.TestClient(client);
 
             var customer = CreateDefaultCustomer(client);
@@ -73,9 +70,9 @@ namespace InvoicedTest
             Assert.True(response.Id == 11121);
             Assert.True(response.GetType() == typeof(Card));
         }
-        
+
         [Fact]
-        public void TestListPaymentSources() 
+        public void TestListPaymentSources()
         {
             const string jsonResponse = @"[{'id': 11121,'object': 'card'},{'id': 11122,'object': 'bank_account'}]";
 
@@ -88,12 +85,13 @@ namespace InvoicedTest
                     "<https://api.sandbox.invoiced.com/customers/1234/payment_sources?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/customers/1234/payment_sources?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/customers/1234/payment_sources?page=1>; rel=\"last\""
             };
 
-            mockHttp.When(HttpMethod.Get,"https://testmode/customers/1234/payment_sources").Respond(mockHeader, "application/json",jsonResponse);
- 
+            mockHttp.When(HttpMethod.Get, "https://testmode/customers/1234/payment_sources")
+                .Respond(mockHeader, "application/json", jsonResponse);
+
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo",Invoiced.Environment.test);
-       
+            var conn = new Connection("voodoo", Environment.test);
+
             conn.TestClient(client);
 
             var customer = CreateDefaultCustomer(client);
@@ -104,7 +102,5 @@ namespace InvoicedTest
             Assert.True(response[0].GetType() == typeof(Card));
             Assert.True(response[1].GetType() == typeof(BankAccount));
         }
-
     }
-
 }

@@ -4,61 +4,68 @@ using Newtonsoft.Json;
 
 namespace Invoiced
 {
-	public class Estimate : AbstractDocument<Estimate>
-	{
-		public Estimate() : base() {
-			this.EntityName = "/estimates";
-		}
+    public class Estimate : AbstractDocument<Estimate>
+    {
+        public Estimate()
+        {
+            EntityName = "/estimates";
+        }
 
-		internal Estimate(Connection conn) : base(conn) {
-			this.EntityName = "/estimates";
-		}
+        internal Estimate(Connection conn) : base(conn)
+        {
+            EntityName = "/estimates";
+        }
 
-		[JsonProperty("invoice")]
-		public long? Invoice { get; set; }
+        [JsonProperty("invoice")] public long? Invoice { get; set; }
 
-		[JsonProperty("approved")]
-		public bool? Approved { get; set; }
+        [JsonProperty("approved")] public bool? Approved { get; set; }
 
-		[JsonProperty("expiration_date")]
-		public long? ExpirationDate { get; set; }
+        [JsonProperty("expiration_date")] public long? ExpirationDate { get; set; }
 
-		[JsonProperty("payment_terms")]
-		public string PaymentTerms { get; set; }
+        [JsonProperty("deposit")] public double? Deposit { get; set; }
 
-		[JsonProperty("deposit")]
-		public double? Deposit { get; set; }
+        [JsonProperty("deposit_paid")] public bool? DepositPaid { get; set; }
 
-		[JsonProperty("deposit_paid")]
-		public bool? DepositPaid { get; set; }
+        [JsonProperty("payment_terms")] public string PaymentTerms { get; set; }
 
-		[JsonProperty("ship_to")]
-		public ShippingDetail ShipTo { get; set; }
+        [JsonProperty("ship_to")] public ShippingDetail ShipTo { get; set; }
 
-		public Invoice ConvertToInvoice() {
-			string url = this.GetEndpoint(true) + "/invoice";
+        [JsonProperty("disabled_payment_methods")]
+        public IList<string> DisabledPaymentMethods { get; set; }
 
-			string responseText = this.GetConnection().Post(url,null,"");
-			Invoice serializedObject;
-			
-			try {
-					serializedObject = JsonConvert.DeserializeObject<Invoice>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
-					serializedObject.ChangeConnection(this.GetConnection());
-			} catch(Exception e) {
-				throw new EntityException("",e);
-			}
+        public Invoice ConvertToInvoice()
+        {
+            var url = GetEndpoint(true) + "/invoice";
 
-			return serializedObject;
-		}
+            var responseText = GetConnection().Post(url, null, "");
+            Invoice serializedObject;
 
-		// Conditional Serialisation
-		public bool ShouldSerializeInvoice() {
-			if (this.CurrentOperation != "Create") return false;
-			return true;
-		}
+            try
+            {
+                serializedObject = JsonConvert.DeserializeObject<Invoice>(responseText,
+                    new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
+                    });
+                serializedObject.ChangeConnection(GetConnection());
+            }
+            catch (Exception e)
+            {
+                throw new EntityException("", e);
+            }
 
-		public bool ShouldSerializeApproved() {
-			return false;
-		}
-	}
+            return serializedObject;
+        }
+
+        // Conditional Serialisation
+        public bool ShouldSerializeInvoice()
+        {
+            return false;
+        }
+
+        public bool ShouldSerializeApproved()
+        {
+            return false;
+        }
+    }
 }

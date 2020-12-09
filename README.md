@@ -19,15 +19,17 @@ var connection = new Connection("{YOUR_API_KEY}",Invoiced.Environment.sandbox);
 Then, API calls can be made like this:
 ```c#
 # retrieve invoice
-var invoiceID = 1;
-var invoice = connection.NewInvoice().retrieve(invoiceID);
+var invoice = connection.NewInvoice().retrieve(1);
 
 # mark as paid
-var transaction = connection.NewTransaction();
-transaction.invoice = invoice.id;
-transaction.amount = invoice.balance;
-transaction.method = "check";
-transaction.Create();
+var payment = connection.NewPayment();
+payment.Amount = invoice.Balance;
+payment.Method = "check";
+payment.AppliedTo = new[]
+{
+    new PaymentItem {Type = "invoice", Amount = 100, Invoice = invoice.Id}
+};
+payment.Create();
 ```
 
 ## Developing

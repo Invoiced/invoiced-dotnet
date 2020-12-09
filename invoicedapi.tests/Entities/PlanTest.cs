@@ -1,16 +1,13 @@
-using System;
-using Xunit;
-using Invoiced;
-using System.Net.Http;
-using System.Net;
 using System.Collections.Generic;
-using RichardSzalay.MockHttp;
+using System.Net;
+using System.Net.Http;
+using Invoiced;
 using Newtonsoft.Json;
-
+using RichardSzalay.MockHttp;
+using Xunit;
 
 namespace InvoicedTest
 {
-
     public class PlanTest
     {
         private static Plan CreateDefaultPlan(HttpClient client)
@@ -19,14 +16,13 @@ namespace InvoicedTest
 
             var plan = JsonConvert.DeserializeObject<Plan>(json);
 
-            var connection = new Connection("voodoo", Invoiced.Environment.test);
+            var connection = new Connection("voodoo", Environment.test);
 
             connection.TestClient(client);
 
             plan.ChangeConnection(connection);
 
             return plan;
-
         }
 
         [Fact]
@@ -60,7 +56,6 @@ namespace InvoicedTest
         [Fact]
         public void TestRetrieve()
         {
-
             var mockHttp = new MockHttpMessageHandler();
 
             mockHttp.When("https://testmode/plans/alpha")
@@ -68,7 +63,7 @@ namespace InvoicedTest
 
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo", Invoiced.Environment.test);
+            var conn = new Connection("voodoo", Environment.test);
 
             conn.TestClient(client);
 
@@ -77,14 +72,12 @@ namespace InvoicedTest
             var plan = planConn.Retrieve("alpha");
 
             Assert.True(plan.Id == "alpha");
-
         }
 
 
         [Fact]
         public void TestCreate()
         {
-
             var jsonResponse = @"{
 				'amount': 100,
 				'catalog_item': null,
@@ -110,7 +103,7 @@ namespace InvoicedTest
 
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo", Invoiced.Environment.test);
+            var conn = new Connection("voodoo", Environment.test);
 
             conn.TestClient(client);
 
@@ -120,13 +113,11 @@ namespace InvoicedTest
 
             Assert.True(plan.Id == "alpha");
             Assert.True(plan.PricingMode == "per_unit");
-
         }
 
         [Fact]
         public void TestSave()
         {
-
             var jsonResponse = @"{
 				'amount': 100,
 				'catalog_item': null,
@@ -165,13 +156,11 @@ namespace InvoicedTest
 
             Assert.True(plan.Id == "alpha");
             Assert.True(plan.Name == "Updated");
-
         }
 
         [Fact]
         public void TestDelete()
         {
-
             var mockHttp = new MockHttpMessageHandler();
 
             var request = mockHttp.When(HttpMethod.Delete, "https://testmode/plans/alpha")
@@ -182,14 +171,12 @@ namespace InvoicedTest
             var plan = CreateDefaultPlan(client);
 
             plan.Delete();
-
         }
 
 
         [Fact]
         public void TestListAll()
         {
-
             var jsonResponseListAll = @"[{
 				'amount': 100,
 				'catalog_item': null,
@@ -216,11 +203,11 @@ namespace InvoicedTest
                 "<https://api.sandbox.invoiced.com/plans?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/plans?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/plans?page=1>; rel=\"last\"";
 
             var request = mockHttp.When(HttpMethod.Get, "https://testmode/plans")
-	            .Respond(mockHeader, "application/json", jsonResponseListAll);
+                .Respond(mockHeader, "application/json", jsonResponseListAll);
 
             var client = mockHttp.ToHttpClient();
 
-            var conn = new Connection("voodoo", Invoiced.Environment.test);
+            var conn = new Connection("voodoo", Environment.test);
 
             conn.TestClient(client);
 
@@ -229,9 +216,6 @@ namespace InvoicedTest
             var plans = plan.ListAll();
 
             Assert.True(plans[0].Id == "alpha");
-
         }
-
     }
-
 }

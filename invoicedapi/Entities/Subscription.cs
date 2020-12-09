@@ -1,229 +1,236 @@
-
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Invoiced
 {
+    // subscription has additional serialisation case 'Preview' in addition to the standard 'Create' and 'SaveAll' methods
+    public class Subscription : AbstractEntity<Subscription>
+    {
+        internal Subscription(Connection conn) : base(conn)
+        {
+            EntityName = "/subscriptions";
+        }
 
-	// subscription has additional serialisation case 'Preview' in addition to the standard 'Create' and 'SaveAll' methods
-	public class Subscription :AbstractEntity<Subscription>
-	{
+        public Subscription()
+        {
+            EntityName = "/subscriptions";
+        }
 
-		internal Subscription(Connection conn) : base(conn)
-		{
-			this.EntityName = "/subscriptions";
-		}
+        [JsonProperty("id")] public long? Id { get; set; }
 
-		public Subscription() : base() {
-			this.EntityName = "/subscriptions";
-		}
+        [JsonProperty("object")] public string Object { get; set; }
 
-		protected override string EntityId() {
-			return this.Id.ToString();
-		}
+        [JsonProperty("customer")] public long? Customer { get; set; }
 
-		[JsonProperty("id")]
-		public long? Id { get; set; }
+        [JsonProperty("plan")] public string Plan { get; set; }
 
-		[JsonProperty("object")]
-		public string Obj { get; set; }
+        [JsonProperty("start_date")] public long? StartDate { get; set; }
 
-		[JsonProperty("customer")]
-		public long? Customer { get; set; }
+        [JsonProperty("bill_in")] public string BillIn { get; set; }
 
-		[JsonProperty("plan")]
-		public string Plan { get; set; }
+        [JsonProperty("bill_in_advance_days")] public long? BillInAdvanceDays { get; set; }
 
-		[JsonProperty("cycles")]
-		public long? Cycles { get; set; }
+        [JsonProperty("quantity")] public long? Quantity { get; set; }
 
-		[JsonProperty("quantity")]
-		public long? Quantity { get; set; }
+        [JsonProperty("cycles")] public long? Cycles { get; set; }
 
-		[JsonProperty("start_date")]
-		public long? StartDate { get; set; }
+        [JsonProperty("period_start")] public long? PeriodStart { get; set; }
 
-		[JsonProperty("bill_in")]
-		public string BillIn { get; set; }
+        [JsonProperty("period_end")] public long? PeriodEnd { get; set; }
 
-		[JsonProperty("period_start")]
-		public long? PeriodStart { get; set; }
+        [JsonProperty("snap_to_nth_day")] public long? SnapToNthDay { get; set; }
 
-		[JsonProperty("period_end")]
-		public long? PeriodEnd { get; set; }
+        [JsonProperty("cancel_at_period_end")] public bool? CancelAtPeriodEnd { get; set; }
 
-		[JsonProperty("cancel_at_period_end")]
-		public bool? CancelAtPeriodEnd { get; set; }
+        [JsonProperty("canceled_at")] public object CanceledAt { get; set; }
 
-		[JsonProperty("canceled_at")]
-		public object CanceledAt { get; set; }
+        [JsonProperty("prorate")] public bool? Prorate { get; set; }
 
-		[JsonProperty("paused")]
-		public bool? Paused { get; set; }
+        [JsonProperty("proration_date")] public long? ProrationDate { get; set; }
 
-		[JsonProperty("status")]
-		public string Status { get; set; }
+        [JsonProperty("paused")] public bool? Paused { get; set; }
 
-		[JsonProperty("contract_period_start")]
-		public long? ContractPeriodStart { get; set; }
+        [JsonProperty("contract_period_start")]
+        public long? ContractPeriodStart { get; set; }
 
-		[JsonProperty("contract_period_end")]
-		public long? ContractPeriodEnd { get; set; }
+        [JsonProperty("contract_period_end")] public long? ContractPeriodEnd { get; set; }
 
-		[JsonProperty("contract_renewal_cycles")]
-		public long? ContractRenewalCycles { get; set; }
+        [JsonProperty("contract_renewal_cycles")]
+        public long? ContractRenewalCycles { get; set; }
 
-		[JsonProperty("contract_renewal_mode")]
-		public string ContractRenewalMode { get; set; }
+        [JsonProperty("contract_renewal_mode")]
+        public string ContractRenewalMode { get; set; }
 
-		[JsonProperty("addons")]
-		public IList<SubscriptionAddon> Addons { get; set; }
+        [JsonProperty("status")] public string Status { get; set; }
 
-		[JsonProperty("discounts")]
-		public IList<object> Discounts { get; set; }
+        [JsonProperty("recurring_total")] public double? RecurringTotal { get; set; }
 
-		[JsonProperty("taxes")]
-		public IList<object> Taxes { get; set; }
+        [JsonProperty("mrr")] public double? Mrr { get; set; }
 
-		[JsonProperty("ship_to")]
-		public ShippingDetail ShipTo { get; set; }
-		
-		[JsonProperty("recurring_total")]
-		public double? RecurringTotal { get; set; }
+        [JsonProperty("addons")] public IList<SubscriptionAddon> Addons { get; set; }
 
-		[JsonProperty("mrr")]
-		public double? Mrr { get; set; }
+        [JsonProperty("discounts")] public IList<object> Discounts { get; set; }
 
-		[JsonProperty("url")]
-		public string Url { get; set; }
+        [JsonProperty("taxes")] public IList<object> Taxes { get; set; }
 
-		[JsonProperty("created_at")]
-		public long? CreatedAt { get; set; }
+        [JsonProperty("ship_to")] public ShippingDetail ShipTo { get; set; }
 
-		[JsonProperty("metadata")]
-		public Metadata Metadata { get; set; }
+        [JsonProperty("pending_line_items")] public IList<string> PendingLineItems { get; set; }
 
-		[JsonProperty("pending_line_items")]
-		public IList<string> PendingLineItems { get; set; }
+        [JsonProperty("url")] public string Url { get; set; }
 
-		public void Cancel() {
+        [JsonProperty("created_at")] public long? CreatedAt { get; set; }
 
-			this.GetConnection().Delete(this.GetEndpoint(true));
-		}
+        [JsonProperty("metadata")] public Metadata Metadata { get; set; }
 
-		public SubscriptionPreview Preview() {
+        protected override string EntityId()
+        {
+            return Id.ToString();
+        }
 
-			string url = this.EntityName + "/preview";
+        public void Cancel()
+        {
+            GetConnection().Delete(GetEndpoint(true));
+        }
 
-			string jsonRequestBody = this.ToJsonString();
+        public SubscriptionPreview Preview()
+        {
+            var url = EntityName + "/preview";
 
-			string responseText = this.GetConnection().Post(url,null,jsonRequestBody);
-			SubscriptionPreview serializedObject;
-			
-			try {
-					serializedObject = JsonConvert.DeserializeObject<SubscriptionPreview>(responseText,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
-			} catch(Exception e) {
-				throw new EntityException("",e);
-			}
+            var jsonRequestBody = ToJsonString();
 
-			return serializedObject;
+            var responseText = GetConnection().Post(url, null, jsonRequestBody);
 
-		}
+            try
+            {
+                return JsonConvert.DeserializeObject<SubscriptionPreview>(responseText,
+                    new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
+                    });
+            }
+            catch (Exception e)
+            {
+                throw new EntityException("", e);
+            }
+        }
 
-		// Conditional Serialisation
+        // Conditional Serialisation
 
-		public bool ShouldSerializeId() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeId()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeObj() {
-			return false;
-		}
+        public bool ShouldSerializeObject()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeCustomer() {
-			return this.CurrentOperation != "SaveAll";
-		}
+        public bool ShouldSerializeCustomer()
+        {
+            return CurrentOperation != "SaveAll";
+        }
 
-		public bool ShouldSerializePlan() {
-			return this.CurrentOperation != "SaveAll";
-		}
+        public bool ShouldSerializePlan()
+        {
+            return CurrentOperation != "SaveAll";
+        }
 
-		public bool ShouldSerializeCycles() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeCycles()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeStartDate() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeStartDate()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializeBillIn() {
-			return this.CurrentOperation == "Create";
-		}
+        public bool ShouldSerializeBillIn()
+        {
+            return CurrentOperation == "Create";
+        }
 
-		public bool ShouldSerializePeriodStart() {
-			return false;
-		}
+        public bool ShouldSerializePeriodStart()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializePeriodEnd() {
-			return false;
-		}
+        public bool ShouldSerializePeriodEnd()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeCancelAtPeriodEnd() {
-			return this.CurrentOperation != "Preview";
-		}
+        public bool ShouldSerializeCancelAtPeriodEnd()
+        {
+            return CurrentOperation != "Preview";
+        }
 
-		public bool ShouldSerializeCanceledAt() {
-			return false;
-		}
+        public bool ShouldSerializeCanceledAt()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializePaused() {
-			return this.CurrentOperation != "Preview";
-		}
+        public bool ShouldSerializePaused()
+        {
+            return CurrentOperation != "Preview";
+        }
 
-		public bool ShouldSerializeStatus() {
-			return false;
-		}
+        public bool ShouldSerializeStatus()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeContractPeriodStart() {
-			return false;
-		}
+        public bool ShouldSerializeContractPeriodStart()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeContractPeriodEnd() {
-			return false;
-		}
+        public bool ShouldSerializeContractPeriodEnd()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeRenewalCycles() {
-			return this.CurrentOperation != "Preview";
-		}
+        public bool ShouldSerializeRenewalCycles()
+        {
+            return CurrentOperation != "Preview";
+        }
 
-		public bool ShouldSerializeRenewalMode() {
-			return this.CurrentOperation != "Preview";
-		}
+        public bool ShouldSerializeRenewalMode()
+        {
+            return CurrentOperation != "Preview";
+        }
 
-		public bool ShouldSerializeRecurringTotal() {
-			return false;
-		}
+        public bool ShouldSerializeRecurringTotal()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeMrr() {
-			return false;
-		}
+        public bool ShouldSerializeMrr()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeUrl() {
-			return false;
-		}
+        public bool ShouldSerializeUrl()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeCreatedAt() {
-			return false;
-		}
+        public bool ShouldSerializeCreatedAt()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializeMetadata() {
-			return this.CurrentOperation != "Preview";
-		}
+        public bool ShouldSerializeMetadata()
+        {
+            return CurrentOperation != "Preview";
+        }
 
-		public bool ShouldSerializePendingLineItems() {
-			return this.CurrentOperation == "Preview";
-		}
-	
-	}
+        public bool ShouldSerializePendingLineItems()
+        {
+            return CurrentOperation == "Preview";
+        }
+    }
 }

@@ -4,102 +4,108 @@ using Newtonsoft.Json;
 
 namespace Invoiced
 {
-	public class Invoice : AbstractDocument<Invoice>
-	{
-		public Invoice(Connection conn) : base(conn) {
-			this.EntityName = "/invoices";
-		}
+    public class Invoice : AbstractDocument<Invoice>
+    {
+        public Invoice(Connection conn) : base(conn)
+        {
+            EntityName = "/invoices";
+        }
 
-		public Invoice() : base(){
-			this.EntityName = "/invoices";
-		}
+        public Invoice()
+        {
+            EntityName = "/invoices";
+        }
 
-		[JsonProperty("paid")]
-		public bool? Paid { get; set; }
+        [JsonProperty("due_date")] public long? DueDate { get; set; }
 
-		[JsonProperty("autopay")]
-		public bool? Autopay { get; set; }
+        [JsonProperty("payment_terms")] public string PaymentTerms { get; set; }
 
-		[JsonProperty("attempt_count")]
-		public long? AttemptCount { get; set; }
+        [JsonProperty("autopay")] public bool? Autopay { get; set; }
 
-		[JsonProperty("next_payment_attempt")]
-		public long? NextPaymentAttempt { get; set; }
+        [JsonProperty("paid")] public bool? Paid { get; set; }
 
-		[JsonProperty("subscription")]
-		public long? Subscription { get; set; }
+        [JsonProperty("attempt_count")] public long? AttemptCount { get; set; }
 
-		[JsonProperty("due_date")]
-		public long? DueDate { get; set; }
+        [JsonProperty("next_payment_attempt")] public long? NextPaymentAttempt { get; set; }
 
-		[JsonProperty("payment_terms")]
-		public string PaymentTerms { get; set; }
+        [JsonProperty("subscription")] public long? Subscription { get; set; }
 
-		[JsonProperty("balance")]
-		public double? Balance { get; set; }
+        [JsonProperty("payment_plan")] public long? PaymentPlan { get; set; }
 
-		[JsonProperty("payment_plan")]
-		public long? PaymentPlan { get; set; }
+        [JsonProperty("balance")] public double? Balance { get; set; }
 
-		[JsonProperty("payment_url")]
-		public string PaymentUrl { get; set; }
+        [JsonProperty("payment_url")] public string PaymentUrl { get; set; }
 
-		[JsonProperty("ship_to")]
-		public ShippingDetail ShipTo { get; set; }
+        [JsonProperty("ship_to")] public ShippingDetail ShipTo { get; set; }
 
-		public PaymentPlan NewPaymentPlan() {
-			PaymentPlan paymentPlan = new PaymentPlan(this.GetConnection());
-			paymentPlan.SetEndpointBase(this.GetEndpoint(true));
-			return paymentPlan;
-		}
+        [JsonProperty("disabled_payment_methods")]
+        public IList<string> DisabledPaymentMethods { get; set; }
 
-		public Note NewNote() {
-			Note note = new Note(this.GetConnection());
-			note.SetEndpointBase(this.GetEndpoint(true));
-			note.InvoiceId = this.Id;
-			return note;
-		}
+        public PaymentPlan NewPaymentPlan()
+        {
+            var paymentPlan = new PaymentPlan(GetConnection());
+            paymentPlan.SetEndpointBase(GetEndpoint(true));
+            return paymentPlan;
+        }
 
-		public void Pay() {
-			string url = this.GetEndpoint(true) + "/pay";
+        public Note NewNote()
+        {
+            var note = new Note(GetConnection());
+            note.SetEndpointBase(GetEndpoint(true));
+            return note;
+        }
 
-			string responseText = this.GetConnection().Post(url,null,"");
-			
-			try {
-				JsonConvert.PopulateObject(responseText,this);
-			} catch(Exception e) {
-				throw new EntityException("",e);
-			}
-		}
+        public void Pay()
+        {
+            var url = GetEndpoint(true) + "/pay";
 
-		// Conditional Serialisation
-		
-		public bool ShouldSerializePaid() {
-			return false;
-		}
-		
-		public bool ShouldSerializeAttemptCount() {
-			return false;
-		}
+            var responseText = GetConnection().Post(url, null, "");
 
-		public bool ShouldSerializeNextPaymentAttempt() {
-			return false;
-		}
+            try
+            {
+                JsonConvert.PopulateObject(responseText, this);
+            }
+            catch (Exception e)
+            {
+                throw new EntityException("", e);
+            }
+        }
 
-		public bool ShouldSerializeSubscription() {
-			return false;
-		}
+        // Conditional Serialisation
 
-		public bool ShouldSerializeBalance() {
-			return false;
-		}
+        public bool ShouldSerializePaid()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializePaymentPlan() {
-			return false;
-		}
+        public bool ShouldSerializeAttemptCount()
+        {
+            return false;
+        }
 
-		public bool ShouldSerializePaymentUrl() {
-			return false;
-		}
-	}
+        public bool ShouldSerializeNextPaymentAttempt()
+        {
+            return false;
+        }
+
+        public bool ShouldSerializeSubscription()
+        {
+            return false;
+        }
+
+        public bool ShouldSerializeBalance()
+        {
+            return false;
+        }
+
+        public bool ShouldSerializePaymentPlan()
+        {
+            return false;
+        }
+
+        public bool ShouldSerializePaymentUrl()
+        {
+            return false;
+        }
+    }
 }

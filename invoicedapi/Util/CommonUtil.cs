@@ -1,35 +1,27 @@
-using System;
-using System.Text;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace Invoiced
 {
+    public static class CommonUtil
+    {
+        public static Dictionary<string, string> parseLinks(string links)
+        {
+            var LinkMap = new Dictionary<string, string>();
 
-public static class CommonUtil
-{
-    public static Dictionary<string,string> parseLinks(string links) {
+            var parsedLinks = links.Split(',');
 
-        Dictionary<string,string> LinkMap = new Dictionary<string, string>();
+            foreach (var parsedLink in parsedLinks)
+            {
+                var reParse = parsedLink.Split(';');
+                var link = reParse[0].Trim().Replace("<", "").Replace(">", "");
+                var next = reParse[1].Trim();
+                var begin = next.IndexOf('"');
+                var end = next.LastIndexOf('"');
+                next = next.Substring(begin + 1, end - begin - 1);
+                LinkMap.Add(next, link);
+            }
 
-        string[] parsedLinks = links.Split(',');
-
-        foreach (var parsedLink in parsedLinks) {
-            string[] reParse = parsedLink.Split(';');
-            string link = reParse[0].Trim().Replace("<","").Replace(">","");
-            string next = reParse[1].Trim();
-            int begin = next.IndexOf('"');
-            int end = next.LastIndexOf('"');
-            next = next.Substring(begin + 1, end - begin - 1);
-            LinkMap.Add(next,link);
-
+            return LinkMap;
         }
-
-        return LinkMap;
-
-
     }
-
-}
-
 }
