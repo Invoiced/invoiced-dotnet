@@ -36,6 +36,8 @@ namespace Invoiced
 
         [JsonProperty("date")] public long? Date { get; set; }
 
+        [JsonProperty("purchase_order")] public string PurchaseOrder { get; set; }
+
         [JsonProperty("items")] public IList<LineItem> Items { get; set; }
 
         [JsonProperty("notes")] public string Notes { get; set; }
