@@ -8,7 +8,7 @@ namespace Invoiced
 
         [JsonProperty("message")] public string Message { get; set; }
 
-        [JsonProperty("type")] public long? Type { get; set; }
+        [JsonProperty("type")] public string Type { get; set; }
 
         [JsonProperty("start")] public long? Start { get; set; }
 
