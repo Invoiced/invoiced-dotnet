@@ -141,9 +141,7 @@ namespace Invoiced
 
         internal ListResponse GetList(string url, Dictionary<string, object> queryParams = null)
         {
-            url = BaseUrl() + url;
-
-            var uri = AddQueryParamsToUri(url, queryParams);
+            var uri = MergeUrl(url, queryParams);
             var response = ExecuteRequest(HttpMethod.Get, uri, null);
             var responseText = ProcessResponse(response);
             var linkString = HttpUtil.GetHeaderFirstValue(response, "Link");
@@ -152,6 +150,71 @@ namespace Invoiced
             var links = CommonUtil.parseLinks(linkString);
 
             return new ListResponse(responseText, links, totalCount);
+        }
+
+        /// <summary>
+        /// Merges the given url with the Base Url of the connection environment.
+        /// </summary>
+        /// <param name="url">The URL to merge with the BaseUrl</param>
+        ///<param name="queryParams">Any additional query parameters to add to the final URL</param>
+        /// <returns>The final, constructed, URL that combines the base URL, the passed in URL, and any additional query parameters.</returns>
+        private string MergeUrl(string url, Dictionary<string, object> queryParams = null)
+        {
+            var result = BaseUrl();
+
+            if (!string.IsNullOrWhiteSpace(url) && url.StartsWith("/"))
+            {
+                result += url;
+                url = null;
+            }
+
+            if (!string.IsNullOrEmpty(url))
+            {
+                UriBuilder first = new UriBuilder(result);
+                UriBuilder second = new UriBuilder(url);
+
+                first.Path = second.Path;
+
+                var pFirst = ChangeDictionarySignature(System.Web.HttpUtility.ParseQueryString(first.Query));
+                var pSecond = ChangeDictionarySignature(System.Web.HttpUtility.ParseQueryString(second.Query));
+                Dictionary<string, object> pOutput = MergeQueryParams(pFirst, pSecond);
+
+                if (queryParams != null)
+                    pOutput = MergeQueryParams(pOutput, queryParams);
+
+                if (pOutput.Count > 0)
+                {
+                    StringBuilder query = new StringBuilder();
+
+                    foreach (string key in pOutput.Keys)
+                    {
+                        if (query.Length > 0)
+                            query.Append('&');
+
+                        query.Append(WebUtility.UrlEncode(key));
+                        query.Append('=');
+                        query.Append(WebUtility.UrlEncode(pOutput[key].ToString()));
+                    }
+
+                    first.Query = query.ToString();
+                }
+
+                result = first.Uri.AbsoluteUri;
+            }
+            else
+                result = AddQueryParamsToUri(result, queryParams);
+
+            return result;
+        }
+
+        private static Dictionary<string, object> ChangeDictionarySignature(System.Collections.Specialized.NameValueCollection incoming)
+        {
+            Dictionary<string, object> output = new Dictionary<string, object>(incoming.Count);
+
+            foreach (string key in incoming.AllKeys)
+                output.Add(key, incoming[key]);
+
+            return output;
         }
 
         internal void Delete(string url)
