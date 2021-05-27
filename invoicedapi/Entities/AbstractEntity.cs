@@ -207,8 +207,6 @@ namespace Invoiced
 
             if (!HasList()) throw new EntityException("List operation not supported on object.");
 
-            var tmpEntities = List(nextUrl, queryParams, customConverter);
-
             do
             {
                 var tmpEntities = List(nextUrl, queryParams, customConverter);
