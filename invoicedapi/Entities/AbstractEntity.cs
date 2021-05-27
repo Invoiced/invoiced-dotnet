@@ -159,7 +159,7 @@ namespace Invoiced
             _connection.Delete(GetEndpoint(true));
         }
 
-        private EntityList<T> List(string nextUrl, Dictionary<string, object> queryParams,
+        public EntityList<T> List(string nextUrl, Dictionary<string, object> queryParams,
             JsonConverter customConverter = null)
         {
             if (!HasList()) throw new EntityException("List operation not supported on object.");
@@ -211,9 +211,13 @@ namespace Invoiced
 
             do
             {
+                var tmpEntities = List(nextUrl, queryParams, customConverter);
+
                 if (entities == null)
                 {
                     entities = tmpEntities;
+                    if (tmpEntities.TotalCount > 0)
+                        entities.Capacity = tmpEntities.TotalCount;
                 }
                 else
                 {
@@ -221,6 +225,8 @@ namespace Invoiced
                     entities.LinkURLS = tmpEntities.LinkURLS;
                     entities.TotalCount = tmpEntities.TotalCount;
                 }
+
+                nextUrl = tmpEntities.GetNextURL();
             } while (!string.IsNullOrEmpty(entities.GetNextURL()) && entities.GetSelfURL() != entities.GetLastURL());
 
             return entities;
