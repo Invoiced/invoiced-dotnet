@@ -207,13 +207,14 @@ namespace Invoiced
 
             if (!HasList()) throw new EntityException("List operation not supported on object.");
 
-            var tmpEntities = List(nextUrl, queryParams, customConverter);
-
             do
             {
+                var tmpEntities = List(nextUrl, queryParams, customConverter);
+                
                 if (entities == null)
                 {
                     entities = tmpEntities;
+                    entities.Capacity = tmpEntites.TotalCount;
                 }
                 else
                 {
@@ -221,6 +222,8 @@ namespace Invoiced
                     entities.LinkURLS = tmpEntities.LinkURLS;
                     entities.TotalCount = tmpEntities.TotalCount;
                 }
+                
+                nextUrl = entities.GetNextURL();
             } while (!string.IsNullOrEmpty(entities.GetNextURL()) && entities.GetSelfURL() != entities.GetLastURL());
 
             return entities;
