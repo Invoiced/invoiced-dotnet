@@ -259,12 +259,45 @@ namespace Invoiced
             return responseText;
         }
 
-        private string AddQueryParamsToUri(string uri, Dictionary<string, object> queryParams)
+        private static Dictionary<string, object> MergeQueryParams(Dictionary<string, object> firstParams, Dictionary<string, object> secondParams)
+        {
+            Dictionary<string, object> Merged = new Dictionary<string, object>();
+
+            var Subset = firstParams.Keys.Intersect(secondParams.Keys);
+
+            foreach (string key in Subset)
+                Merged.Add(key, secondParams[key]);
+
+            Subset = firstParams.Keys.Except(secondParams.Keys);
+
+            foreach (string key in Subset)
+                Merged.Add(key, firstParams[key]);
+
+            Subset = secondParams.Keys.Except(firstParams.Keys);
+
+            foreach (string key in Subset)
+                Merged.Add(key, secondParams[key]);
+
+            return Merged;
+        }
+
+        private static string AddQueryParamsToUri(string uri, Dictionary<string, object> queryParams)
         {
             var builder = new UriBuilder(uri);
 
-            if (queryParams != null)
+            if (queryParams != null && queryParams.Count > 0)
             {
+                if (!string.IsNullOrWhiteSpace(builder.Query))
+                {
+                    Dictionary<string, object> first = new Dictionary<string, object>();
+                    var orig = System.Web.HttpUtility.ParseQueryString(builder.Query);
+
+                    foreach (string key in orig.AllKeys)
+                        first.Add(key, orig[key]);
+
+                    queryParams = MergeQueryParams(first, queryParams);
+                }
+
                 var querySegments = new List<string>();
                 foreach (var param in queryParams)
                     querySegments.Add(WebUtility.UrlEncode(param.Key) + "=" +
