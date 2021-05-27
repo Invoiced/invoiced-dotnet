@@ -1,14 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Linq;
 
 namespace Invoiced
 {
     public class Connection
     {
-        private static readonly string jsonAccept = "application/json";
+        private const string jsonAccept = "application/json";
         private readonly string _apikey;
 
         private HttpClient _client;
@@ -152,6 +153,14 @@ namespace Invoiced
             return new ListResponse(responseText, links, totalCount);
         }
 
+        internal void Delete(string url)
+        {
+            url = BaseUrl() + url;
+
+            var response = ExecuteRequest(HttpMethod.Delete, url, null);
+            ProcessResponse(response);
+        }
+
         /// <summary>
         /// Merges the given url with the Base Url of the connection environment.
         /// </summary>
@@ -217,14 +226,6 @@ namespace Invoiced
             return output;
         }
 
-        internal void Delete(string url)
-        {
-            url = BaseUrl() + url;
-
-            var response = ExecuteRequest(HttpMethod.Delete, url, null);
-            ProcessResponse(response);
-        }
-
         internal string BaseUrl()
         {
             if (_env == Environment.local)
@@ -249,12 +250,12 @@ namespace Invoiced
             return _client.SendAsync(request).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
-        private string ProcessResponse(HttpResponseMessage response)
+        private static string ProcessResponse(HttpResponseMessage response)
         {
             if (response.StatusCode == HttpStatusCode.NoContent) return "";
             var responseText = response.Content.ReadAsStringAsync().ConfigureAwait(false).GetAwaiter().GetResult();
 
-            if (!response.IsSuccessStatusCode) throw HandleApiError((int) response.StatusCode, responseText);
+            if (!response.IsSuccessStatusCode) throw HandleApiError((int)response.StatusCode, responseText);
 
             return responseText;
         }
@@ -308,7 +309,7 @@ namespace Invoiced
             return builder.ToString();
         }
 
-        private InvoicedException HandleApiError(int responseCode, string responseBody)
+        private static InvoicedException HandleApiError(int responseCode, string responseBody)
         {
             if (responseCode == 401)
                 return new AuthException(responseBody);
