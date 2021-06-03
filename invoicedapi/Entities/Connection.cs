@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Invoiced
 {
@@ -111,6 +112,83 @@ namespace Invoiced
         {
             return new TaxRate(this);
         }
+
+        #region "Async Methods"
+
+        internal async Task<string> PostAsync(string url, Dictionary<string, object> queryParams, string jsonBody)
+        {
+            url = BaseUrl() + url;
+
+            var uri = AddQueryParamsToUri(url, queryParams);
+            var response = await ExecuteRequestAsync(HttpMethod.Post, uri, jsonBody).ConfigureAwait(false);
+            return await ProcessResponseAsync(response).ConfigureAwait(false);
+        }
+
+        internal async Task<string> PatchAsync(string url, string jsonBody)
+        {
+            url = BaseUrl() + url;
+
+            var httpPatch = new HttpMethod("PATCH");
+            var response = await ExecuteRequestAsync(httpPatch, url, jsonBody).ConfigureAwait(false);
+            return await ProcessResponseAsync(response).ConfigureAwait(false);
+        }
+
+        internal async Task<string> GetAsync(string url, Dictionary<string, object> queryParams)
+        {
+            url = BaseUrl() + url;
+
+            var uri = AddQueryParamsToUri(url, queryParams);
+            var response = await ExecuteRequestAsync(HttpMethod.Get, uri, null).ConfigureAwait(false);
+
+            return await ProcessResponseAsync(response).ConfigureAwait(false);
+        }
+
+        internal async System.Threading.Tasks.Task DeleteAsync(string url)
+        {
+            url = BaseUrl() + url;
+
+            var response = await ExecuteRequestAsync(HttpMethod.Delete, url, null).ConfigureAwait(false);
+            await ProcessResponseAsync(response).ConfigureAwait(false);
+        }
+
+
+        internal async Task<ListResponse> GetListAsync(string url, Dictionary<string, object> queryParams = null)
+        {
+            var uri = MergeUrl(url, queryParams);
+            var response = await ExecuteRequestAsync(HttpMethod.Get, uri, null).ConfigureAwait(false);
+            var ResponseText = await ProcessResponseAsync(response);
+            var linkString = HttpUtil.GetHeaderFirstValue(response, "Link");
+            var totalCount = int.Parse(HttpUtil.GetHeaderFirstValue(response, "X-Total-Count"));
+
+            var links = CommonUtil.parseLinks(linkString);
+
+            return new ListResponse(ResponseText, links, totalCount);
+        }
+
+        private Task<HttpResponseMessage> ExecuteRequestAsync(HttpMethod method, string url, string jsonBody)
+        {
+            var request = new HttpRequestMessage(method, url);
+
+            if (!string.IsNullOrEmpty(jsonBody))
+                request.Content = new StringContent(jsonBody, Encoding.UTF8, jsonAccept);
+
+            request.Headers.Add("Authorization", "Basic " + HttpUtil.BasicAuth(_apikey, ""));
+
+            return _client.SendAsync(request);
+        }
+
+        private static async Task<string> ProcessResponseAsync(HttpResponseMessage response)
+        {
+            if (response.StatusCode == HttpStatusCode.NoContent) return "";
+
+            var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode) throw HandleApiError((int)response.StatusCode, responseText);
+
+            return responseText;
+        }
+
+        #endregion
 
         internal string Post(string url, Dictionary<string, object> queryParams, string jsonBody)
         {
@@ -241,13 +319,7 @@ namespace Invoiced
 
         private HttpResponseMessage ExecuteRequest(HttpMethod method, string url, string jsonBody)
         {
-            var request = new HttpRequestMessage(method, url);
-
-            if (!string.IsNullOrEmpty(jsonBody))
-                request.Content = new StringContent(jsonBody, Encoding.UTF8, jsonAccept);
-            request.Headers.Add("Authorization", "Basic " + HttpUtil.BasicAuth(_apikey, ""));
-
-            return _client.SendAsync(request).ConfigureAwait(false).GetAwaiter().GetResult();
+            return ExecuteRequestAsync(method, url, jsonBody).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         private static string ProcessResponse(HttpResponseMessage response)
