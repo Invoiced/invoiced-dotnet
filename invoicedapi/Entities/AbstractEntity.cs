@@ -10,8 +10,23 @@ namespace Invoiced
     {
         private bool _entityCreated;
         private Connection _connection;
+        private string _CurrentOperation;
         // used to determine safe json serialisation. should always be null outside function bodies
-        protected string CurrentOperation;
+        protected string CurrentOperation
+        {
+            get
+            {
+                return _CurrentOperation;
+            }
+            set
+            {
+                if (value != null && value.EndsWith("Async"))
+                    _CurrentOperation = value.Substring(0, value.Length - 5);
+                else
+                    _CurrentOperation = value;
+                    
+            }
+        }
         private string _endpointBase = "";
         protected string EntityName;
 
