@@ -23,6 +23,8 @@ namespace Invoiced
 
         [JsonProperty("customer")] public long? Customer { get; set; }
 
+        [JsonProperty("amount")] public double? Amount { get; set; }
+
         [JsonProperty("plan")] public string Plan { get; set; }
 
         [JsonProperty("start_date")] public long? StartDate { get; set; }

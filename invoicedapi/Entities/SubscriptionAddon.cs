@@ -10,6 +10,8 @@ namespace Invoiced
 
         [JsonProperty("description")] public string Description { get; set; }
 
+        [JsonProperty("amount")] public double? Amount { get; set; }
+
         [JsonProperty("plan")] public string Plan { get; set; }
 
         [JsonProperty("quantity")] public long? Quantity { get; set; }
