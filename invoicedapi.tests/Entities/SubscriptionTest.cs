@@ -39,6 +39,7 @@ namespace InvoicedTest
 					'quantity': 1,
 					'object': 'subscription_addon'
 				}],
+				'amount': 10.99,
 				'approval': null,
 				'bill_in': 'advance',
 				'bill_in_advance_days': 0,
@@ -78,6 +79,7 @@ namespace InvoicedTest
 
             Assert.True(testEvent.Id == 13117);
             Assert.True(testEvent.Status == "active");
+            Assert.True(testEvent.Amount == 10.99);
         }
 
         [Fact]
