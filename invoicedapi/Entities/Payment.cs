@@ -53,6 +53,8 @@ namespace Invoiced
 
         [JsonProperty("updated_at")] public long? UpdatedAt { get; set; }
 
+        [JsonProperty("updated_at")] public long? UpdatedAt { get; set; }
+
         protected override string EntityId()
         {
             return Id.ToString();

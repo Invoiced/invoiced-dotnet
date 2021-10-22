@@ -56,6 +56,8 @@ namespace Invoiced
 
         [JsonProperty("created_at")] public long? CreatedAt { get; set; }
 
+        [JsonProperty("updated_at")] public long? UpdatedAt { get; set; }
+
         [JsonProperty("metadata")] public Metadata Metadata { get; set; }
 
         [JsonProperty("attachments")] public IList<long> Attachments { get; set; }
