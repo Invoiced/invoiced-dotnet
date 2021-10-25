@@ -32,6 +32,8 @@ namespace Invoiced
 
         [JsonProperty("created_at")] public long? CreatedAt { get; set; }
 
+        [JsonProperty("updated_at")] public long? UpdatedAt { get; set; }
+
         protected override bool HasCrud()
         {
             return false;

@@ -38,6 +38,8 @@ namespace Invoiced
 
         [JsonProperty("created_at")] public long? CreatedAt { get; set; }
 
+        [JsonProperty("updated_at")] public long? UpdatedAt { get; set; }
+
         [JsonProperty("title")] public string Title { get; set; }
 
         [JsonProperty("phone")] public string Phone { get; set; }
