@@ -111,38 +111,30 @@ namespace Invoiced
             return new TaxRate(this);
         }
 
-        internal string Post(string url, Dictionary<string, object> queryParams, string jsonBody)
+        internal string Post(string endpoint, Dictionary<string, object> queryParams, string jsonBody)
         {
-            url = BaseUrl() + url;
-
-            var uri = AddQueryParamsToUri(url, queryParams);
+            var uri = AddQueryParamsToUri(BaseUrl() + endpoint, queryParams);
             var response = ExecuteRequest(HttpMethod.Post, uri, jsonBody);
             return ProcessResponse(response);
         }
 
-        internal string Patch(string url, string jsonBody)
+        internal string Patch(string endpoint, string jsonBody)
         {
-            url = BaseUrl() + url;
-
             var httpPatch = new HttpMethod("PATCH");
-            var response = ExecuteRequest(httpPatch, url, jsonBody);
+            var response = ExecuteRequest(httpPatch, BaseUrl() + endpoint, jsonBody);
             return ProcessResponse(response);
         }
 
-        internal string Get(string url, Dictionary<string, object> queryParams)
+        internal string Get(string endpoint, Dictionary<string, object> queryParams)
         {
-            url = BaseUrl() + url;
-
-            var uri = AddQueryParamsToUri(url, queryParams);
+            var uri = AddQueryParamsToUri(BaseUrl() + endpoint, queryParams);
             var response = ExecuteRequest(HttpMethod.Get, uri, null);
 
             return ProcessResponse(response);
         }
 
-        internal ListResponse GetList(string url, Dictionary<string, object> queryParams = null)
+        internal ListResponse GetList(string url, Dictionary<string, object> queryParams)
         {
-            url = BaseUrl() + url;
-
             var uri = AddQueryParamsToUri(url, queryParams);
             var response = ExecuteRequest(HttpMethod.Get, uri, null);
             var responseText = ProcessResponse(response);
@@ -154,11 +146,9 @@ namespace Invoiced
             return new ListResponse(responseText, links, totalCount);
         }
 
-        internal void Delete(string url)
+        internal void Delete(string endpoint)
         {
-            url = BaseUrl() + url;
-
-            var response = ExecuteRequest(HttpMethod.Delete, url, null);
+            var response = ExecuteRequest(HttpMethod.Delete, BaseUrl() + endpoint, null);
             ProcessResponse(response);
         }
 

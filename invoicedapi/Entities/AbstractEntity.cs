@@ -162,12 +162,12 @@ namespace Invoiced
         private EntityList<T> List(string nextUrl, Dictionary<string, object> queryParams,
             JsonConverter customConverter = null)
         {
-            if (!HasList()) throw new EntityException("List operation not supported on object.");
-
             var url = GetEndpoint(false);
-
-            if (!string.IsNullOrEmpty(nextUrl)) url = nextUrl;
-
+            if (!string.IsNullOrEmpty(nextUrl))
+            {
+                url = nextUrl;
+                queryParams = null;
+            }
             var response = _connection.GetList(url, queryParams);
 
             EntityList<T> entities;
@@ -203,17 +203,19 @@ namespace Invoiced
         public EntityList<T> ListAll(string nextUrl = "", Dictionary<string, object> queryParams = null,
             JsonConverter customConverter = null)
         {
-            EntityList<T> entities = null;
-
             if (!HasList()) throw new EntityException("List operation not supported on object.");
 
-            var tmpEntities = List(nextUrl, queryParams, customConverter);
+            EntityList<T> entities = null;
 
             do
             {
+                var tmpEntities = List(nextUrl, queryParams, customConverter);
+                nextUrl = tmpEntities.GetNextURL();
                 if (entities == null)
                 {
                     entities = tmpEntities;
+                    if (tmpEntities.TotalCount > 0)
+                        entities.Capacity = tmpEntities.TotalCount;
                 }
                 else
                 {
@@ -221,7 +223,8 @@ namespace Invoiced
                     entities.LinkURLS = tmpEntities.LinkURLS;
                     entities.TotalCount = tmpEntities.TotalCount;
                 }
-            } while (!string.IsNullOrEmpty(entities.GetNextURL()) && entities.GetSelfURL() != entities.GetLastURL());
+
+            } while (!string.IsNullOrEmpty(nextUrl));
 
             return entities;
         }
