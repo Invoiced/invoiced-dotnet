@@ -162,11 +162,15 @@ namespace Invoiced
         private EntityList<T> List(string nextUrl, Dictionary<string, object> queryParams,
             JsonConverter customConverter = null)
         {
-            var url = GetEndpoint(false);
+            string url;
             if (!string.IsNullOrEmpty(nextUrl))
             {
                 url = nextUrl;
                 queryParams = null;
+            }
+            else
+            {
+                url = _connection.BaseUrl() + GetEndpoint(false);
             }
             var response = _connection.GetList(url, queryParams);
 
