@@ -26,7 +26,7 @@ namespace InvoicedTest
 			}";
 
             var mockHttp = new MockHttpMessageHandler();
-            var request = mockHttp.When(HttpMethod.Post, "https://testmode/charges/46374/refunds")
+            var request = mockHttp.When(HttpMethod.Post, "https://api.testmode.com/charges/46374/refunds")
                 .WithJson(jsonRequest)
                 .Respond("application/json", jsonResponse);
 

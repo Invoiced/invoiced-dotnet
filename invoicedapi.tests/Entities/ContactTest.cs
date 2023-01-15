@@ -74,7 +74,7 @@ namespace InvoicedTest
         {
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When("https://testmode/customers/1234/contacts/30699")
+            mockHttp.When("https://api.testmode.com/customers/1234/contacts/30699")
                 .Respond("application/json", "{'id' : 30699, 'name' : 'Test McGee'}");
 
             var client = mockHttp.ToHttpClient();
@@ -123,7 +123,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/contacts").WithJson(jsonRequest)
+            mockHttp.When(HttpMethod.Post, "https://api.testmode.com/customers/1234/contacts").WithJson(jsonRequest)
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -172,7 +172,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
             var httpPatch = new HttpMethod("PATCH");
-            var request = mockHttp.When(httpPatch, "https://testmode/customers/1234/contacts/30699")
+            var request = mockHttp.When(httpPatch, "https://api.testmode.com/customers/1234/contacts/30699")
                 .WithJson(jsonRequest).Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -194,7 +194,7 @@ namespace InvoicedTest
         {
             var mockHttp = new MockHttpMessageHandler();
 
-            var request = mockHttp.When(HttpMethod.Delete, "https://testmode/customers/1234/contacts/30699")
+            var request = mockHttp.When(HttpMethod.Delete, "https://api.testmode.com/customers/1234/contacts/30699")
                 .Respond(HttpStatusCode.NoContent);
 
             var client = mockHttp.ToHttpClient();

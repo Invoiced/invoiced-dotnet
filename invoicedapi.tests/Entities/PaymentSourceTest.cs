@@ -32,7 +32,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/payment_sources")
+            mockHttp.When(HttpMethod.Post, "https://api.testmode.com/customers/1234/payment_sources")
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -55,7 +55,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/payment_sources")
+            mockHttp.When(HttpMethod.Post, "https://api.testmode.com/customers/1234/payment_sources")
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -85,7 +85,7 @@ namespace InvoicedTest
                     "<https://api.sandbox.invoiced.com/customers/1234/payment_sources?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/customers/1234/payment_sources?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/customers/1234/payment_sources?page=1>; rel=\"last\""
             };
 
-            mockHttp.When(HttpMethod.Get, "https://testmode/customers/1234/payment_sources")
+            mockHttp.When(HttpMethod.Get, "https://api.testmode.com/customers/1234/payment_sources")
                 .Respond(mockHeader, "application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();

@@ -135,6 +135,10 @@ namespace Invoiced
 
         internal ListResponse GetList(string url, Dictionary<string, object> queryParams)
         {
+            if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
+            {
+                url = BaseUrl() + url;
+            }
             var uri = AddQueryParamsToUri(url, queryParams);
             var response = ExecuteRequest(HttpMethod.Get, uri, null);
             var responseText = ProcessResponse(response);

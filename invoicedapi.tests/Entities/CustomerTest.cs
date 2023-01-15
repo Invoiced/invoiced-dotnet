@@ -77,7 +77,7 @@ namespace InvoicedTest
         {
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When("https://testmode/customers/4")
+            mockHttp.When("https://api.testmode.com/customers/4")
                 .Respond("application/json", "{'id' : 4, 'name' : 'Test McGee'}");
 
             var client = mockHttp.ToHttpClient();
@@ -149,7 +149,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/customers").WithJson(jsonRequest)
+            mockHttp.When(HttpMethod.Post, "https://api.testmode.com/customers").WithJson(jsonRequest)
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -221,7 +221,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
             var httpPatch = new HttpMethod("PATCH");
-            var request = mockHttp.When(httpPatch, "https://testmode/customers/1234").WithJson(JsonRequest)
+            var request = mockHttp.When(httpPatch, "https://api.testmode.com/customers/1234").WithJson(JsonRequest)
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -242,7 +242,7 @@ namespace InvoicedTest
         {
             var mockHttp = new MockHttpMessageHandler();
 
-            var request = mockHttp.When(HttpMethod.Delete, "https://testmode/customers/1234")
+            var request = mockHttp.When(HttpMethod.Delete, "https://api.testmode.com/customers/1234")
                 .Respond(HttpStatusCode.NoContent);
 
             var client = mockHttp.ToHttpClient();
@@ -295,7 +295,7 @@ namespace InvoicedTest
             mockHeader["Link"] =
                 "<https://api.sandbox.invoiced.com/customers?filter%5Bname%5D=Abraham+Lincoln&page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/customers?filter%5Bname%5D=Abraham+Lincoln&page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/customers?filter%5Bname%5D=Abraham+Lincoln&page=1>; rel=\"last\"";
 
-            var request = mockHttp.When(HttpMethod.Get, "https://testmode/customers")
+            var request = mockHttp.When(HttpMethod.Get, "https://api.testmode.com/customers")
                 .WithExactQueryString(filterByNameQ).Respond(mockHeader, "application/json", jsonResponseListAll);
 
             var client = mockHttp.ToHttpClient();
@@ -327,7 +327,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/notes").WithJson(jsonRequest)
+            mockHttp.When(HttpMethod.Post, "https://api.testmode.com/notes").WithJson(jsonRequest)
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -364,7 +364,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/contacts").WithJson(jsonRequest)
+            mockHttp.When(HttpMethod.Post, "https://api.testmode.com/customers/1234/contacts").WithJson(jsonRequest)
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -414,7 +414,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/line_items").WithJson(jsonRequest)
+            mockHttp.When(HttpMethod.Post, "https://api.testmode.com/customers/1234/line_items").WithJson(jsonRequest)
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -461,7 +461,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/tasks").WithJson(jsonRequest)
+            mockHttp.When(HttpMethod.Post, "https://api.testmode.com/tasks").WithJson(jsonRequest)
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -499,7 +499,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/emails")
+            mockHttp.When(HttpMethod.Post, "https://api.testmode.com/customers/1234/emails")
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -530,7 +530,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/letters")
+            mockHttp.When(HttpMethod.Post, "https://api.testmode.com/customers/1234/letters")
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -560,7 +560,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/text_messages")
+            mockHttp.When(HttpMethod.Post, "https://api.testmode.com/customers/1234/text_messages")
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -599,7 +599,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Get, "https://testmode/customers/1234/balance")
+            mockHttp.When(HttpMethod.Get, "https://api.testmode.com/customers/1234/balance")
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -622,7 +622,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/customers/1234/consolidate_invoices")
+            mockHttp.When(HttpMethod.Post, "https://api.testmode.com/customers/1234/consolidate_invoices")
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();

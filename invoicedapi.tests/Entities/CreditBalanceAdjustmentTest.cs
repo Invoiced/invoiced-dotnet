@@ -56,7 +56,7 @@ namespace InvoicedTest
         {
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When("https://testmode/credit_balance_adjustments/1234")
+            mockHttp.When("https://api.testmode.com/credit_balance_adjustments/1234")
                 .Respond("application/json", "{'id' : '1234', 'notes' : 'Test'}");
 
             var client = mockHttp.ToHttpClient();
@@ -90,7 +90,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/credit_balance_adjustments")
+            mockHttp.When(HttpMethod.Post, "https://api.testmode.com/credit_balance_adjustments")
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -126,7 +126,7 @@ namespace InvoicedTest
 
 	        var mockHttp = new MockHttpMessageHandler();
             var httpPatch = new HttpMethod("PATCH");
-            var request = mockHttp.When(httpPatch, "https://testmode/credit_balance_adjustments/1234")
+            var request = mockHttp.When(httpPatch, "https://api.testmode.com/credit_balance_adjustments/1234")
 	            .WithJson(jsonRequest)
                 .Respond("application/json", jsonResponse);
 
@@ -147,7 +147,7 @@ namespace InvoicedTest
         {
             var mockHttp = new MockHttpMessageHandler();
 
-            var request = mockHttp.When(HttpMethod.Delete, "https://testmode/credit_balance_adjustments/1234")
+            var request = mockHttp.When(HttpMethod.Delete, "https://api.testmode.com/credit_balance_adjustments/1234")
                 .Respond(HttpStatusCode.NoContent);
 
             var client = mockHttp.ToHttpClient();
@@ -179,7 +179,7 @@ namespace InvoicedTest
             mockHeader["Link"] =
                 "<https://api.sandbox.invoiced.com/credit_balance_adjustments?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/credit_balance_adjustments?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/credit_balance_adjustments?page=1>; rel=\"last\"";
 
-            var request = mockHttp.When(HttpMethod.Get, "https://testmode/credit_balance_adjustments")
+            var request = mockHttp.When(HttpMethod.Get, "https://api.testmode.com/credit_balance_adjustments")
                 .Respond(mockHeader, "application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();

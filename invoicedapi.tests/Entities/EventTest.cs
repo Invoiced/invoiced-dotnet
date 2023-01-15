@@ -258,7 +258,7 @@ namespace InvoicedTest
             mockHeader["Link"] =
                 "<https://api.sandbox.invoiced.com/events?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/events?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/events?page=1>; rel=\"last\"";
 
-            var request = mockHttp.When(HttpMethod.Get, "https://testmode/events")
+            var request = mockHttp.When(HttpMethod.Get, "https://api.testmode.com/events")
                 .Respond(mockHeader, "application/json", jsonResponseListAll);
 
             var client = mockHttp.ToHttpClient();

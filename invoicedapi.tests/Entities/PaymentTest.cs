@@ -78,7 +78,7 @@ namespace InvoicedTest
         {
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When("https://testmode/payments/656093")
+            mockHttp.When("https://api.testmode.com/payments/656093")
                 .Respond("application/json", "{'id' : 656093, 'currency': 'usd'}");
 
             var client = mockHttp.ToHttpClient();
@@ -138,7 +138,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/payments")
+            mockHttp.When(HttpMethod.Post, "https://api.testmode.com/payments")
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -207,7 +207,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
             var httpPatch = new HttpMethod("PATCH");
-            var request = mockHttp.When(httpPatch, "https://testmode/payments/656093").WithJson(JsonRequest)
+            var request = mockHttp.When(httpPatch, "https://api.testmode.com/payments/656093").WithJson(JsonRequest)
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -246,7 +246,7 @@ namespace InvoicedTest
 	            'voided': true
 	        }";
 
-            var request = mockHttp.When(HttpMethod.Delete, "https://testmode/payments/656093")
+            var request = mockHttp.When(HttpMethod.Delete, "https://api.testmode.com/payments/656093")
 		            .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
@@ -304,7 +304,7 @@ namespace InvoicedTest
             mockHeader["Link"] =
                 "<https://api.sandbox.invoiced.com/payments?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/payments?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/payments?page=1>; rel=\"last\"";
 
-            var request = mockHttp.When(HttpMethod.Get, "https://testmode/payments")
+            var request = mockHttp.When(HttpMethod.Get, "https://api.testmode.com/payments")
                 .Respond(mockHeader, "application/json", jsonResponseListAll);
 
             var client = mockHttp.ToHttpClient();

@@ -81,7 +81,7 @@ namespace InvoicedTest
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When(HttpMethod.Post, "https://testmode/charges")
+            mockHttp.When(HttpMethod.Post, "https://api.testmode.com/charges")
                 .Respond("application/json", jsonResponse);
 
             var client = mockHttp.ToHttpClient();
