@@ -1,29 +1,32 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-   <Description>Official .NET client library for the Invoiced API.</Description>
-    <AssemblyTitle>Invoiced</AssemblyTitle>
-    <VersionPrefix>3.3.1</VersionPrefix>
-    <Version>3.3.1</Version>
-    <Authors>Invoiced</Authors>
-    <TargetFrameworks>net5.0;net6.0;netcoreapp3.1;netstandard2.0;net461</TargetFrameworks>
-    <AssemblyName>Invoiced</AssemblyName>
-    <PackageId>Invoiced</PackageId>
-    <PackageTags>invoiced;accounts receivable;automation;payment processing; chasing</PackageTags>
-    <PackageProjectUrl>https://github.com/invoiced/invoiced-dotnet</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/Invoiced/invoiced-dotnet/master/LICENSE</PackageLicenseUrl>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/invoiced/invoiced-dotnet</RepositoryUrl>
-    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.2' ">1.6.1</NetStandardImplicitPackageVersion>
-    <SignAssembly>True</SignAssembly>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <noWarn>1591</noWarn>
-    <NoWarn>1591</NoWarn>
-  </PropertyGroup>
+    <PropertyGroup>
+        <Description>Official .NET client library for the Invoiced API.</Description>
+        <AssemblyTitle>Invoiced</AssemblyTitle>
+        <VersionPrefix>3.3.1</VersionPrefix>
+        <Version>3.3.1</Version>
+        <Authors>Invoiced</Authors>
+        <TargetFrameworks>net5.0;net6.0;netcoreapp3.1;netstandard2.0;net461</TargetFrameworks>
+        <AssemblyName>Invoiced</AssemblyName>
+        <PackageId>Invoiced</PackageId>
+        <PackageTags>invoiced;accounts receivable;automation;payment processing; chasing</PackageTags>
+        <PackageProjectUrl>https://github.com/invoiced/invoiced-dotnet</PackageProjectUrl>
+        <PackageLicenseUrl>https://raw.githubusercontent.com/Invoiced/invoiced-dotnet/master/LICENSE</PackageLicenseUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/invoiced/invoiced-dotnet</RepositoryUrl>
+        <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
+        <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.2' ">1.6.1</NetStandardImplicitPackageVersion>
+        <SignAssembly>True</SignAssembly>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <noWarn>1591</noWarn>
+        <NoWarn>1591</NoWarn>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+        <Reference Include="System.Net.Http"/>
+    </ItemGroup>
 </Project>
