@@ -4,7 +4,8 @@ This repository contains the .NET client library for the [Invoiced](https://invo
 
 You can find detailed API documentation along with .NET code snippets [here](https://www.invoiced.com/resources/docs/api/?csharp).
 
-[![Build Status](https://travis-ci.com/Invoiced/invoiced-dotnet.svg?branch=master)](https://travis-ci.com/Invoiced/invoiced-dotnet) [![NuGet](https://img.shields.io/nuget/v/Invoiced.svg)](https://www.nuget.org/packages/Invoiced/)
+[![CI](https://github.com/Invoiced/invoiced-dotnet/actions/workflows/ci.yml/badge.svg)](https://github.com/Invoiced/invoiced-dotnet/actions/workflows/ci.yml)
+[![NuGet](https://img.shields.io/nuget/v/Invoiced.svg)](https://www.nuget.org/packages/Invoiced/)
 
 ## Usage
 
