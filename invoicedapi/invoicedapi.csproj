@@ -3,15 +3,16 @@
     <PropertyGroup>
         <Description>Official .NET client library for the Invoiced API.</Description>
         <AssemblyTitle>Invoiced</AssemblyTitle>
-        <VersionPrefix>3.3.2</VersionPrefix>
-        <Version>3.3.2</Version>
+        <VersionPrefix>3.3.3</VersionPrefix>
+        <Version>3.3.3</Version>
         <Authors>Invoiced</Authors>
         <TargetFrameworks>net5.0;net6.0;netcoreapp3.1;netstandard2.0;net461</TargetFrameworks>
         <AssemblyName>Invoiced</AssemblyName>
         <PackageId>Invoiced</PackageId>
         <PackageTags>invoiced;accounts receivable;automation;payment processing; chasing</PackageTags>
         <PackageProjectUrl>https://github.com/invoiced/invoiced-dotnet</PackageProjectUrl>
-        <PackageLicenseUrl>https://raw.githubusercontent.com/Invoiced/invoiced-dotnet/master/LICENSE</PackageLicenseUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/invoiced/invoiced-dotnet</RepositoryUrl>
         <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
@@ -24,6 +25,7 @@
 
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
+        <None Include="../README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">

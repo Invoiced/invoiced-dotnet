@@ -44,5 +44,5 @@ Follow these steps to publish a package to NuGet:
 ```
 dotnet pack
 cd invoicedapi/bin/Debug/
-nuget push Invoiced.X.X.X.nupkg -Source https://api.nuget.org/v3/index.json
+nuget push Invoiced.X.X.X.nupkg <apikey> -Source https://api.nuget.org/v3/index.json
 ```
