@@ -227,6 +227,11 @@ namespace Invoiced
             return false;
         }
 
+        public bool ShouldSerializeUpdatedAt()
+        {
+            return false;
+        }
+
         public bool ShouldSerializeMetadata()
         {
             return CurrentOperation != "Preview";

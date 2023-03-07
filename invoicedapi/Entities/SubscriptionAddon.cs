@@ -22,5 +22,10 @@ namespace Invoiced
         {
             return Id.ToString();
         }
+
+        public bool ShouldSerializeCreatedAt()
+        {
+            return false;
+        }
     }
 }

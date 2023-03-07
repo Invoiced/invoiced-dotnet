@@ -55,5 +55,10 @@ namespace Invoiced
         {
             return false;
         }
+
+        public bool ShouldSerializeUpdatedAt()
+        {
+            return false;
+        }
     }
 }

@@ -102,5 +102,15 @@ namespace Invoiced
         {
             return CurrentOperation == "Create";
         }
+
+        public bool ShouldSerializeCreatedAt()
+        {
+            return false;
+        }
+
+        public bool ShouldSerializeUpdatedAt()
+        {
+            return false;
+        }
     }
 }
