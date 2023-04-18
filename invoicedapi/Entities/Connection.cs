@@ -172,6 +172,7 @@ namespace Invoiced
             if (!string.IsNullOrEmpty(jsonBody))
                 request.Content = new StringContent(jsonBody, Encoding.UTF8, jsonAccept);
             request.Headers.Add("Authorization", "Basic " + HttpUtil.BasicAuth(_apikey, ""));
+            request.Headers.Add("User-Agent", "Invoiced .NET/" + GetVersion());
 
             return _client.SendAsync(request).ConfigureAwait(false).GetAwaiter().GetResult();
         }
@@ -184,6 +185,13 @@ namespace Invoiced
             if (!response.IsSuccessStatusCode) throw HandleApiError((int) response.StatusCode, responseText);
 
             return responseText;
+        }
+        
+        public string GetVersion()
+        {
+            var version = GetType().Assembly.GetName().Version;
+            
+            return version != null ? version.ToString() : "";
         }
 
         private string AddQueryParamsToUri(string uri, Dictionary<string, object> queryParams)
