@@ -251,6 +251,11 @@ namespace Invoiced
             return CurrentOperation == "Create";
         }
 
+        public bool ShouldSerializePaymentSource()
+        {
+            return CurrentOperation == "Create";
+        }
+
         public bool ShouldSerializeSignUpUrl()
         {
             return false;
