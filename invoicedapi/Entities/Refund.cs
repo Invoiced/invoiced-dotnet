@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Invoiced
@@ -48,6 +49,26 @@ namespace Invoiced
             var jsonRequestBody = "{'amount':" + amount + "}";
 
             var responseText = GetConnection().Post(url, null, jsonRequestBody);
+
+            try
+            {
+                return JsonConvert.DeserializeObject<Refund>(responseText,
+                    new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
+                    });
+            }
+            catch (Exception e)
+            {
+                throw new EntityException("", e);
+            }
+        }
+        public async Task<Refund> CreateAsync(long chargeId, double amount)
+        {
+            var url = GetEndpoint(false) + "/charges/" + chargeId + "/refunds";
+            var jsonRequestBody = "{'amount':" + amount + "}";
+
+            var responseText = await GetConnection().PostAsync(url, null, jsonRequestBody);
 
             try
             {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Invoiced
@@ -38,6 +39,29 @@ namespace Invoiced
             var url = GetEndpoint(true) + "/invoice";
 
             var responseText = GetConnection().Post(url, null, "");
+            Invoice serializedObject;
+
+            try
+            {
+                serializedObject = JsonConvert.DeserializeObject<Invoice>(responseText,
+                    new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
+                    });
+                serializedObject.ChangeConnection(GetConnection());
+            }
+            catch (Exception e)
+            {
+                throw new EntityException("", e);
+            }
+
+            return serializedObject;
+        }
+        public async Task<Invoice> ConvertToInvoiceAsync()
+        {
+            var url = GetEndpoint(true) + "/invoice";
+
+            var responseText = await GetConnection().PostAsync(url, null, "");
             Invoice serializedObject;
 
             try

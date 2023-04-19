@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Invoiced
@@ -60,6 +61,21 @@ namespace Invoiced
             var url = GetEndpoint(true) + "/pay";
 
             var responseText = GetConnection().Post(url, null, "");
+
+            try
+            {
+                JsonConvert.PopulateObject(responseText, this);
+            }
+            catch (Exception e)
+            {
+                throw new EntityException("", e);
+            }
+        }
+        public async Task PayAsync()
+        {
+            var url = GetEndpoint(true) + "/pay";
+
+            var responseText = await GetConnection().PostAsync(url, null, "");
 
             try
             {

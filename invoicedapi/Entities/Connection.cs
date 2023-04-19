@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Invoiced
 {
     public class Connection
     {
-        private static readonly string jsonAccept = "application/json";
+        private const string JsonAccept = "application/json";
         private readonly string _apikey;
 
         private HttpClient _client;
@@ -101,9 +103,9 @@ namespace Invoiced
             return new Subscription(this);
         }
 
-        public Task NewTask()
+        public InvoicedTask NewInvoicedTask()
         {
-            return new Task(this);
+            return new InvoicedTask(this);
         }
 
         public TaxRate NewTaxRate()
@@ -117,12 +119,24 @@ namespace Invoiced
             var response = ExecuteRequest(HttpMethod.Post, uri, jsonBody);
             return ProcessResponse(response);
         }
+        internal async Task<string> PostAsync(string endpoint, Dictionary<string, object> queryParams, string jsonBody, CancellationToken ct = default)
+        {
+            var uri = AddQueryParamsToUri(BaseUrl() + endpoint, queryParams);
+            var response = await ExecuteRequestAsync(HttpMethod.Post, uri, jsonBody, ct);
+            return await ProcessResponseAsync(response);
+        }
 
         internal string Patch(string endpoint, string jsonBody)
         {
             var httpPatch = new HttpMethod("PATCH");
             var response = ExecuteRequest(httpPatch, BaseUrl() + endpoint, jsonBody);
             return ProcessResponse(response);
+        }
+        internal async Task<string> PatchAsync(string endpoint, string jsonBody, CancellationToken ct = default)
+        {
+            var httpPatch = new HttpMethod("PATCH");
+            var response = await ExecuteRequestAsync(httpPatch, BaseUrl() + endpoint, jsonBody, ct);
+            return await ProcessResponseAsync(response);
         }
 
         internal string Get(string endpoint, Dictionary<string, object> queryParams)
@@ -131,6 +145,13 @@ namespace Invoiced
             var response = ExecuteRequest(HttpMethod.Get, uri, null);
 
             return ProcessResponse(response);
+        }
+        internal async Task<string> GetAsync(string endpoint, Dictionary<string, object> queryParams, CancellationToken ct = default)
+        {
+            var uri = AddQueryParamsToUri(BaseUrl() + endpoint, queryParams);
+            var response = await ExecuteRequestAsync(HttpMethod.Get, uri, null,ct);
+
+            return await ProcessResponseAsync(response);
         }
 
         internal ListResponse GetList(string url, Dictionary<string, object> queryParams)
@@ -141,7 +162,19 @@ namespace Invoiced
             var linkString = HttpUtil.GetHeaderFirstValue(response, "Link");
             var totalCount = int.Parse(HttpUtil.GetHeaderFirstValue(response, "X-Total-Count"));
 
-            var links = CommonUtil.parseLinks(linkString);
+            var links = CommonUtil.ParseLinks(linkString);
+
+            return new ListResponse(responseText, links, totalCount);
+        }
+        internal async Task<ListResponse> GetListAsync(string url, Dictionary<string, object> queryParams, CancellationToken ct = default)
+        {
+            var uri = AddQueryParamsToUri(url, queryParams);
+            var response = await ExecuteRequestAsync(HttpMethod.Get, uri, null, ct);
+            var responseText = await ProcessResponseAsync(response);
+            var linkString = HttpUtil.GetHeaderFirstValue(response, "Link");
+            var totalCount = int.Parse(HttpUtil.GetHeaderFirstValue(response, "X-Total-Count"));
+
+            var links = CommonUtil.ParseLinks(linkString);
 
             return new ListResponse(responseText, links, totalCount);
         }
@@ -150,6 +183,11 @@ namespace Invoiced
         {
             var response = ExecuteRequest(HttpMethod.Delete, BaseUrl() + endpoint, null);
             ProcessResponse(response);
+        }
+        internal async Task DeleteAsync(string endpoint, CancellationToken ct = default)
+        {
+            var response = await ExecuteRequestAsync(HttpMethod.Delete, BaseUrl() + endpoint, null, ct);
+            await ProcessResponseAsync(response);
         }
 
         internal string BaseUrl()
@@ -170,17 +208,38 @@ namespace Invoiced
             var request = new HttpRequestMessage(method, url);
 
             if (!string.IsNullOrEmpty(jsonBody))
-                request.Content = new StringContent(jsonBody, Encoding.UTF8, jsonAccept);
+                request.Content = new StringContent(jsonBody, Encoding.UTF8, JsonAccept);
             request.Headers.Add("Authorization", "Basic " + HttpUtil.BasicAuth(_apikey, ""));
             request.Headers.Add("User-Agent", "Invoiced .NET/" + GetVersion());
 
             return _client.SendAsync(request).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
+        private Task<HttpResponseMessage> ExecuteRequestAsync(HttpMethod method, string url, string jsonBody, CancellationToken ct = default)
+        {
+            var request = new HttpRequestMessage(method, url);
+
+            if (!string.IsNullOrEmpty(jsonBody))
+                request.Content = new StringContent(jsonBody, Encoding.UTF8, JsonAccept);
+            request.Headers.Add("Authorization", "Basic " + HttpUtil.BasicAuth(_apikey, ""));
+            request.Headers.Add("User-Agent", "Invoiced .NET/" + GetVersion());
+
+            return _client.SendAsync(request,ct);
+        }
+
         private string ProcessResponse(HttpResponseMessage response)
         {
             if (response.StatusCode == HttpStatusCode.NoContent) return "";
             var responseText = response.Content.ReadAsStringAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode) throw HandleApiError((int) response.StatusCode, responseText);
+
+            return responseText;
+        }
+        private async Task<string> ProcessResponseAsync(HttpResponseMessage response)
+        {
+            if (response.StatusCode == HttpStatusCode.NoContent) return "";
+            var responseText = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode) throw HandleApiError((int) response.StatusCode, responseText);
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Invoiced
@@ -97,6 +98,10 @@ namespace Invoiced
         {
             GetConnection().Delete(GetEndpoint(true));
         }
+        public Task CancelAsync()
+        {
+            return GetConnection().DeleteAsync(GetEndpoint(true));
+        }
 
         public SubscriptionPreview Preview()
         {
@@ -105,6 +110,27 @@ namespace Invoiced
             var jsonRequestBody = ToJsonString();
 
             var responseText = GetConnection().Post(url, null, jsonRequestBody);
+
+            try
+            {
+                return JsonConvert.DeserializeObject<SubscriptionPreview>(responseText,
+                    new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
+                    });
+            }
+            catch (Exception e)
+            {
+                throw new EntityException("", e);
+            }
+        }
+        public async Task<SubscriptionPreview> PreviewAsync()
+        {
+            var url = EntityName + "/preview";
+
+            var jsonRequestBody = ToJsonString();
+
+            var responseText = await GetConnection().PostAsync(url, null, jsonRequestBody);
 
             try
             {

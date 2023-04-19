@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Invoiced
@@ -59,6 +60,26 @@ namespace Invoiced
             var jsonRequestBody = chargeRequest.ToJsonString();
 
             var responseText = GetConnection().Post(url, null, jsonRequestBody);
+
+            try
+            {
+                return JsonConvert.DeserializeObject<Payment>(responseText,
+                    new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
+                    });
+            }
+            catch (Exception e)
+            {
+                throw new EntityException("", e);
+            }
+        }
+        public async Task<Payment> CreateAsync(ChargeRequest chargeRequest)
+        {
+            var url = "/charges";
+            var jsonRequestBody = chargeRequest.ToJsonString();
+
+            var responseText = await GetConnection().PostAsync(url, null, jsonRequestBody);
 
             try
             {

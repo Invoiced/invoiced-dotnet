@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Invoiced
@@ -44,11 +45,19 @@ namespace Invoiced
         {
             GetConnection().Delete(GetEndpoint(false));
         }
+        public Task CancelAsync()
+        {
+            return GetConnection().DeleteAsync(GetEndpoint(false));
+        }
 
         // necessary to override this to avoid appending payment plan ID to DELETE request url
         public override void Delete()
         {
             Cancel();
+        }
+        public override Task DeleteAsync()
+        {
+            return CancelAsync();
         }
 
         // Conditional Serialisation

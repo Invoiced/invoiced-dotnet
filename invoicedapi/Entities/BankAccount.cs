@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Invoiced
@@ -32,6 +33,17 @@ namespace Invoiced
             try
             {
                 GetConnection().Delete(GetEndpoint(true));
+            }
+            catch (Exception e)
+            {
+                throw new EntityException("", e);
+            }
+        }
+        public override Task DeleteAsync()
+        {
+            try
+            {
+                return GetConnection().DeleteAsync(GetEndpoint(true));
             }
             catch (Exception e)
             {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Invoiced
@@ -131,9 +132,9 @@ namespace Invoiced
             return pli;
         }
 
-        public Task NewTask()
+        public InvoicedTask NewTask()
         {
-            var task = new Task(GetConnection());
+            var task = new InvoicedTask(GetConnection());
             task.CustomerId = Id;
             return task;
         }
@@ -142,15 +143,27 @@ namespace Invoiced
         {
             return SendEmail(emailRequest);
         }
+        public Task<IList<Email>> SendStatementEmailAsync(EmailRequest emailRequest)
+        {
+            return SendEmailAsync(emailRequest);
+        }
 
         public Letter SendStatementLetter(LetterRequest letterRequest = null)
         {
             return SendLetter(letterRequest);
         }
+        public Task<Letter> SendStatementLetterAsync(LetterRequest letterRequest = null)
+        {
+            return SendLetterAsync(letterRequest);
+        }
 
         public IList<TextMessage> SendStatementText(TextRequest textRequest)
         {
             return SendText(textRequest);
+        }
+        public Task<IList<TextMessage>> SendStatementTextAsync(TextRequest textRequest)
+        {
+            return SendTextAsync(textRequest);
         }
 
         public Balance GetBalance()
@@ -172,12 +185,54 @@ namespace Invoiced
                 throw new EntityException("", e);
             }
         }
+        public async Task<Balance> GetBalanceAsync()
+        {
+            var url = GetEndpoint(true) + "/balance";
+
+            var responseText = await GetConnection().GetAsync(url, null);
+
+            try
+            {
+                return JsonConvert.DeserializeObject<Balance>(responseText,
+                    new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
+                    });
+            }
+            catch (Exception e)
+            {
+                throw new EntityException("", e);
+            }
+        }
 
         public Invoice ConsolidateInvoices(long? cutoffDate = null)
         {
             var url = GetEndpoint(true) + "/consolidate_invoices";
 
             var responseText = GetConnection().Post(url, null, cutoffDate.ToString());
+            Invoice serializedObject;
+
+            try
+            {
+                serializedObject = JsonConvert.DeserializeObject<Invoice>(responseText,
+                    new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
+                    });
+                serializedObject.ChangeConnection(GetConnection());
+            }
+            catch (Exception e)
+            {
+                throw new EntityException("", e);
+            }
+
+            return serializedObject;
+        }
+        public async Task<Invoice> ConsolidateInvoicesAsync(long? cutoffDate = null)
+        {
+            var url = GetEndpoint(true) + "/consolidate_invoices";
+
+            var responseText = await GetConnection().PostAsync(url, null, cutoffDate.ToString());
             Invoice serializedObject;
 
             try
@@ -222,12 +277,43 @@ namespace Invoiced
 
             return output;
         }
+        public async Task<PaymentSource> CreatePaymentSourceAsync(SourceRequest sourceRequest)
+        {
+            var url = GetEndpoint(true) + "/payment_sources";
+            PaymentSource output = null;
+
+            try
+            {
+                var sourceRequestJson = sourceRequest.ToJsonString();
+                var response = await GetConnection().PostAsync(url, null, sourceRequestJson);
+
+                var sourceSettings = new JsonSerializerSettings
+                    {NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore};
+                sourceSettings.Converters.Add(new PaymentSourceConverter());
+
+                output = JsonConvert.DeserializeObject<PaymentSource>(response, sourceSettings);
+                output.ChangeConnection(GetConnection());
+                output.SetEndpointBase(GetEndpoint(true));
+            }
+            catch (Exception e)
+            {
+                throw new EntityException("", e);
+            }
+
+            return output;
+        }
 
         public EntityList<PaymentSource> ListPaymentSources()
         {
             var source = new PaymentSource(GetConnection());
             source.SetEndpointBase(GetEndpoint(true));
             return source.ListAll(null, null, new PaymentSourceConverter());
+        }
+        public Task<EntityList<PaymentSource>> ListPaymentSourcesAsync()
+        {
+            var source = new PaymentSource(GetConnection());
+            source.SetEndpointBase(GetEndpoint(true));
+            return source.ListAllAsync(null, null, new PaymentSourceConverter());
         }
 
         // Conditional Serialisation

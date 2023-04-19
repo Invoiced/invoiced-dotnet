@@ -2,14 +2,14 @@ using Newtonsoft.Json;
 
 namespace Invoiced
 {
-    public class Task : AbstractEntity<Task>
+    public class InvoicedTask : AbstractEntity<InvoicedTask>
     {
-        public Task(Connection conn) : base(conn)
+        public InvoicedTask(Connection conn) : base(conn)
         {
             EntityName = "/tasks";
         }
 
-        public Task()
+        public InvoicedTask()
         {
             EntityName = "/tasks";
         }

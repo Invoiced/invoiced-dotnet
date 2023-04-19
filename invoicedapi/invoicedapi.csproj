@@ -24,11 +24,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
-        <None Include="../README.md" Pack="true" PackagePath="\"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <None Include="../README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
-        <Reference Include="System.Net.Http"/>
+        <Reference Include="System.Net.Http" />
     </ItemGroup>
 </Project>
