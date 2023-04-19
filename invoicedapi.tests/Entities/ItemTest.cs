@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Invoiced;
 using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
@@ -212,6 +213,166 @@ namespace InvoicedTest
             var item = conn.NewItem();
 
             var items = item.ListAll();
+
+            Assert.True(items[0].Id == "alpha");
+        }
+        [Fact]
+        public async Task TestRetrieveAsync()
+        {
+            var mockHttp = new MockHttpMessageHandler();
+
+            mockHttp.When("https://testmode/items/alpha")
+                .Respond("application/json", "{'id' : 'alpha', 'name' : 'Alpha'}");
+
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo", Environment.test);
+
+            conn.TestClient(client);
+
+            var itemConn = conn.NewItem();
+
+            var item = await itemConn.RetrieveAsync("alpha");
+
+            Assert.True(item.Id == "alpha");
+        }
+
+
+        [Fact]
+        public async Task TestCreateAsync()
+        {
+            var jsonResponse = @"{
+	            'avalara_tax_code': null,
+	            'created_at': 1574368157,
+	            'currency': 'usd',
+	            'description': '',
+	            'discountable': true,
+	            'gl_account': null,
+	            'id': 'alpha',
+	            'metadata': {},
+	            'name': 'Alpha',
+	            'object': 'item',
+	            'taxable': true,
+	            'taxes': [],
+	            'type': null,
+	            'unit_cost': 100
+            }";
+
+            var mockHttp = new MockHttpMessageHandler();
+
+            mockHttp.When(HttpMethod.Post, "https://testmode/items")
+                .Respond("application/json", jsonResponse);
+
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo", Environment.test);
+
+            conn.TestClient(client);
+
+            var item = conn.NewItem();
+
+            await item.CreateAsync();
+
+            Assert.True(item.Id == "alpha");
+        }
+
+        [Fact]
+        public async Task TestSaveAsync()
+        {
+            var jsonResponse = @"{
+	            'avalara_tax_code': null,
+	            'created_at': 1574368157,
+	            'currency': 'usd',
+	            'description': '',
+	            'discountable': true,
+	            'gl_account': null,
+	            'id': 'alpha',
+	            'metadata': {},
+	            'name': 'Updated',
+	            'object': 'item',
+	            'taxable': true,
+	            'taxes': [],
+	            'type': null,
+	            'unit_cost': 100
+            }";
+
+
+            var JsonRequest = @"{
+                'name': 'Updated'
+                }";
+
+            var mockHttp = new MockHttpMessageHandler();
+            var httpPatch = new HttpMethod("PATCH");
+            var request = mockHttp.When(httpPatch, "https://testmode/items/alpha").WithJson(JsonRequest)
+                .Respond("application/json", jsonResponse);
+
+            var client = mockHttp.ToHttpClient();
+
+            var item = CreateDefaultItem(client);
+
+            item.Name = "Updated";
+
+            await item.SaveAllAsync();
+
+            Assert.True(item.Id == "alpha");
+            Assert.True(item.Name == "Updated");
+        }
+
+        [Fact]
+        public async Task TestDeleteAsync()
+        {
+            var mockHttp = new MockHttpMessageHandler();
+
+            var request = mockHttp.When(HttpMethod.Delete, "https://testmode/items/alpha")
+                .Respond(HttpStatusCode.NoContent);
+
+            var client = mockHttp.ToHttpClient();
+
+            var item = CreateDefaultItem(client);
+
+            await item.DeleteAsync();
+        }
+
+
+        [Fact]
+        public async Task TestListAllAsync()
+        {
+            var jsonResponseListAll = @"[{
+	            'avalara_tax_code': null,
+	            'created_at': 1574368157,
+	            'currency': 'usd',
+	            'description': '',
+	            'discountable': true,
+	            'gl_account': null,
+	            'id': 'alpha',
+	            'metadata': {},
+	            'name': 'Updated',
+	            'object': 'item',
+	            'taxable': true,
+	            'taxes': [],
+	            'type': null,
+	            'unit_cost': 100
+            }]";
+
+            var mockHttp = new MockHttpMessageHandler();
+
+            var mockHeader = new Dictionary<string, string>();
+            mockHeader["X-Total-Count"] = "1";
+            mockHeader["Link"] =
+                "<https://api.sandbox.invoiced.com/items?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/items?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/items?page=1>; rel=\"last\"";
+
+            var request = mockHttp.When(HttpMethod.Get, "https://testmode/items")
+                .Respond(mockHeader, "application/json", jsonResponseListAll);
+
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo", Environment.test);
+
+            conn.TestClient(client);
+
+            var item = conn.NewItem();
+
+            var items = await item.ListAllAsync();
 
             Assert.True(items[0].Id == "alpha");
         }

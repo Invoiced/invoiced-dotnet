@@ -40,7 +40,7 @@ namespace InvoicedTest
             Assert.True(refund.Charge == 46374);
         }
         [Fact]
-        public async Task CreateRefundAsyncTest()
+        public async Task TestCreateAsync()
         {
             var jsonRequest = @"{'amount': 400}";
 

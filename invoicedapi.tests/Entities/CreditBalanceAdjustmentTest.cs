@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Invoiced;
 using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
@@ -72,6 +73,27 @@ namespace InvoicedTest
             Assert.True(creditBalanceAdjustment.Id == 1234);
             Assert.True(creditBalanceAdjustment.Notes == "Test");
         }
+        [Fact]
+        public async Task TestRetrieveAsync()
+        {
+            var mockHttp = new MockHttpMessageHandler();
+
+            mockHttp.When("https://testmode/credit_balance_adjustments/1234")
+                .Respond("application/json", "{'id' : '1234', 'notes' : 'Test'}");
+
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo", Environment.test);
+
+            conn.TestClient(client);
+
+            var creditBalanceAdjustmentConn = conn.NewCreditBalanceAdjustment();
+
+            var creditBalanceAdjustment = await creditBalanceAdjustmentConn.RetrieveAsync(1234);
+
+            Assert.True(creditBalanceAdjustment.Id == 1234);
+            Assert.True(creditBalanceAdjustment.Notes == "Test");
+        }
 
 
         [Fact]
@@ -102,6 +124,37 @@ namespace InvoicedTest
             var creditBalanceAdjustment = conn.NewCreditBalanceAdjustment();
 
             creditBalanceAdjustment.Create();
+
+            Assert.True(creditBalanceAdjustment.Id == 717);
+        }
+        [Fact]
+        public async Task TestCreateAsync()
+        {
+	        var jsonResponse = @"{
+				'amount': 50,
+	            'created_at': 1607550710,
+	            'currency': 'usd',
+	            'customer': 78,
+	            'date': 1607550710,
+	            'id': 717,
+	            'notes': null,
+	            'object': 'credit_balance_adjustment'
+	        }";
+
+            var mockHttp = new MockHttpMessageHandler();
+
+            mockHttp.When(HttpMethod.Post, "https://testmode/credit_balance_adjustments")
+                .Respond("application/json", jsonResponse);
+
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo", Environment.test);
+
+            conn.TestClient(client);
+
+            var creditBalanceAdjustment = conn.NewCreditBalanceAdjustment();
+
+            await creditBalanceAdjustment.CreateAsync();
 
             Assert.True(creditBalanceAdjustment.Id == 717);
         }
@@ -141,6 +194,42 @@ namespace InvoicedTest
             Assert.True(creditBalanceAdjustment.Id == 717);
             Assert.True(creditBalanceAdjustment.Notes == "Updated");
         }
+        
+        [Fact]
+        public async Task TestSaveAsync()
+        {
+	        var jsonRequest = @"{
+				'notes': 'Updated'
+			}";
+
+	        var jsonResponse = @"{
+				'amount': 50,
+	            'created_at': 1607550710,
+	            'currency': 'usd',
+	            'customer': 78,
+	            'date': 1607550710,
+	            'id': 717,
+	            'notes': 'Updated',
+	            'object': 'credit_balance_adjustment'
+	        }";
+
+	        var mockHttp = new MockHttpMessageHandler();
+            var httpPatch = new HttpMethod("PATCH");
+            var request = mockHttp.When(httpPatch, "https://testmode/credit_balance_adjustments/1234")
+	            .WithJson(jsonRequest)
+                .Respond("application/json", jsonResponse);
+
+            var client = mockHttp.ToHttpClient();
+
+            var creditBalanceAdjustment = CreateDefaultCreditBalanceAdjustment(client);
+
+            creditBalanceAdjustment.Notes = "Updated";
+
+            await creditBalanceAdjustment.SaveAllAsync();
+
+            Assert.True(creditBalanceAdjustment.Id == 717);
+            Assert.True(creditBalanceAdjustment.Notes == "Updated");
+        }
 
         [Fact]
         public void TestDelete()
@@ -155,6 +244,20 @@ namespace InvoicedTest
             var creditBalanceAdjustment = CreateDefaultCreditBalanceAdjustment(client);
 
             creditBalanceAdjustment.Delete();
+        }
+        [Fact]
+        public async Task TestDeleteAsync()
+        {
+            var mockHttp = new MockHttpMessageHandler();
+
+            var request = mockHttp.When(HttpMethod.Delete, "https://testmode/credit_balance_adjustments/1234")
+                .Respond(HttpStatusCode.NoContent);
+
+            var client = mockHttp.ToHttpClient();
+
+            var creditBalanceAdjustment = CreateDefaultCreditBalanceAdjustment(client);
+
+            await creditBalanceAdjustment.DeleteAsync();
         }
 
 
@@ -191,6 +294,43 @@ namespace InvoicedTest
             var creditBalanceAdjustment = conn.NewCreditBalanceAdjustment();
 
             var creditBalanceAdjustments = creditBalanceAdjustment.ListAll();
+
+            Assert.True(creditBalanceAdjustments[0].Id == 717);
+        }
+        
+        [Fact]
+        public async Task TestListAllAsync()
+        {
+	        var jsonResponse = @"[{
+				'amount': 50,
+	            'created_at': 1607550710,
+	            'currency': 'usd',
+	            'customer': 78,
+	            'date': 1607550710,
+	            'id': 717,
+	            'notes': 'Updated',
+	            'object': 'credit_balance_adjustment'
+	        }]";
+
+            var mockHttp = new MockHttpMessageHandler();
+
+            var mockHeader = new Dictionary<string, string>();
+            mockHeader["X-Total-Count"] = "1";
+            mockHeader["Link"] =
+                "<https://api.sandbox.invoiced.com/credit_balance_adjustments?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/credit_balance_adjustments?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/credit_balance_adjustments?page=1>; rel=\"last\"";
+
+            var request = mockHttp.When(HttpMethod.Get, "https://testmode/credit_balance_adjustments")
+                .Respond(mockHeader, "application/json", jsonResponse);
+
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo", Environment.test);
+
+            conn.TestClient(client);
+
+            var creditBalanceAdjustment = conn.NewCreditBalanceAdjustment();
+
+            var creditBalanceAdjustments = await creditBalanceAdjustment.ListAllAsync();
 
             Assert.True(creditBalanceAdjustments[0].Id == 717);
         }
