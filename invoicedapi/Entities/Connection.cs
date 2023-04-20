@@ -103,9 +103,9 @@ namespace Invoiced
             return new Subscription(this);
         }
 
-        public InvoicedTask NewInvoicedTask()
+        public Task NewInvoicedTask()
         {
-            return new InvoicedTask(this);
+            return new Task(this);
         }
 
         public TaxRate NewTaxRate()
@@ -184,7 +184,7 @@ namespace Invoiced
             var response = ExecuteRequest(HttpMethod.Delete, BaseUrl() + endpoint, null);
             ProcessResponse(response);
         }
-        internal async Task DeleteAsync(string endpoint, CancellationToken ct = default)
+        internal async System.Threading.Tasks.Task DeleteAsync(string endpoint, CancellationToken ct = default)
         {
             var response = await ExecuteRequestAsync(HttpMethod.Delete, BaseUrl() + endpoint, null, ct);
             await ProcessResponseAsync(response);

@@ -85,7 +85,7 @@ namespace Invoiced
 
             _entityCreated = true;
         }
-        public virtual async Task CreateAsync()
+        public virtual async System.Threading.Tasks.Task CreateAsync()
         {
             if (_entityCreated) throw new EntityException("Object has already been created.");
 
@@ -125,7 +125,7 @@ namespace Invoiced
                 throw new EntityException("", e);
             }
         }
-        public virtual async Task SaveAllAsync()
+        public virtual async System.Threading.Tasks.Task SaveAllAsync()
         {
             if (!HasCrud()) throw new EntityException("Save operation not supported on object.");
 
@@ -144,7 +144,7 @@ namespace Invoiced
         }
 
         // this method does not serialise an existing object and therefore does not use defined create/update safety, i.e. ShouldSerialize functions)
-        public async Task SaveAsync(string partialDataObject)
+        public async System.Threading.Tasks.Task SaveAsync(string partialDataObject)
         {
             if (!HasCrud()) throw new EntityException("Save operation not supported on object.");
 
@@ -225,7 +225,7 @@ namespace Invoiced
 
             _connection.Delete(GetEndpoint(true));
         }
-        public virtual Task DeleteAsync()
+        public virtual System.Threading.Tasks.Task DeleteAsync()
         {
             if (!HasCrud()) throw new EntityException("Delete operation not supported on object.");
 
@@ -406,7 +406,7 @@ namespace Invoiced
                 throw new EntityException("", e);
             }
         }
-        public async Task VoidAsync()
+        public async System.Threading.Tasks.Task VoidAsync()
         {
             if (!HasVoid()) throw new EntityException("Void operation not supported on object.");
 

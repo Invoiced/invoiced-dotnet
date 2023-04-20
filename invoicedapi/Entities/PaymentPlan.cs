@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Invoiced
@@ -45,7 +44,7 @@ namespace Invoiced
         {
             GetConnection().Delete(GetEndpoint(false));
         }
-        public Task CancelAsync()
+        public System.Threading.Tasks.Task CancelAsync()
         {
             return GetConnection().DeleteAsync(GetEndpoint(false));
         }
@@ -55,7 +54,7 @@ namespace Invoiced
         {
             Cancel();
         }
-        public override Task DeleteAsync()
+        public override System.Threading.Tasks.Task DeleteAsync()
         {
             return CancelAsync();
         }

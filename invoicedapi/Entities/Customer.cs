@@ -132,9 +132,9 @@ namespace Invoiced
             return pli;
         }
 
-        public InvoicedTask NewTask()
+        public Task NewTask()
         {
-            var task = new InvoicedTask(GetConnection());
+            var task = new Task(GetConnection());
             task.CustomerId = Id;
             return task;
         }

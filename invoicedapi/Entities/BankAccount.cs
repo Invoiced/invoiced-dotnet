@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Invoiced
@@ -39,7 +38,7 @@ namespace Invoiced
                 throw new EntityException("", e);
             }
         }
-        public override Task DeleteAsync()
+        public override System.Threading.Tasks.Task DeleteAsync()
         {
             try
             {

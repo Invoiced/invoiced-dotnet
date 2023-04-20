@@ -98,7 +98,7 @@ namespace Invoiced
         {
             GetConnection().Delete(GetEndpoint(true));
         }
-        public Task CancelAsync()
+        public System.Threading.Tasks.Task CancelAsync()
         {
             return GetConnection().DeleteAsync(GetEndpoint(true));
         }

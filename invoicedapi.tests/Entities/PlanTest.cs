@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Invoiced;
 using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Xunit;
+using Task = System.Threading.Tasks.Task;
 
 namespace InvoicedTest
 {

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Invoiced
@@ -71,7 +70,7 @@ namespace Invoiced
                 throw new EntityException("", e);
             }
         }
-        public async Task PayAsync()
+        public async System.Threading.Tasks.Task PayAsync()
         {
             var url = GetEndpoint(true) + "/pay";
 

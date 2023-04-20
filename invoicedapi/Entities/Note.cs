@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Invoiced
@@ -50,7 +49,7 @@ namespace Invoiced
             }
         }
         
-        public override Task CreateAsync()
+        public override System.Threading.Tasks.Task CreateAsync()
         {
             var endpointBase = GetEndpointBase();
             SetEndpointBase("");
@@ -77,7 +76,7 @@ namespace Invoiced
                 SetEndpointBase(endpointBase);
             }
         }
-        public override Task SaveAllAsync()
+        public override System.Threading.Tasks.Task SaveAllAsync()
         {
             var endpointBase = GetEndpointBase();
             SetEndpointBase("");
@@ -104,7 +103,7 @@ namespace Invoiced
                 SetEndpointBase(endpointBase);
             }
         }
-        public override Task DeleteAsync()
+        public override System.Threading.Tasks.Task DeleteAsync()
         {
             var endpointBase = GetEndpointBase();
             SetEndpointBase("");
