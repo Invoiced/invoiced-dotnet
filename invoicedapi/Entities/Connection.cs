@@ -103,7 +103,7 @@ namespace Invoiced
             return new Subscription(this);
         }
 
-        public Task NewInvoicedTask()
+        public Task NewTask()
         {
             return new Task(this);
         }
