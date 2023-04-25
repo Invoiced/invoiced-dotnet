@@ -114,6 +114,10 @@ namespace Invoiced
         }
 
         // this method does not serialise an existing object and therefore does not use defined create/update safety, i.e. ShouldSerialize functions)
+        public void Save(string partialDataObject)
+        {
+            AsyncUtil.RunSync(() => SaveAsync(partialDataObject));
+        }
         public async System.Threading.Tasks.Task SaveAsync(string partialDataObject)
         {
             if (!HasCrud()) throw new EntityException("Save operation not supported on object.");
