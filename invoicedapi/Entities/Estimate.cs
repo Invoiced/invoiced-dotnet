@@ -40,26 +40,23 @@ namespace Invoiced
         }
         public async Task<Invoice> ConvertToInvoiceAsync()
         {
-            var url = GetEndpoint(true) + "/invoice";
-
-            var responseText = await GetConnection().PostAsync(url, null, "");
-            Invoice serializedObject;
+            var responseText = await GetConnection().PostAsync(GetEndpoint(true) + "/invoice", null, "");
 
             try
             {
-                serializedObject = JsonConvert.DeserializeObject<Invoice>(responseText,
+                Invoice serializedObject = JsonConvert.DeserializeObject<Invoice>(responseText,
                     new JsonSerializerSettings
                     {
                         NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
                     });
                 serializedObject.ChangeConnection(GetConnection());
+
+                return serializedObject;
             }
             catch (Exception e)
             {
                 throw new EntityException("", e);
             }
-
-            return serializedObject;
         }
 
         // Conditional Serialisation

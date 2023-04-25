@@ -61,9 +61,7 @@ namespace Invoiced
         }
         public async System.Threading.Tasks.Task PayAsync()
         {
-            var url = GetEndpoint(true) + "/pay";
-
-            var responseText = await GetConnection().PostAsync(url, null, "");
+            var responseText = await GetConnection().PostAsync(GetEndpoint(true) + "/pay", null, "");
 
             try
             {

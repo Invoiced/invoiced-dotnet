@@ -172,9 +172,7 @@ namespace Invoiced
         }
         public async Task<Balance> GetBalanceAsync()
         {
-            var url = GetEndpoint(true) + "/balance";
-
-            var responseText = await GetConnection().GetAsync(url, null);
+            var responseText = await GetConnection().GetAsync(GetEndpoint(true) + "/balance", null);
 
             try
             {
@@ -196,9 +194,7 @@ namespace Invoiced
         }
         public async Task<Invoice> ConsolidateInvoicesAsync(long? cutoffDate = null)
         {
-            var url = GetEndpoint(true) + "/consolidate_invoices";
-
-            var responseText = await GetConnection().PostAsync(url, null, cutoffDate.ToString());
+            var responseText = await GetConnection().PostAsync(GetEndpoint(true) + "/consolidate_invoices", null, cutoffDate.ToString());
             Invoice serializedObject;
 
             try
@@ -224,28 +220,24 @@ namespace Invoiced
         }
         public async Task<PaymentSource> CreatePaymentSourceAsync(SourceRequest sourceRequest)
         {
-            var url = GetEndpoint(true) + "/payment_sources";
-            PaymentSource output = null;
-
             try
             {
-                var sourceRequestJson = sourceRequest.ToJsonString();
-                var response = await GetConnection().PostAsync(url, null, sourceRequestJson);
+                var response = await GetConnection().PostAsync(GetEndpoint(true) + "/payment_sources", null, sourceRequest.ToJsonString());
 
                 var sourceSettings = new JsonSerializerSettings
                     {NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore};
                 sourceSettings.Converters.Add(new PaymentSourceConverter());
 
-                output = JsonConvert.DeserializeObject<PaymentSource>(response, sourceSettings);
+                var output = JsonConvert.DeserializeObject<PaymentSource>(response, sourceSettings);
                 output.ChangeConnection(GetConnection());
                 output.SetEndpointBase(GetEndpoint(true));
+
+                return output;
             }
             catch (Exception e)
             {
                 throw new EntityException("", e);
             }
-
-            return output;
         }
 
         public EntityList<PaymentSource> ListPaymentSources()

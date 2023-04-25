@@ -74,9 +74,7 @@ namespace Invoiced
 
             if (!HasCrud()) throw new EntityException("Create operation not supported on object.");
 
-            var url = GetEndpoint(false);
-            var entityJsonBody = ToJsonString();
-            var responseText = await _connection.PostAsync(url, null, entityJsonBody);
+            var responseText = await _connection.PostAsync(GetEndpoint(false), null, ToJsonString());
 
             try
             {
@@ -99,9 +97,7 @@ namespace Invoiced
         {
             if (!HasCrud()) throw new EntityException("Save operation not supported on object.");
 
-            var url = GetEndpoint(true);
-            var entityJsonBody = ToJsonString();
-            var responseText = await _connection.PatchAsync(url, entityJsonBody);
+            var responseText = await _connection.PatchAsync(GetEndpoint(true), ToJsonString());
 
             try
             {
@@ -122,8 +118,7 @@ namespace Invoiced
         {
             if (!HasCrud()) throw new EntityException("Save operation not supported on object.");
 
-            var url = GetEndpoint(true);
-            var responseText = await _connection.PatchAsync(url, partialDataObject);
+            var responseText = await _connection.PatchAsync(GetEndpoint(true), partialDataObject);
 
             try
             {
@@ -293,9 +288,7 @@ namespace Invoiced
         {
             if (!HasVoid()) throw new EntityException("Void operation not supported on object.");
 
-            var url = GetEndpoint(true) + "/void";
-
-            var responseText = await _connection.PostAsync(url, null, null);
+            var responseText = await _connection.PostAsync(GetEndpoint(true) + "/void", null, null);
 
             try
             {
@@ -316,9 +309,7 @@ namespace Invoiced
         {
             if (!HasAttachments()) throw new EntityException("List attachments operation not supported on object.");
 
-            var url = GetEndpoint(true) + "/attachments";
-
-            var responseText = await _connection.GetAsync(url, null);
+            var responseText = await _connection.GetAsync(GetEndpoint(true) + "/attachments", null);
             return JsonConvert.DeserializeObject<IList<Attachment>>(responseText,
                 new JsonSerializerSettings
                     {NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore});
@@ -333,11 +324,7 @@ namespace Invoiced
         {
             if (!HasSends()) throw new EntityException("Send email operation not supported on object.");
 
-            var url = GetEndpoint(true) + "/emails";
-
-            var jsonRequestBody = emailRequest.ToJsonString();
-
-            var responseText = await _connection.PostAsync(url, null, jsonRequestBody);
+            var responseText = await _connection.PostAsync(GetEndpoint(true) + "/emails", null, emailRequest.ToJsonString());
             return JsonConvert.DeserializeObject<IList<Email>>(responseText,
                 new JsonSerializerSettings
                     {NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore});
@@ -351,18 +338,14 @@ namespace Invoiced
         {
             if (!HasSends()) throw new EntityException("Send letter operation not supported on object.");
 
-            string responseText = null;
-
-            var url = GetEndpoint(true) + "/letters";
-
+            string responseText;
             if (letterRequest != null)
             {
-                var jsonRequestBody = letterRequest.ToJsonString();
-                responseText = await _connection.PostAsync(url, null, jsonRequestBody);
+                responseText = await _connection.PostAsync(GetEndpoint(true) + "/letters", null, letterRequest.ToJsonString());
             }
             else
             {
-                responseText = await _connection.PostAsync(url, null, "");
+                responseText = await _connection.PostAsync(GetEndpoint(true) + "/letters", null, "");
             }
 
             return JsonConvert.DeserializeObject<Letter>(responseText,
@@ -378,11 +361,7 @@ namespace Invoiced
         {
             if (!HasSends()) throw new EntityException("Send text message operation not supported on object.");
 
-            var url = GetEndpoint(true) + "/text_messages";
-
-            var jsonRequestBody = textRequest.ToJsonString();
-
-            var responseText = await _connection.PostAsync(url, null, jsonRequestBody);
+            var responseText = await _connection.PostAsync(GetEndpoint(true) + "/text_messages", null, textRequest.ToJsonString());
             return JsonConvert.DeserializeObject<IList<TextMessage>>(responseText,
                 new JsonSerializerSettings
                     {NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore});

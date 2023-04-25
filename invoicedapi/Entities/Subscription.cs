@@ -109,11 +109,7 @@ namespace Invoiced
         }
         public async Task<SubscriptionPreview> PreviewAsync()
         {
-            var url = EntityName + "/preview";
-
-            var jsonRequestBody = ToJsonString();
-
-            var responseText = await GetConnection().PostAsync(url, null, jsonRequestBody);
+            var responseText = await GetConnection().PostAsync("/subscriptions/preview", null, ToJsonString());
 
             try
             {

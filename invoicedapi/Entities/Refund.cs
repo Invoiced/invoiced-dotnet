@@ -49,10 +49,7 @@ namespace Invoiced
         }
         public async Task<Refund> CreateAsync(long chargeId, double amount)
         {
-            var url = GetEndpoint(false) + "/charges/" + chargeId + "/refunds";
-            var jsonRequestBody = "{'amount':" + amount + "}";
-
-            var responseText = await GetConnection().PostAsync(url, null, jsonRequestBody);
+            var responseText = await GetConnection().PostAsync(GetEndpoint(false) + "/charges/" + chargeId + "/refunds", null, "{'amount':" + amount + "}");
 
             try
             {

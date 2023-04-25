@@ -60,10 +60,7 @@ namespace Invoiced
         }
         public async Task<Payment> CreateAsync(ChargeRequest chargeRequest)
         {
-            var url = "/charges";
-            var jsonRequestBody = chargeRequest.ToJsonString();
-
-            var responseText = await GetConnection().PostAsync(url, null, jsonRequestBody);
+            var responseText = await GetConnection().PostAsync("/charges", null, chargeRequest.ToJsonString());
 
             try
             {
