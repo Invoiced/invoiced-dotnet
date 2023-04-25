@@ -42,7 +42,7 @@ namespace Invoiced
         // identical to default Delete() but does not append ID to end of URL
         public void Cancel()
         {
-            GetConnection().Delete(GetEndpoint(false));
+            AsyncUtil.RunSync(() => CancelAsync());
         }
         public System.Threading.Tasks.Task CancelAsync()
         {

@@ -45,23 +45,7 @@ namespace Invoiced
 
         public Refund Create(long chargeId, double amount)
         {
-            var url = GetEndpoint(false) + "/charges/" + chargeId + "/refunds";
-            var jsonRequestBody = "{'amount':" + amount + "}";
-
-            var responseText = GetConnection().Post(url, null, jsonRequestBody);
-
-            try
-            {
-                return JsonConvert.DeserializeObject<Refund>(responseText,
-                    new JsonSerializerSettings
-                    {
-                        NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
-                    });
-            }
-            catch (Exception e)
-            {
-                throw new EntityException("", e);
-            }
+            return AsyncUtil.RunSync(() => CreateAsync(chargeId, amount));
         }
         public async Task<Refund> CreateAsync(long chargeId, double amount)
         {

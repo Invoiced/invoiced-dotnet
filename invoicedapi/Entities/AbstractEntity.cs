@@ -66,24 +66,7 @@ namespace Invoiced
 
         public virtual void Create()
         {
-            if (_entityCreated) throw new EntityException("Object has already been created.");
-
-            if (!HasCrud()) throw new EntityException("Create operation not supported on object.");
-
-            var url = GetEndpoint(false);
-            var entityJsonBody = ToJsonString();
-            var responseText = _connection.Post(url, null, entityJsonBody);
-
-            try
-            {
-                JsonConvert.PopulateObject(responseText, this);
-            }
-            catch (Exception e)
-            {
-                throw new EntityException("", e);
-            }
-
-            _entityCreated = true;
+            AsyncUtil.RunSync(() => CreateAsync());
         }
         public virtual async System.Threading.Tasks.Task CreateAsync()
         {
@@ -110,20 +93,7 @@ namespace Invoiced
         // this method serialises the existing object (with respect for defined create/update safety, i.e. ShouldSerialize functions)
         public virtual void SaveAll()
         {
-            if (!HasCrud()) throw new EntityException("Save operation not supported on object.");
-
-            var url = GetEndpoint(true);
-            var entityJsonBody = ToJsonString();
-            var responseText = _connection.Patch(url, entityJsonBody);
-
-            try
-            {
-                JsonConvert.PopulateObject(responseText, this);
-            }
-            catch (Exception e)
-            {
-                throw new EntityException("", e);
-            }
+            AsyncUtil.RunSync(() => SaveAllAsync());
         }
         public virtual async System.Threading.Tasks.Task SaveAllAsync()
         {
@@ -167,27 +137,7 @@ namespace Invoiced
         }
         public T Retrieve(string id = null)
         {
-            var url = GetEndpoint(false);
-
-            if (id != null) url += "/" + id;
-
-            var responseText = _connection.Get(url, null);
-            T serializedObject;
-            try
-            {
-                serializedObject = JsonConvert.DeserializeObject<T>(responseText,
-                    new JsonSerializerSettings
-                    {
-                        NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
-                    });
-                serializedObject._connection = _connection;
-            }
-            catch (Exception e)
-            {
-                throw new EntityException("", e);
-            }
-
-            return serializedObject;
+            return AsyncUtil.RunSync(() => RetrieveAsync(id));
         }
         public Task<T> RetrieveAsync(long id)
         {
@@ -221,9 +171,7 @@ namespace Invoiced
 
         public virtual void Delete()
         {
-            if (!HasCrud()) throw new EntityException("Delete operation not supported on object.");
-
-            _connection.Delete(GetEndpoint(true));
+            AsyncUtil.RunSync(() => DeleteAsync());
         }
         public virtual System.Threading.Tasks.Task DeleteAsync()
         {
@@ -235,41 +183,7 @@ namespace Invoiced
         private EntityList<T> List(string nextUrl, Dictionary<string, object> queryParams,
             JsonConverter customConverter = null)
         {
-            string url;
-            if (!string.IsNullOrEmpty(nextUrl))
-            {
-                url = nextUrl;
-                queryParams = null;
-            }
-            else
-            {
-                url = _connection.BaseUrl() + GetEndpoint(false);
-            }
-            var response = _connection.GetList(url, queryParams);
-
-            EntityList<T> entities;
-
-            var config = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
-            };
-
-            try
-            {
-                if (customConverter != null) config.Converters.Add(customConverter);
-                entities = JsonConvert.DeserializeObject<EntityList<T>>(response.Result, config);
-
-                entities.LinkURLS = response.Links;
-                entities.TotalCount = response.TotalCount;
-            }
-            catch (Exception e)
-            {
-                throw new EntityException("", e);
-            }
-
-            foreach (var entity in entities) entity.ChangeConnection(_connection);
-
-            return entities;
+            return AsyncUtil.RunSync(() => ListAsync(nextUrl,queryParams,customConverter));
         }
         private async Task<EntityList<T>> ListAsync(string nextUrl, Dictionary<string, object> queryParams,
             JsonConverter customConverter = null)
@@ -323,30 +237,8 @@ namespace Invoiced
         public EntityList<T> ListAll(string nextUrl = "", Dictionary<string, object> queryParams = null,
             JsonConverter customConverter = null)
         {
-            if (!HasList()) throw new EntityException("List operation not supported on object.");
+            return AsyncUtil.RunSync(() => ListAllAsync(nextUrl,queryParams,customConverter));
 
-            EntityList<T> entities = null;
-
-            do
-            {
-                var tmpEntities = List(nextUrl, queryParams, customConverter);
-                nextUrl = tmpEntities.GetNextURL();
-                if (entities == null)
-                {
-                    entities = tmpEntities;
-                    if (tmpEntities.TotalCount > 0)
-                        entities.Capacity = tmpEntities.TotalCount;
-                }
-                else
-                {
-                    entities.AddRange(tmpEntities);
-                    entities.LinkURLS = tmpEntities.LinkURLS;
-                    entities.TotalCount = tmpEntities.TotalCount;
-                }
-
-            } while (!string.IsNullOrEmpty(nextUrl));
-
-            return entities;
         }
         public async Task<EntityList<T>> ListAllAsync(string nextUrl = "", Dictionary<string, object> queryParams = null,
             JsonConverter customConverter = null)
@@ -391,20 +283,7 @@ namespace Invoiced
 
         public void Void()
         {
-            if (!HasVoid()) throw new EntityException("Void operation not supported on object.");
-
-            var url = GetEndpoint(true) + "/void";
-
-            var responseText = _connection.Post(url, null, null);
-
-            try
-            {
-                JsonConvert.PopulateObject(responseText, this);
-            }
-            catch (Exception e)
-            {
-                throw new EntityException("", e);
-            }
+            AsyncUtil.RunSync(VoidAsync);
         }
         public async System.Threading.Tasks.Task VoidAsync()
         {
@@ -426,14 +305,8 @@ namespace Invoiced
 
         public IList<Attachment> ListAttachments()
         {
-            if (!HasAttachments()) throw new EntityException("List attachments operation not supported on object.");
+            return AsyncUtil.RunSync(ListAttachmentsAsync);
 
-            var url = GetEndpoint(true) + "/attachments";
-
-            var responseText = _connection.Get(url, null);
-            return JsonConvert.DeserializeObject<IList<Attachment>>(responseText,
-                new JsonSerializerSettings
-                    {NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore});
         }
         public async Task<IList<Attachment>> ListAttachmentsAsync()
         {
@@ -449,16 +322,8 @@ namespace Invoiced
 
         public IList<Email> SendEmail(EmailRequest emailRequest)
         {
-            if (!HasSends()) throw new EntityException("Send email operation not supported on object.");
+            return AsyncUtil.RunSync(() => SendEmailAsync(emailRequest));
 
-            var url = GetEndpoint(true) + "/emails";
-
-            var jsonRequestBody = emailRequest.ToJsonString();
-
-            var responseText = _connection.Post(url, null, jsonRequestBody);
-            return JsonConvert.DeserializeObject<IList<Email>>(responseText,
-                new JsonSerializerSettings
-                    {NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore});
         }
         public async Task<IList<Email>> SendEmailAsync(EmailRequest emailRequest)
         {
@@ -476,25 +341,7 @@ namespace Invoiced
 
         public Letter SendLetter(LetterRequest letterRequest = null)
         {
-            if (!HasSends()) throw new EntityException("Send letter operation not supported on object.");
-
-            string responseText = null;
-
-            var url = GetEndpoint(true) + "/letters";
-
-            if (letterRequest != null)
-            {
-                var jsonRequestBody = letterRequest.ToJsonString();
-                responseText = _connection.Post(url, null, jsonRequestBody);
-            }
-            else
-            {
-                responseText = _connection.Post(url, null, "");
-            }
-
-            return JsonConvert.DeserializeObject<Letter>(responseText,
-                new JsonSerializerSettings
-                    {NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore});
+            return AsyncUtil.RunSync(() => SendLetterAsync(letterRequest));
         }
         public async Task<Letter> SendLetterAsync(LetterRequest letterRequest = null)
         {
@@ -521,16 +368,7 @@ namespace Invoiced
 
         public IList<TextMessage> SendText(TextRequest textRequest)
         {
-            if (!HasSends()) throw new EntityException("Send text message operation not supported on object.");
-
-            var url = GetEndpoint(true) + "/text_messages";
-
-            var jsonRequestBody = textRequest.ToJsonString();
-
-            var responseText = _connection.Post(url, null, jsonRequestBody);
-            return JsonConvert.DeserializeObject<IList<TextMessage>>(responseText,
-                new JsonSerializerSettings
-                    {NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore});
+            return AsyncUtil.RunSync(() => SendTextAsync(textRequest));
         }
         public async Task<IList<TextMessage>> SendTextAsync(TextRequest textRequest)
         {

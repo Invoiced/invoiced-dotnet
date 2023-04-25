@@ -7,7 +7,6 @@ namespace Invoiced
     {
         public InvoicedException(string exceptionMessage) : base(exceptionMessage)
         {
-            JsonConvert.DeserializeObject<Error>(exceptionMessage);
         }
 
         public Error InvoicedError { get; }

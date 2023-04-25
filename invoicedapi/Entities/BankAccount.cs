@@ -29,14 +29,7 @@ namespace Invoiced
 
         public override void Delete()
         {
-            try
-            {
-                GetConnection().Delete(GetEndpoint(true));
-            }
-            catch (Exception e)
-            {
-                throw new EntityException("", e);
-            }
+            AsyncUtil.RunSync(() => DeleteAsync());
         }
         public override System.Threading.Tasks.Task DeleteAsync()
         {

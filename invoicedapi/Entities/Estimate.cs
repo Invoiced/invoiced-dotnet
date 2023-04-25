@@ -36,26 +36,7 @@ namespace Invoiced
 
         public Invoice ConvertToInvoice()
         {
-            var url = GetEndpoint(true) + "/invoice";
-
-            var responseText = GetConnection().Post(url, null, "");
-            Invoice serializedObject;
-
-            try
-            {
-                serializedObject = JsonConvert.DeserializeObject<Invoice>(responseText,
-                    new JsonSerializerSettings
-                    {
-                        NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
-                    });
-                serializedObject.ChangeConnection(GetConnection());
-            }
-            catch (Exception e)
-            {
-                throw new EntityException("", e);
-            }
-
-            return serializedObject;
+            return AsyncUtil.RunSync(() => ConvertToInvoiceAsync());
         }
         public async Task<Invoice> ConvertToInvoiceAsync()
         {

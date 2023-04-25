@@ -4,7 +4,7 @@ namespace Invoiced
 {
     public static class CommonUtil
     {
-        public static Dictionary<string, string> ParseLinks(string links)
+        public static Dictionary<string, string> parseLinks(string links)
         {
             var LinkMap = new Dictionary<string, string>();
 

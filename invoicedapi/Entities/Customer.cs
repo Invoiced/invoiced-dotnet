@@ -168,22 +168,7 @@ namespace Invoiced
 
         public Balance GetBalance()
         {
-            var url = GetEndpoint(true) + "/balance";
-
-            var responseText = GetConnection().Get(url, null);
-
-            try
-            {
-                return JsonConvert.DeserializeObject<Balance>(responseText,
-                    new JsonSerializerSettings
-                    {
-                        NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
-                    });
-            }
-            catch (Exception e)
-            {
-                throw new EntityException("", e);
-            }
+            return AsyncUtil.RunSync(() => GetBalanceAsync());
         }
         public async Task<Balance> GetBalanceAsync()
         {
@@ -207,26 +192,7 @@ namespace Invoiced
 
         public Invoice ConsolidateInvoices(long? cutoffDate = null)
         {
-            var url = GetEndpoint(true) + "/consolidate_invoices";
-
-            var responseText = GetConnection().Post(url, null, cutoffDate.ToString());
-            Invoice serializedObject;
-
-            try
-            {
-                serializedObject = JsonConvert.DeserializeObject<Invoice>(responseText,
-                    new JsonSerializerSettings
-                    {
-                        NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
-                    });
-                serializedObject.ChangeConnection(GetConnection());
-            }
-            catch (Exception e)
-            {
-                throw new EntityException("", e);
-            }
-
-            return serializedObject;
+            return AsyncUtil.RunSync(() => ConsolidateInvoicesAsync(cutoffDate));
         }
         public async Task<Invoice> ConsolidateInvoicesAsync(long? cutoffDate = null)
         {
@@ -254,28 +220,7 @@ namespace Invoiced
 
         public PaymentSource CreatePaymentSource(SourceRequest sourceRequest)
         {
-            var url = GetEndpoint(true) + "/payment_sources";
-            PaymentSource output = null;
-
-            try
-            {
-                var sourceRequestJson = sourceRequest.ToJsonString();
-                var response = GetConnection().Post(url, null, sourceRequestJson);
-
-                var sourceSettings = new JsonSerializerSettings
-                    {NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore};
-                sourceSettings.Converters.Add(new PaymentSourceConverter());
-
-                output = JsonConvert.DeserializeObject<PaymentSource>(response, sourceSettings);
-                output.ChangeConnection(GetConnection());
-                output.SetEndpointBase(GetEndpoint(true));
-            }
-            catch (Exception e)
-            {
-                throw new EntityException("", e);
-            }
-
-            return output;
+            return AsyncUtil.RunSync(() => CreatePaymentSourceAsync(sourceRequest));
         }
         public async Task<PaymentSource> CreatePaymentSourceAsync(SourceRequest sourceRequest)
         {
@@ -305,9 +250,7 @@ namespace Invoiced
 
         public EntityList<PaymentSource> ListPaymentSources()
         {
-            var source = new PaymentSource(GetConnection());
-            source.SetEndpointBase(GetEndpoint(true));
-            return source.ListAll(null, null, new PaymentSourceConverter());
+            return AsyncUtil.RunSync(() => ListPaymentSourcesAsync());
         }
         public Task<EntityList<PaymentSource>> ListPaymentSourcesAsync()
         {

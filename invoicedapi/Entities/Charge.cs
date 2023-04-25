@@ -56,23 +56,7 @@ namespace Invoiced
 
         public Payment Create(ChargeRequest chargeRequest)
         {
-            var url = "/charges";
-            var jsonRequestBody = chargeRequest.ToJsonString();
-
-            var responseText = GetConnection().Post(url, null, jsonRequestBody);
-
-            try
-            {
-                return JsonConvert.DeserializeObject<Payment>(responseText,
-                    new JsonSerializerSettings
-                    {
-                        NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
-                    });
-            }
-            catch (Exception e)
-            {
-                throw new EntityException("", e);
-            }
+            return AsyncUtil.RunSync(() => CreateAsync(chargeRequest));
         }
         public async Task<Payment> CreateAsync(ChargeRequest chargeRequest)
         {

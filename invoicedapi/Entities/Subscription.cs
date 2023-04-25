@@ -96,7 +96,7 @@ namespace Invoiced
 
         public void Cancel()
         {
-            GetConnection().Delete(GetEndpoint(true));
+            AsyncUtil.RunSync(() => CancelAsync());
         }
         public System.Threading.Tasks.Task CancelAsync()
         {
@@ -105,24 +105,7 @@ namespace Invoiced
 
         public SubscriptionPreview Preview()
         {
-            var url = EntityName + "/preview";
-
-            var jsonRequestBody = ToJsonString();
-
-            var responseText = GetConnection().Post(url, null, jsonRequestBody);
-
-            try
-            {
-                return JsonConvert.DeserializeObject<SubscriptionPreview>(responseText,
-                    new JsonSerializerSettings
-                    {
-                        NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore
-                    });
-            }
-            catch (Exception e)
-            {
-                throw new EntityException("", e);
-            }
+            return AsyncUtil.RunSync(() => PreviewAsync());
         }
         public async Task<SubscriptionPreview> PreviewAsync()
         {

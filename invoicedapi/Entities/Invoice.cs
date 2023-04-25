@@ -57,18 +57,7 @@ namespace Invoiced
 
         public void Pay()
         {
-            var url = GetEndpoint(true) + "/pay";
-
-            var responseText = GetConnection().Post(url, null, "");
-
-            try
-            {
-                JsonConvert.PopulateObject(responseText, this);
-            }
-            catch (Exception e)
-            {
-                throw new EntityException("", e);
-            }
+            AsyncUtil.RunSync(() => PayAsync());
         }
         public async System.Threading.Tasks.Task PayAsync()
         {

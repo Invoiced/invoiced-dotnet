@@ -13,8 +13,7 @@ namespace InvoicedTest
     {
         private static Customer CreateDefaultCustomer(HttpClient client)
         {
-            var json = @"{'id': 1234
-                }";
+            var json = @"{'id': 1234 }";
 
             var customer = JsonConvert.DeserializeObject<Customer>(json);
 
