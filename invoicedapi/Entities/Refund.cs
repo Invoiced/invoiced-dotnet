@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Invoiced
@@ -44,10 +45,14 @@ namespace Invoiced
 
         public Refund Create(long chargeId, double amount)
         {
+            return AsyncUtil.RunSync(() => CreateAsync(chargeId, amount));
+        }
+        public async Task<Refund> CreateAsync(long chargeId, double amount)
+        {
             var url = GetEndpoint(false) + "/charges/" + chargeId + "/refunds";
             var jsonRequestBody = "{'amount':" + amount + "}";
 
-            var responseText = GetConnection().Post(url, null, jsonRequestBody);
+            var responseText = await GetConnection().PostAsync(url, null, jsonRequestBody);
 
             try
             {

@@ -5,6 +5,7 @@ using Invoiced;
 using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Xunit;
+using Task = System.Threading.Tasks.Task;
 
 namespace InvoicedTest
 {
@@ -190,6 +191,152 @@ namespace InvoicedTest
             var taxRate = conn.NewTaxRate();
 
             var taxRates = taxRate.ListAll();
+
+            Assert.True(taxRates[0].Id == "alpha");
+        }
+        [Fact]
+        public async Task TestRetrieveAsync()
+        {
+            var mockHttp = new MockHttpMessageHandler();
+
+            mockHttp.When("https://testmode/tax_rates/alpha")
+                .Respond("application/json", "{'id' : 'alpha', 'name' : 'Alpha'}");
+
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo", Environment.test);
+
+            conn.TestClient(client);
+
+
+            var taxRateConn = conn.NewTaxRate();
+            var taxRate = await taxRateConn.RetrieveAsync("alpha");
+
+            Assert.True(taxRate.Id == "alpha");
+        }
+
+
+        [Fact]
+        public async Task TestCreateAsync()
+        {
+            var jsonResponse = @"{
+				'created_at': 1574369950,
+				'currency': null,
+				'id': 'alpha',
+				'inclusive': false,
+				'is_percent': true,
+				'metadata': {},
+				'name': 'Alpha',
+				'object': 'tax_rate',
+				'value': 10
+			}";
+
+            var mockHttp = new MockHttpMessageHandler();
+
+            mockHttp.When(HttpMethod.Post, "https://testmode/tax_rates")
+                .Respond("application/json", jsonResponse);
+
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo", Environment.test);
+
+            conn.TestClient(client);
+
+            var taxRate = conn.NewTaxRate();
+
+            await taxRate.CreateAsync();
+
+            Assert.True(taxRate.Id == "alpha");
+            Assert.True(taxRate.Value == 10);
+        }
+
+        [Fact]
+        public async Task TestSaveAsync()
+        {
+            var jsonResponse = @"{
+				'created_at': 1574369950,
+				'currency': null,
+				'id': 'alpha',
+				'inclusive': false,
+				'is_percent': true,
+				'metadata': {},
+				'name': 'Updated',
+				'object': 'tax_rate',
+				'value': 10
+			}";
+
+
+            var JsonRequest = @"{
+                'name': 'Updated'
+                }";
+
+            var mockHttp = new MockHttpMessageHandler();
+            var httpPatch = new HttpMethod("PATCH");
+            var request = mockHttp.When(httpPatch, "https://testmode/tax_rates/alpha").WithJson(JsonRequest)
+                .Respond("application/json", jsonResponse);
+
+            var client = mockHttp.ToHttpClient();
+
+            var taxRate = CreateDefaultTaxRate(client);
+
+            taxRate.Name = "Updated";
+
+            await taxRate.SaveAllAsync();
+
+            Assert.True(taxRate.Id == "alpha");
+            Assert.True(taxRate.Name == "Updated");
+        }
+
+        [Fact]
+        public async Task TestDeleteAsync()
+        {
+            var mockHttp = new MockHttpMessageHandler();
+
+            var request = mockHttp.When(HttpMethod.Delete, "https://testmode/tax_rates/alpha")
+                .Respond(HttpStatusCode.NoContent);
+
+            var client = mockHttp.ToHttpClient();
+
+            var taxRate = CreateDefaultTaxRate(client);
+
+            await taxRate.DeleteAsync();
+        }
+
+
+        [Fact]
+        public async Task TestListAllAsync()
+        {
+            var jsonResponseListAll = @"[{
+				'created_at': 1574369950,
+				'currency': null,
+				'id': 'alpha',
+				'inclusive': false,
+				'is_percent': true,
+				'metadata': {},
+				'name': 'Alpha',
+				'object': 'tax_rate',
+				'value': 10
+			}]";
+
+            var mockHttp = new MockHttpMessageHandler();
+
+            var mockHeader = new Dictionary<string, string>();
+            mockHeader["X-Total-Count"] = "1";
+            mockHeader["Link"] =
+                "<https://api.sandbox.invoiced.com/tax_rates?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/tax_rates?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/tax_rates?page=1>; rel=\"last\"";
+
+            var request = mockHttp.When(HttpMethod.Get, "https://testmode/tax_rates")
+                .Respond(mockHeader, "application/json", jsonResponseListAll);
+
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo", Environment.test);
+
+            conn.TestClient(client);
+
+            var taxRate = conn.NewTaxRate();
+
+            var taxRates = await taxRate.ListAllAsync();
 
             Assert.True(taxRates[0].Id == "alpha");
         }

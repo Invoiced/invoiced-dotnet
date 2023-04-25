@@ -37,11 +37,16 @@ namespace Invoiced
 
         public override void Create()
         {
+            AsyncUtil.RunSync(() => CreateAsync());
+        }
+        
+        public override System.Threading.Tasks.Task CreateAsync()
+        {
             var endpointBase = GetEndpointBase();
             SetEndpointBase("");
             try
             {
-                base.Create();
+                return base.CreateAsync();
             }
             finally
             {
@@ -51,11 +56,15 @@ namespace Invoiced
 
         public override void SaveAll()
         {
+            AsyncUtil.RunSync(() => SaveAllAsync());
+        }
+        public override System.Threading.Tasks.Task SaveAllAsync()
+        {
             var endpointBase = GetEndpointBase();
             SetEndpointBase("");
             try
             {
-                base.SaveAll();
+               return base.SaveAllAsync();
             }
             finally
             {
@@ -65,11 +74,15 @@ namespace Invoiced
 
         public override void Delete()
         {
+            AsyncUtil.RunSync(() => DeleteAsync());
+        }
+        public override System.Threading.Tasks.Task DeleteAsync()
+        {
             var endpointBase = GetEndpointBase();
             SetEndpointBase("");
             try
             {
-                base.Delete();
+                return base.DeleteAsync();
             }
             finally
             {

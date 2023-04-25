@@ -5,6 +5,7 @@ using Invoiced;
 using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Xunit;
+using Task = System.Threading.Tasks.Task;
 
 namespace InvoicedTest
 {
@@ -235,6 +236,159 @@ namespace InvoicedTest
             var note = CreateDefaultNote(client);
 
             note.Delete();
+        }
+
+        [Fact]
+        public async Task TestRetrieveCustNoteAsync()
+        {
+            var mockHttp = new MockHttpMessageHandler();
+
+            var mockHeader = new Dictionary<string, string>();
+            mockHeader["X-Total-Count"] = "1";
+            mockHeader["Link"] =
+                "<https://api.sandbox.invoiced.com/customers/1234/notes?page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/customers/1234/notes?page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/customers/1234/notes?page=1>; rel=\"last\"";
+
+            mockHttp.When(HttpMethod.Get, "https://testmode/customers/1234/notes").Respond(mockHeader,
+                "application/json", "[{'id' : 1212, 'notes' : 'Test McGee'}]");
+
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo", Environment.test);
+
+            conn.TestClient(client);
+
+            var customer = CreateDefaultCustomer(client);
+
+            var note = await customer.NewNote().ListAllAsync();
+
+            Assert.True(note[0].Id == 1212);
+            Assert.True(note[0].Notes == "Test McGee");
+            Assert.True(note.Count == 1);
+        }
+
+        [Fact]
+        public async Task TestRetrieveInvNoteAsync()
+        {
+            var mockHttp = new MockHttpMessageHandler();
+
+            var mockHeader = new Dictionary<string, string>();
+            mockHeader["X-Total-Count"] = "1";
+            mockHeader["Link"] =
+                "<https://api.sandbox.invoiced.com/invoices/56789/notes&page=1>; rel=\"self\", <https://api.sandbox.invoiced.com/invoices/56789/notes&page=1>; rel=\"first\", <https://api.sandbox.invoiced.com/invoices/56789/notes&page=1>; rel=\"last\"";
+
+            mockHttp.When(HttpMethod.Get, "https://testmode/invoices/56789/notes").Respond(mockHeader,
+                "application/json", "[{'id' : 2121, 'notes' : 'Test McGee'}]");
+
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo", Environment.test);
+
+            conn.TestClient(client);
+
+            var invoice = CreateDefaultInvoice(client);
+
+            var note =await invoice.NewNote().ListAllAsync();
+
+            Assert.True(note[0].Id == 2121);
+            Assert.True(note[0].Notes == "Test McGee");
+            Assert.True(note.Count == 1);
+        }
+
+        [Fact]
+        public async Task TestCreateAsync()
+        {
+            var jsonResponse = @"{
+	            'created_at': 1574266753,
+	            'customer': 1234,
+	            'id': 1212,
+	            'notes': 'test',
+	            'object': 'note',
+	            'user': {
+		            'created_at': 1563810757,
+		            'email': 'example@example.com',
+		            'first_name': 'John',
+		            'id': 1976,
+		            'last_name': 'Smith',
+		            'two_factor_enabled': false,
+		            'registered': true
+	            }
+            }";
+
+            var mockHttp = new MockHttpMessageHandler();
+
+            mockHttp.When(HttpMethod.Post, "https://testmode/notes").Respond("application/json", jsonResponse);
+
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo", Environment.test);
+
+            conn.TestClient(client);
+
+            var customer = CreateDefaultCustomer(client);
+            var note = customer.NewNote();
+
+            note.Notes = "example";
+            await note.CreateAsync();
+
+            Assert.True(note.Id == 1212);
+        }
+
+        [Fact]
+        public async Task TestSaveAsync()
+        {
+            var jsonRequest = @"{
+                'notes': 'test2'
+            }";
+
+            var jsonResponse = @"{
+	            'created_at': 1574266753,
+	            'customer': 1234,
+	            'id': 1212,
+	            'notes': 'test2',
+	            'object': 'note',
+	            'user': {
+		            'created_at': 1563810757,
+		            'email': 'example@example.com',
+		            'first_name': 'John',
+		            'id': 1976,
+		            'last_name': 'Smith',
+		            'two_factor_enabled': false,
+		            'registered': true
+	            }
+            }";
+
+            var mockHttp = new MockHttpMessageHandler();
+            var httpPatch = new HttpMethod("PATCH");
+            var request = mockHttp.When(httpPatch, "https://testmode/notes/1212").WithJson(jsonRequest)
+                .Respond("application/json", jsonResponse);
+
+            var client = mockHttp.ToHttpClient();
+
+            var conn = new Connection("voodoo", Environment.test);
+
+            conn.TestClient(client);
+
+            var note = CreateDefaultNote(client);
+
+            note.Notes = "test2";
+            await note.SaveAllAsync();
+
+            Assert.True(note.Notes == "test2");
+        }
+
+        [Fact]
+        public async Task TestDeleteAsync()
+        {
+            var mockHttp = new MockHttpMessageHandler();
+
+            var request = mockHttp.When(HttpMethod.Delete, "https://testmode/notes/1212")
+                .Respond(HttpStatusCode.NoContent);
+
+            var client = mockHttp.ToHttpClient();
+
+            var note = CreateDefaultNote(client);
+
+            await note.DeleteAsync();
         }
     }
 }

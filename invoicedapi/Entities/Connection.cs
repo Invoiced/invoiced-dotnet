@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Invoiced
 {
     public class Connection
     {
-        private static readonly string jsonAccept = "application/json";
+        private const string JsonAccept = "application/json";
         private readonly string _apikey;
 
         private HttpClient _client;
@@ -113,31 +115,48 @@ namespace Invoiced
 
         internal string Post(string endpoint, Dictionary<string, object> queryParams, string jsonBody)
         {
+            return AsyncUtil.RunSync(() => PostAsync(endpoint,queryParams,jsonBody));
+        }
+        internal async Task<string> PostAsync(string endpoint, Dictionary<string, object> queryParams, string jsonBody, CancellationToken ct = default)
+        {
             var uri = AddQueryParamsToUri(BaseUrl() + endpoint, queryParams);
-            var response = ExecuteRequest(HttpMethod.Post, uri, jsonBody);
-            return ProcessResponse(response);
+            var response = await ExecuteRequestAsync(HttpMethod.Post, uri, jsonBody, ct);
+            return await ProcessResponseAsync(response);
         }
 
         internal string Patch(string endpoint, string jsonBody)
         {
+            return AsyncUtil.RunSync(() => PatchAsync(endpoint,jsonBody));
+        }
+        internal async Task<string> PatchAsync(string endpoint, string jsonBody, CancellationToken ct = default)
+        {
             var httpPatch = new HttpMethod("PATCH");
-            var response = ExecuteRequest(httpPatch, BaseUrl() + endpoint, jsonBody);
-            return ProcessResponse(response);
+            var response = await ExecuteRequestAsync(httpPatch, BaseUrl() + endpoint, jsonBody, ct);
+            return await ProcessResponseAsync(response);
         }
 
         internal string Get(string endpoint, Dictionary<string, object> queryParams)
         {
-            var uri = AddQueryParamsToUri(BaseUrl() + endpoint, queryParams);
-            var response = ExecuteRequest(HttpMethod.Get, uri, null);
+            return AsyncUtil.RunSync(() => GetAsync(endpoint,queryParams));
 
-            return ProcessResponse(response);
+        }
+        internal async Task<string> GetAsync(string endpoint, Dictionary<string, object> queryParams, CancellationToken ct = default)
+        {
+            var uri = AddQueryParamsToUri(BaseUrl() + endpoint, queryParams);
+            var response = await ExecuteRequestAsync(HttpMethod.Get, uri, null,ct);
+
+            return await ProcessResponseAsync(response);
         }
 
         internal ListResponse GetList(string url, Dictionary<string, object> queryParams)
         {
+            return AsyncUtil.RunSync(() => GetListAsync(url,queryParams));
+        }
+        internal async Task<ListResponse> GetListAsync(string url, Dictionary<string, object> queryParams, CancellationToken ct = default)
+        {
             var uri = AddQueryParamsToUri(url, queryParams);
-            var response = ExecuteRequest(HttpMethod.Get, uri, null);
-            var responseText = ProcessResponse(response);
+            var response = await ExecuteRequestAsync(HttpMethod.Get, uri, null, ct);
+            var responseText = await ProcessResponseAsync(response);
             var linkString = HttpUtil.GetHeaderFirstValue(response, "Link");
             var totalCount = int.Parse(HttpUtil.GetHeaderFirstValue(response, "X-Total-Count"));
 
@@ -148,8 +167,13 @@ namespace Invoiced
 
         internal void Delete(string endpoint)
         {
-            var response = ExecuteRequest(HttpMethod.Delete, BaseUrl() + endpoint, null);
-            ProcessResponse(response);
+            AsyncUtil.RunSync(() => DeleteAsync(endpoint));
+
+        }
+        internal async System.Threading.Tasks.Task DeleteAsync(string endpoint, CancellationToken ct = default)
+        {
+            var response = await ExecuteRequestAsync(HttpMethod.Delete, BaseUrl() + endpoint, null, ct);
+            await ProcessResponseAsync(response);
         }
 
         internal string BaseUrl()
@@ -165,26 +189,27 @@ namespace Invoiced
             throw new ConnException("Environment not recognized");
         }
 
-        private HttpResponseMessage ExecuteRequest(HttpMethod method, string url, string jsonBody)
+        private Task<HttpResponseMessage> ExecuteRequestAsync(HttpMethod method, string url, string jsonBody, CancellationToken ct = default)
         {
             var request = new HttpRequestMessage(method, url);
 
             if (!string.IsNullOrEmpty(jsonBody))
-                request.Content = new StringContent(jsonBody, Encoding.UTF8, jsonAccept);
+                request.Content = new StringContent(jsonBody, Encoding.UTF8, JsonAccept);
             request.Headers.Add("Authorization", "Basic " + HttpUtil.BasicAuth(_apikey, ""));
             request.Headers.Add("User-Agent", "Invoiced .NET/" + GetVersion());
 
-            return _client.SendAsync(request).ConfigureAwait(false).GetAwaiter().GetResult();
+            return _client.SendAsync(request,ct);
         }
-
-        private string ProcessResponse(HttpResponseMessage response)
+        private Task<string> ProcessResponseAsync(HttpResponseMessage response)
         {
-            if (response.StatusCode == HttpStatusCode.NoContent) return "";
-            var responseText = response.Content.ReadAsStringAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+            string responseText = string.Empty;
+            if (response.StatusCode == HttpStatusCode.NoContent) 
+                return System.Threading.Tasks.Task.FromResult(responseText);
 
-            if (!response.IsSuccessStatusCode) throw HandleApiError((int) response.StatusCode, responseText);
-
-            return responseText;
+            if (!response.IsSuccessStatusCode) 
+                throw HandleApiError((int) response.StatusCode, response.ReasonPhrase);
+            
+            return response.Content.ReadAsStringAsync();
         }
         
         public string GetVersion()
@@ -210,17 +235,17 @@ namespace Invoiced
             return builder.ToString();
         }
 
-        private InvoicedException HandleApiError(int responseCode, string responseBody)
+        private InvoicedException HandleApiError(int responseCode, string reasonMessage)
         {
             if (responseCode == 401)
-                return new AuthException(responseBody);
+                return new AuthException(reasonMessage);
             if (responseCode == 400)
-                return new InvalidRequestException(responseBody);
+                return new InvalidRequestException(reasonMessage);
             if (responseCode == 429)
-                return new RateLimitException(responseBody);
+                return new RateLimitException(reasonMessage);
             if (responseCode >= 500)
-                return new InternalServerException(responseBody);
-            return new ApiException(responseBody);
+                return new InternalServerException(reasonMessage);
+            return new ApiException(reasonMessage);
         }
     }
 }

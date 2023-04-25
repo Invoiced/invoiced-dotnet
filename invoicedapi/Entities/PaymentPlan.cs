@@ -42,13 +42,21 @@ namespace Invoiced
         // identical to default Delete() but does not append ID to end of URL
         public void Cancel()
         {
-            GetConnection().Delete(GetEndpoint(false));
+            AsyncUtil.RunSync(() => CancelAsync());
+        }
+        public System.Threading.Tasks.Task CancelAsync()
+        {
+            return GetConnection().DeleteAsync(GetEndpoint(false));
         }
 
         // necessary to override this to avoid appending payment plan ID to DELETE request url
         public override void Delete()
         {
             Cancel();
+        }
+        public override System.Threading.Tasks.Task DeleteAsync()
+        {
+            return CancelAsync();
         }
 
         // Conditional Serialisation

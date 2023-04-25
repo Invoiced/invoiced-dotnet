@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Invoiced
@@ -55,10 +56,14 @@ namespace Invoiced
 
         public Payment Create(ChargeRequest chargeRequest)
         {
+            return AsyncUtil.RunSync(() => CreateAsync(chargeRequest));
+        }
+        public async Task<Payment> CreateAsync(ChargeRequest chargeRequest)
+        {
             var url = "/charges";
             var jsonRequestBody = chargeRequest.ToJsonString();
 
-            var responseText = GetConnection().Post(url, null, jsonRequestBody);
+            var responseText = await GetConnection().PostAsync(url, null, jsonRequestBody);
 
             try
             {
