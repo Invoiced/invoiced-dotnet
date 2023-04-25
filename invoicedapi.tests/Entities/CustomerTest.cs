@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using Invoiced;
 using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
@@ -812,28 +813,23 @@ namespace InvoicedTest
 
             const string jsonRequest = @"{
                 'name': 'Example',
-                'customer_id': 1234,
                 'action': 'review'
                 }";
 
             var mockHttp = new MockHttpMessageHandler();
-
-            mockHttp.When(HttpMethod.Post, "https://testmode/tasks").WithJson(jsonRequest)
+            mockHttp.When(HttpMethod.Post, "https://testmode/tasks")
+                .WithJson(jsonRequest)
                 .Respond("application/json", jsonResponse);
-
+            
             var client = mockHttp.ToHttpClient();
-
-            var conn = new Connection("voodoo", Environment.test);
-
-            conn.TestClient(client);
-
+            
             var customer = CreateDefaultCustomer(client);
 
             var testTask = customer.NewTask();
             testTask.Name = "Example";
             testTask.Action = "review";
             testTask.Create();
-
+            
             Assert.True(testTask.GetEndpoint(false) == "/tasks");
             Assert.True(testTask.Id == 788);
         }
