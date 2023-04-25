@@ -42,7 +42,7 @@ The test suite can be ran with `dotnet test`
 Follow these steps to publish a package to NuGet:
 
 ```
-dotnet pack
-cd invoicedapi/bin/Release/
+dotnet pack invoicedapi -c Release --output nuget
+cd nuget
 nuget push Invoiced.X.X.X.nupkg <apikey> -Source https://api.nuget.org/v3/index.json
 ```
