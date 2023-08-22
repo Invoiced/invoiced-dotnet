@@ -1040,6 +1040,7 @@ namespace InvoicedTest
                         'balance': 100
                     }
                 ],
+                'open_credit_notes': 200,
                 'past_due': false,
                 'total_outstanding': 470
             }";
@@ -1058,6 +1059,7 @@ namespace InvoicedTest
             var customer = CreateDefaultCustomer(client);
             var response = customer.GetBalance();
 
+            Assert.True(response.OpenCreditNotes == 200);
             Assert.True(response.AvailableCredits == 50);
             Assert.True(response.History.Count == 2);
         }
@@ -1076,6 +1078,7 @@ namespace InvoicedTest
                         'balance': 100
                     }
                 ],
+                'open_credit_notes': 200,
                 'past_due': false,
                 'total_outstanding': 470
             }";
@@ -1095,6 +1098,7 @@ namespace InvoicedTest
             var response = await customer.GetBalanceAsync();
 
             Assert.True(response.AvailableCredits == 50);
+            Assert.True(response.OpenCreditNotes == 200);
             Assert.True(response.History.Count == 2);
         }
 
