@@ -17,6 +17,8 @@ namespace Invoiced
 
         [JsonProperty("due_now")] public double? DueNow { get; set; }
 
+        [JsonProperty("open_credit_notes")] public double? OpenCreditNotes { get; set; }
+
         protected override string EntityId()
         {
             return "Balance";
