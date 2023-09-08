@@ -56,7 +56,7 @@ namespace Invoiced
         // Conditional Serialisation
         public bool ShouldSerializeId()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeObject()
@@ -66,37 +66,37 @@ namespace Invoiced
 
         public bool ShouldSerializeCurrency()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeUnitCost()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeTaxable()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeTaxes()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeAvalaraTaxCode()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeGlAccount()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeDiscountable()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeCreatedAt()

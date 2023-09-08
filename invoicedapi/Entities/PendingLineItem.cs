@@ -57,7 +57,7 @@ namespace Invoiced
 
         public bool ShouldSerializeItem()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
     }
 }

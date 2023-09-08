@@ -108,12 +108,12 @@ namespace Invoiced
 
         public bool ShouldSerializeCustomerId()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeInvoiceId()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeCreatedAt()

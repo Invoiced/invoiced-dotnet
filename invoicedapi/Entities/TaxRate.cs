@@ -47,7 +47,7 @@ namespace Invoiced
         // Conditional Serialisation
         public bool ShouldSerializeId()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeObject()
@@ -57,22 +57,22 @@ namespace Invoiced
 
         public bool ShouldSerializeCurrency()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeValue()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeIsPercent()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeInclusive()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeCreatedAt()

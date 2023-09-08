@@ -78,7 +78,7 @@ namespace Invoiced
 
         public bool ShouldSerializeInstallments()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeApproval()

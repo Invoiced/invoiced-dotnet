@@ -55,7 +55,7 @@ namespace Invoiced
         // Conditional Serialisation
         public bool ShouldSerializeId()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeObject()
@@ -65,42 +65,42 @@ namespace Invoiced
 
         public bool ShouldSerializeItem()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeCurrency()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeAmount()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializePricingMode()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeQuantityType()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeInterval()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeIntervalCount()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeTiers()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeCreatedAt()

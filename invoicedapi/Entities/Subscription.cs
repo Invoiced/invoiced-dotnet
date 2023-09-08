@@ -129,7 +129,7 @@ namespace Invoiced
 
         public bool ShouldSerializeId()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeObject()
@@ -139,27 +139,27 @@ namespace Invoiced
 
         public bool ShouldSerializeCustomer()
         {
-            return CurrentOperation != "SaveAll";
+            return CurrentOperation != nameof(SaveAll) && CurrentOperation != nameof(SaveAllAsync);
         }
 
         public bool ShouldSerializePlan()
         {
-            return CurrentOperation != "SaveAll";
+            return CurrentOperation != nameof(SaveAll) && CurrentOperation != nameof(SaveAllAsync);
         }
 
         public bool ShouldSerializeCycles()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeStartDate()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializeBillIn()
         {
-            return CurrentOperation == "Create";
+            return CurrentOperation == nameof(Create) || CurrentOperation == nameof(CreateAsync);
         }
 
         public bool ShouldSerializePeriodStart()
@@ -174,7 +174,7 @@ namespace Invoiced
 
         public bool ShouldSerializeCancelAtPeriodEnd()
         {
-            return CurrentOperation != "Preview";
+            return CurrentOperation != nameof(Preview) && CurrentOperation != nameof(PreviewAsync);
         }
 
         public bool ShouldSerializeCanceledAt()
@@ -184,7 +184,7 @@ namespace Invoiced
 
         public bool ShouldSerializePaused()
         {
-            return CurrentOperation != "Preview";
+            return CurrentOperation != nameof(Preview) && CurrentOperation != nameof(PreviewAsync);
         }
 
         public bool ShouldSerializeStatus()
@@ -204,12 +204,12 @@ namespace Invoiced
 
         public bool ShouldSerializeRenewalCycles()
         {
-            return CurrentOperation != "Preview";
+            return CurrentOperation != nameof(Preview) && CurrentOperation != nameof(PreviewAsync);
         }
 
         public bool ShouldSerializeRenewalMode()
         {
-            return CurrentOperation != "Preview";
+            return CurrentOperation != nameof(Preview) && CurrentOperation != nameof(PreviewAsync);
         }
 
         public bool ShouldSerializeRecurringTotal()
@@ -239,12 +239,12 @@ namespace Invoiced
 
         public bool ShouldSerializeMetadata()
         {
-            return CurrentOperation != "Preview";
+            return CurrentOperation != nameof(Preview) && CurrentOperation != nameof(PreviewAsync);
         }
 
         public bool ShouldSerializePendingLineItems()
         {
-            return CurrentOperation == "Preview";
+            return CurrentOperation == nameof(Preview) || CurrentOperation == nameof(PreviewAsync);
         }
     }
 }
