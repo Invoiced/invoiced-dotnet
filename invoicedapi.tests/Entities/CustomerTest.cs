@@ -812,6 +812,7 @@ namespace InvoicedTest
 
 
             const string jsonRequest = @"{
+                'customer_id': 1234,
                 'name': 'Example',
                 'action': 'review'
                 }";
